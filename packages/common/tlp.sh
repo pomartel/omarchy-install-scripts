@@ -11,7 +11,7 @@ fi
 
 if ! systemctl is-active --quiet tlp-pd.service; then
     sudo systemctl enable --now tlp-pd.service
-fi
+    fi
 
 # Check if the systemd-rfkill service and socket are already masked
 if systemctl is-enabled systemd-rfkill.service &>/dev/null; then
