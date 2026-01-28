@@ -21,6 +21,7 @@ fi
 
 ./set-locale.sh
 ./add-packages.sh
+./set-power-profile-rule.sh
 ./clone-git-projects.sh
 ./remove-default-apps.sh
 ./set-default-font.sh
