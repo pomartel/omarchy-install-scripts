@@ -1,6 +1,4 @@
-omarchy-pkg-aur-add onedrive-abraunegg
+omarchy-pkg-aur-add onedrive-abraunegg onedrive_tray-git
 
-if ! systemctl is-active --quiet --user onedrive; then
-    onedrive
-    systemctl enable --now --user onedrive
-fi
+systemctl stop onedrive --user
+systemctl disable onedrive --user
