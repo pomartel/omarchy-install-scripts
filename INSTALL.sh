@@ -26,7 +26,6 @@ fi
 ./remove-default-apps.sh
 ./set-default-font.sh
 ./add-suspend-to-system-menu.sh
-./set-power-profile-rule.sh
 ./configure-hibernation.sh
 
 echo "All install scripts completed."
