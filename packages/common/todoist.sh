@@ -1,2 +1,4 @@
 # Todoist CLI
-npm install -g @doist/todoist-cli
+if omarchy-cmd-missing td; then
+  npm install -g @doist/todoist-cli
+fi
