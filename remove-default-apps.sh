@@ -11,7 +11,7 @@ omarchy-webapp-remove "Discord" >/dev/null
 omarchy-webapp-remove "Zoom" >/dev/null
 omarchy-webapp-remove "Fizzy" >/dev/null
 
-omarchy-pkg-drop "signal-desktop"
+omarchy-pkg-drop signal-desktop
 
 # Needed for XCompse which has been replaced by Espanso
-omarchy-pkg-drop "fcitx5-qt fcitx5-gtk fcitx5"
+omarchy-pkg-drop fcitx5-qt fcitx5-gtk fcitx5
