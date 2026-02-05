@@ -2,12 +2,12 @@
 
 # If the computer name is omarchy-home, set the INSTALL_TARGET to home. if set to omarchy-school, set to school. Otherwise, exit with an error.
 if [ "$HOSTNAME" == "home-omarchy" ]; then
-    INSTALL_TARGET="home"
+  INSTALL_TARGET="home"
 elif [ "$HOSTNAME" == "school-omarchy" ]; then
-    INSTALL_TARGET="school"
+  INSTALL_TARGET="school"
 else
-    echo "ERROR: Unknown hostname '$HOSTNAME'. Cannot determine INSTALL_TARGET." >&2
-    exit 1
+  echo "ERROR: Unknown hostname '$HOSTNAME'. Cannot determine INSTALL_TARGET." >&2
+  exit 1
 fi
 export INSTALL_TARGET
 
@@ -15,8 +15,8 @@ export INSTALL_TARGET
 shopt -s nullglob
 ssh_keys=("$HOME/.ssh"/id_*)
 if [ ${#ssh_keys[@]} -eq 0 ]; then
-    echo "ERROR: No SSH keys found in $HOME/.ssh." >&2
-    exit 1
+  echo "ERROR: No SSH keys found in $HOME/.ssh." >&2
+  exit 1
 fi
 
 ./set-locale.sh

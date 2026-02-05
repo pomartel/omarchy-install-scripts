@@ -1,3 +1,3 @@
 if omarchy-pkg-missing "visual-studio-code-bin"; then
-    omarchy-install-vscode
+  omarchy-install-vscode
 fi

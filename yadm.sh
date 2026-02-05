@@ -5,7 +5,7 @@
 REPO_URL="git@github.com:pomartel/config-files.git"
 
 if ! command -v yadm >/dev/null 2>&1; then
-    pacman -S --noconfirm yadm
+  pacman -S --noconfirm yadm
 fi
 
 REPO_DIR="$HOME/.local/share/yadm/repo.git"
