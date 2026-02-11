@@ -12,6 +12,3 @@ omarchy-webapp-remove "Zoom" >/dev/null
 omarchy-webapp-remove "Fizzy" >/dev/null
 
 omarchy-pkg-drop signal-desktop
-
-# Needed for XCompse which has been replaced by Espanso
-omarchy-pkg-add fcitx5-qt fcitx5-gtk fcitx5
