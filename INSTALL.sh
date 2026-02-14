@@ -21,6 +21,9 @@ fi
 
 ./set-locale.sh
 ./add-packages.sh
+
+./add-suspend-to-system-menu.sh
+./copy-sudoers-rules.sh
 ./set-power-profile-rule.sh
 ./clone-git-projects.sh
 ./remove-default-apps.sh

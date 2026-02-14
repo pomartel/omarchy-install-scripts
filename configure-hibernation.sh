@@ -7,6 +7,19 @@ if [ -f "$MKINITCPIO_CONF" ] && grep -q "^HOOKS+=(resume)$" "$MKINITCPIO_CONF"; 
 else
   omarchy-hibernation-setup
 
-  # Modify hibernate.conf to change HibernateDelaySec from 30min to 24h
-  sudo sed -i 's/HibernateDelaySec=30min/HibernateDelaySec=24h/g' /etc/systemd/sleep.conf.d/hibernate.conf
+  sudo mkdir -p /etc/systemd/sleep.conf.d /etc/systemd/logind.conf.d
+
+  read -r -d '' SLEEP_CONTENT <<'EOF'
+[Sleep]
+HibernateDelaySec=24h
+HibernateOnACPower=no
+EOF
+  printf '%s\n' "$SLEEP_CONTENT" | sudo tee /etc/systemd/sleep.conf.d/hibernate.conf >/dev/null
+
+  read -r -d '' LID_CONTENT <<'EOF'
+[Login]
+HandleLidSwitch=suspend-then-hibernate
+EOF
+  printf '%s\n' "$LID_CONTENT" | sudo tee /etc/systemd/logind.conf.d/lid.conf >/dev/null
+
 fi
