@@ -5,7 +5,6 @@ omarchy-webapp-remove "HEY" >/dev/null
 omarchy-webapp-remove "Basecamp" >/dev/null
 omarchy-webapp-remove "Google Photos" >/dev/null
 omarchy-webapp-remove "Google Messages" >/dev/null
-omarchy-webapp-remove "X" >/dev/null
 omarchy-webapp-remove "Figma" >/dev/null
 omarchy-webapp-remove "Discord" >/dev/null
 omarchy-webapp-remove "Zoom" >/dev/null
