@@ -1,9 +1,0 @@
-#!/bin/bash
-
-STATE_FILE=~/.local/state/omarchy/toggles/suspend-on
-
-if [[ ! -f $STATE_FILE ]]; then
-  mkdir -p "$(dirname $STATE_FILE)"
-  touch $STATE_FILE
-  echo "󰒲   Suspend now available in system menu"
-fi
