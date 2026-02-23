@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 SUDOERS_FILE="/etc/sudoers.d/custom-sudoers-rules"
 

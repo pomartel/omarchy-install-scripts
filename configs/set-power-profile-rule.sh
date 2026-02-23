@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 RULE_FILE="/etc/udev/rules.d/99-power-profile.rules"
 
