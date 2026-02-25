@@ -13,5 +13,6 @@ source ./set-target.sh
 ./configs/remove-default-apps.sh
 ./configs/set-default-font.sh
 ./configs/configure-hibernation.sh
+./configs/create-dropbox-symlinks.sh
 
 echo "All install scripts completed."

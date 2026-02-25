@@ -12,7 +12,3 @@ omarchy-webapp-remove "Fizzy" >/dev/null
 
 omarchy-pkg-drop signal-desktop
 omarchy-pkg-drop alacritty
-
-# Temporary
-omarchy-pkg-drop noto-fonts-extra
-omarchy-pkg-drop ttf-cascadia-mono-nerd
