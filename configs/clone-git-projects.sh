@@ -26,3 +26,8 @@ if [ "$INSTALL_TARGET" = "home" ]; then
 fi
 
 clone_if_missing "git@git.dti.crosemont.quebec:pmartel/markdown-export.git" "markdown"
+
+# Temporaire
+clone_if_missing "git@git.dti.crosemont.quebec:6244102/projet-integrateur-maths.git" "SF4/math"
+clone_if_missing "git@git.dti.crosemont.quebec:2375640/projet-integrateur-chimie.git" "SF4/chimie"
+clone_if_missing "git@git.dti.crosemont.quebec:6168258/projet-integrateur-physique.git" "SF4/physique"
