@@ -1,16 +1,17 @@
 #!/bin/bash
 
-if [[ -e "${HOME}/Pictures" && ! -L "${HOME}/Pictures" ]]; then
-  rm -rf "${HOME}/Pictures"
-fi
+link_dropbox_folder() {
+  local folder="$1"
+  local target="${HOME}/${folder}"
+  local source="${HOME}/Dropbox/${folder}"
 
-ln -sfn "${HOME}/Dropbox/Pictures" "${HOME}/Pictures"
-ln -sfn "${HOME}/Dropbox/Cours" "${HOME}/Cours"
-ln -sfn "${HOME}/Dropbox/CV" "${HOME}/Documents/CV"
+  if [[ -e "${target}" && ! -L "${target}" ]]; then
+    rm -rf "${target}"
+  fi
 
-if [[ "${INSTALL_TARGET}" == "home" ]]; then
-  ln -sfn "${HOME}/Dropbox/Code-Rubik" "${HOME}/Documents/Code-Rubik"
-  ln -sfn "${HOME}/Dropbox/Finances" "${HOME}/Documents/Finances"
-  ln -sfn "${HOME}/Dropbox/Maison" "${HOME}/Documents/Maison"
-  ln -sfn "${HOME}/Dropbox/Omarchy" "${HOME}/Documents/Omarchy"
-fi
+  ln -sfn "${source}" "${target}"
+}
+
+link_dropbox_folder "Documents"
+link_dropbox_folder "Pictures"
+link_dropbox_folder "Cours"
