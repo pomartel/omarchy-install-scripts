@@ -11,7 +11,7 @@ This repository automates machine setup for Omarchy environments.
 ## Clone this repo
 
 ```bash
-git clone git@github.com:pomartel/my-omarchy-installation-scripts.git ~/Install
+git clone git@github.com:pomartel/omarchy-install-scripts.git ~/Install
 ```
 
 ## Install flows
