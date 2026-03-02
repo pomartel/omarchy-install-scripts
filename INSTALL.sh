@@ -8,7 +8,7 @@ source ./set-target.sh
 
 ./configs/set-locale.sh
 ./configs/copy-sudoers-rules.sh
-./configs/set-power-profile-rule.sh
+./configs/set-power-rules.sh
 ./configs/clone-git-projects.sh
 ./configs/remove-default-apps.sh
 ./configs/set-default-font.sh
