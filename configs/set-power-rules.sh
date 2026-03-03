@@ -7,9 +7,10 @@ SUBSYSTEM=="power_supply", ATTR{type}=="Mains", ATTR{online}=="1", RUN+="/usr/bi
 EOF
 printf '%s\n' "$POWER_PROFILE_RULE_CONTENT" | sudo tee "$POWER_PROFILE_RULE_FILE" >/dev/null
 
-# Switch power profile to power-saver on low battery
+brightness-display-bat-ac 30 90
 
-service=omarchy-powerprofile-low-battery.timer
+# Switch power profile to power-saver on low battery
+service=powerprofile-low-battery.timer
 if ! systemctl is-active --user --quiet "$service"; then
   systemctl --user enable --now "$service"
   echo "Started $service"

@@ -12,3 +12,5 @@ omarchy-webapp-remove "Fizzy" >/dev/null
 
 omarchy-pkg-drop signal-desktop
 omarchy-pkg-drop alacritty
+
+rm -rf ~/Work/tries
