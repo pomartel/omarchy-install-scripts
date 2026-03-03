@@ -2,6 +2,8 @@
 
 set -euo pipefail
 
+start_time=$(date +%s.%N)
+
 source ./set-target.sh
 
 ./packages/add-packages.sh
@@ -15,4 +17,7 @@ source ./set-target.sh
 ./configs/configure-hibernation.sh
 ./configs/create-dropbox-symlinks.sh
 
-echo "All install scripts completed."
+end_time=$(date +%s.%N)
+elapsed_seconds=$(awk -v start="$start_time" -v end="$end_time" 'BEGIN { printf "%.1f", end - start }')
+
+echo "All install scripts completed in ${elapsed_seconds}s"
