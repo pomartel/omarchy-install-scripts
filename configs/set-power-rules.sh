@@ -11,5 +11,3 @@ if ! systemctl is-active --user --quiet "$service"; then
   echo "Started $service"
 fi
 
-# Fix slow wake from suspend
-sudo ln -s ~/.config/systemd/plocate-updatedb.service.d/ac-only.conf /etc/systemd/system/plocate-updatedb.service.d/ac-only.conf
