@@ -72,3 +72,4 @@ Packages are loaded in this order:
 - `remove-default-apps.sh`: Removes selected default Omarchy webapps and drops selected packages.
 - `set-default-font.sh`: Sets Omarchy font to `JetBrainsMonoNL Nerd Font` if not already active.
 - `configure-hibernation.sh`: Writes systemd sleep and logind drop-in files to enable suspend-then-hibernate behavior.
+- `configure-bluetooth-wake.sh`: Enables Bluetooth wake for the current system, marks paired HID devices as wake-capable, and installs a udev rule to keep controller wake enabled after reboot.
