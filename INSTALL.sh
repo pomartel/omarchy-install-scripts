@@ -16,6 +16,7 @@ source ./set-target.sh
 ./configs/set-default-font.sh
 ./configs/configure-hibernation.sh
 ./configs/configure-bluetooth-wake.sh
+./configs/configure-bluetooth-initramfs-unlock.sh
 ./configs/create-dropbox-symlinks.sh
 ./configs/disable-plocate.sh
 ./configs/disable-makima.sh

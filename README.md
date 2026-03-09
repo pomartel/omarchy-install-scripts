@@ -73,3 +73,4 @@ Packages are loaded in this order:
 - `set-default-font.sh`: Sets Omarchy font to `JetBrainsMonoNL Nerd Font` if not already active.
 - `configure-hibernation.sh`: Writes systemd sleep and logind drop-in files to enable suspend-then-hibernate behavior.
 - `configure-bluetooth-wake.sh`: Enables Bluetooth wake for the current system, marks paired HID devices as wake-capable, and installs a udev rule to keep controller wake enabled after reboot.
+- `configure-bluetooth-initramfs-unlock.sh`: Installs `mkinitcpio-bluetooth`, adds the `bluetooth` hook before `encrypt`, captures the active Bluetooth transport and firmware for the current machine, rebuilds initramfs, and verifies the resulting boot image.
