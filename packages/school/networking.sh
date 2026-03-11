@@ -1,13 +1,18 @@
 omarchy-pkg-add networkmanager network-manager-applet wpa_supplicant
 
-printf "[device]\nwifi.backend=wpa_supplicant\n" | sudo tee "/etc/NetworkManager/conf.d/wifi_backend.conf" >/dev/null
+sudo tee "/etc/NetworkManager/conf.d/wifi_backend.conf" >/dev/null <<EOF
+[device]
+wifi.backend=wpa_supplicant
+EOF
 
-printf "[device]\n" \
-  "wifi.scan-rand-mac-address=no\n" \
-  "\n" \
-  "[connection]\n" \
-  "wifi.cloned-mac-address=preserve\n" \
-  "ethernet.cloned-mac-address=preserve\n" | sudo tee "/etc/NetworkManager/conf.d/00-mac-address.conf" >/dev/null
+sudo tee "/etc/NetworkManager/conf.d/00-mac-address.conf" >/dev/null <<EOF
+[device]
+wifi.scan-rand-mac-address=no
+
+[connection]
+wifi.cloned-mac-address=preserve
+ethernet.cloned-mac-address=preserve
+EOF
 
 if systemctl is-active --quiet iwd; then
   echo "Disabling iwd to avoid conflicts with NetworkManager..."

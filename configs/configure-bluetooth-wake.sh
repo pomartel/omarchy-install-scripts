@@ -8,15 +8,11 @@ udev_rule_path="/etc/udev/rules.d/70-bluetooth-wake.rules"
 
 sudo install -d /etc/udev/rules.d
 
-udev_rule_contents=$(
-  cat <<'EOF'
+sudo tee "$udev_rule_path" >/dev/null <<EOF
 # Keep Bluetooth controllers wake-capable after boot and controller re-enumeration.
 ACTION=="add", SUBSYSTEM=="pci", DRIVERS=="btintel_pcie", ATTR{power/wakeup}="enabled"
 ACTION=="add", SUBSYSTEM=="usb", DRIVERS=="btusb", TEST=="power/wakeup", ATTR{power/wakeup}="enabled"
 EOF
-)
-
-printf '%s\n' "$udev_rule_contents" | sudo tee "$udev_rule_path" >/dev/null
 
 shopt -s nullglob
 for wake_file in /sys/class/bluetooth/hci*/device/power/wakeup; do
