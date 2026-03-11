@@ -18,6 +18,7 @@ source ./set-target.sh
 ./configs/configure-bluetooth-wake.sh
 ./configs/create-dropbox-symlinks.sh
 ./configs/disable-plocate.sh
+./configs/enable-config-backup.sh
 
 end_time=$(date +%s.%N)
 elapsed_seconds=$(awk -v start="$start_time" -v end="$end_time" 'BEGIN { printf "%.1f", end - start }')
