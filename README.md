@@ -27,8 +27,8 @@ Run:
 This flow:
 
 1. Loads machine target from `set-target.sh`
-2. Installs SSH key from 1Password with `configs/install-ssh-key-from-1password.sh`
-3. Installs and initializes yadm with `configs/install-yadm.sh`
+2. Installs SSH key from 1Password with `configs/new-install/install-ssh-key-from-1password.sh`
+3. Installs and initializes yadm with `configs/new-install/install-yadm.sh`
 4. Runs `INSTALL.sh`
 
 ### Idempotent install/update
@@ -43,7 +43,7 @@ This flow:
 
 1. Loads machine target from `set-target.sh`
 2. Installs packages via `packages/add-packages.sh`
-3. Applies all configuration scripts under `configs/`
+3. Applies configuration via `configs/apply-configs.sh`
 
 ## Target selection
 
@@ -63,13 +63,29 @@ Packages are loaded in this order:
 
 ## Configuration scripts (`configs/`)
 
-- `install-ssh-key-from-1password.sh`: Reads the SSH private/public key from 1Password (based on `INSTALL_TARGET`) and writes key files to `~/.ssh`.
-- `install-yadm.sh`: Installs yadm, clones `git@github.com:pomartel/config-files.git`, resets work tree to repo state, applies alternates, and decrypts secrets.
-- `set-locale.sh`: Sets system locale to `en_CA.UTF-8` for `home`, or `fr_CA.UTF-8` for `school`.
-- `copy-sudoers-rules.sh`: Writes `/etc/sudoers.d/custom-sudoers-rules` with custom sudo timeout and tty ticket behavior.
-- `set-power-profile-rule.sh`: Writes `/etc/udev/rules.d/99-power-profile.rules` to switch power profile on AC unplug/plug.
-- `clone-git-projects.sh`: Clones predefined git repositories into `~/Work` if missing.
-- `remove-default-apps.sh`: Removes selected default Omarchy webapps and drops selected packages.
-- `set-default-font.sh`: Sets Omarchy font to `JetBrainsMonoNL Nerd Font` if not already active.
-- `configure-hibernation.sh`: Writes systemd sleep and logind drop-in files to enable suspend-then-hibernate behavior.
-- `configure-bluetooth-wake.sh`: Enables Bluetooth wake for the current system, marks paired HID devices as wake-capable, and installs a udev rule to keep controller wake enabled after reboot.
+Configuration scripts are loaded in this order:
+
+1. `configs/common/*.sh`
+2. `configs/$INSTALL_TARGET/*.sh`
+
+- `common/copy-sudoers-rules.sh`: Writes `/etc/sudoers.d/custom-sudoers-rules` with custom sudo timeout and tty ticket behavior.
+- `common/clone-git-projects.sh`: Clones shared git repositories into `~/Work` if missing.
+- `home/clone-git-projects.sh`: Clones home-only git repositories into `~/Work` if missing.
+- `common/create-dropbox-symlinks.sh`: Creates symlinks from `~/Dropbox` into selected home directories.
+- `common/disable-plocate.sh`: Masks the `plocate-updatedb.timer` systemd timer when it is active.
+- `common/remove-default-apps.sh`: Removes selected default Omarchy webapps and drops selected packages.
+- `common/set-default-font.sh`: Sets Omarchy font to `JetBrainsMonoNL Nerd Font` if not already active.
+- `common/configure-hibernation.sh`: Writes systemd sleep and logind drop-in files to enable suspend-then-hibernate behavior.
+- `home/configure-bluetooth-wake.sh`: Enables Bluetooth wake, marks paired HID devices as wake-capable, and installs a udev rule to keep controller wake enabled after reboot.
+- `home/enable-config-backup.sh`: Enables the `config-backup.timer` user service when it is not already active.
+- `home/set-locale.sh`: Sets system locale to `en_CA.UTF-8`.
+- `school/set-locale.sh`: Sets system locale to `fr_CA.UTF-8`.
+
+Inactive scripts kept for later use:
+
+- `old/set-power-rules.sh`: Writes `/etc/udev/rules.d/99-power-profile.rules` to switch power profile on AC unplug/plug.
+
+Fresh-install-only scripts:
+
+- `new-install/install-ssh-key-from-1password.sh`: Reads the SSH private/public key from 1Password (based on `INSTALL_TARGET`) and writes key files to `~/.ssh`.
+- `new-install/install-yadm.sh`: Installs yadm, clones `git@github.com:pomartel/config-files.git`, resets work tree to repo state, applies alternates, and decrypts secrets.

@@ -1,9 +1,5 @@
 #!/bin/bash
 
-if [ "$INSTALL_TARGET" = "school" ]; then
-  exit 0
-fi
-
 udev_rule_path="/etc/udev/rules.d/70-bluetooth-wake.rules"
 
 sudo install -d /etc/udev/rules.d
