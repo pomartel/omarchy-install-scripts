@@ -2,9 +2,17 @@
 
 set -euo pipefail
 
-source "./set-target.sh"
+omarchy-pkg-add yadm
 
-./configs/new-install/install-ssh-key-from-1password.sh
-./configs/new-install/install-yadm.sh
+yadm clone -f "git@github.com:pomartel/config-files.git"
+
+echo "Force-resetting work-tree (discarding local conflicting files)..."
+yadm reset --hard
+
+echo "Creating symlinks for alternate files"
+yadm alt
+
+echo "Decrypting secret files"
+yadm decrypt
 
 ./INSTALL.sh

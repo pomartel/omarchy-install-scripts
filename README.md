@@ -20,6 +20,8 @@ git clone https://github.com/omarchy-install-scripts.git ~/Install
 
 ### Fresh install (new machine)
 
+Before running the fresh install, make sure your SSH keys are already set up in 1Password on the machine.
+
 Run:
 
 ```bash
@@ -29,9 +31,8 @@ Run:
 This flow:
 
 1. Loads machine target from `set-target.sh`
-2. Installs SSH key from 1Password with `configs/new-install/install-ssh-key-from-1password.sh`
-3. Installs and initializes yadm with `configs/new-install/install-yadm.sh`
-4. Runs `INSTALL.sh`
+2. Installs and initializes yadm with `configs/new-install/install-yadm.sh`
+3. Runs `INSTALL.sh`
 
 ### Idempotent install/update
 
@@ -145,7 +146,6 @@ Current config scripts:
 
 Fresh-install-only config scripts:
 
-- `new-install/install-ssh-key-from-1password.sh`: Reads the SSH private/public key from 1Password (based on `INSTALL_TARGET`) and writes key files to `~/.ssh`.
 - `new-install/install-yadm.sh`: Installs yadm, clones `git@github.com:pomartel/config-files.git`, resets work tree to repo state, applies alternates, and decrypts secrets.
 
 Inactive config scripts:
