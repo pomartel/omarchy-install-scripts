@@ -1,1 +1,1 @@
-omarchy-omarchy-pkg-add aws-cli
+omarchy-pkg-add aws-cli

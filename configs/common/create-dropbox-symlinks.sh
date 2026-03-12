@@ -14,4 +14,5 @@ link_dropbox_folder() {
 
 link_dropbox_folder "Documents"
 link_dropbox_folder "Pictures"
+link_dropbox_folder "Videos"
 link_dropbox_folder "Cours"
