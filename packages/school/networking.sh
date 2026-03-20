@@ -10,7 +10,7 @@ sudo tee "/etc/NetworkManager/conf.d/00-mac-address.conf" >/dev/null <<EOF
 wifi.scan-rand-mac-address=no
 
 [connection]
-wifi.cloned-mac-address=preserve
+wifi.cloned-mac-address=permanent
 ethernet.cloned-mac-address=preserve
 EOF
 
