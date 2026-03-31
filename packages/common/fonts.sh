@@ -1,1 +1,1 @@
-omarchy-pkg-add ttf-ubuntu-font-family
+omarchy-pkg-add ttf-ubuntu-font-family ttf-aptos
