@@ -1,1 +1,1 @@
-omarchy-pkg-add onlyoffice-bin
+omarchy-pkg-aur-add onlyoffice-bin
