@@ -32,7 +32,7 @@ if ! systemctl is-active --quiet NetworkManager; then
   sudo systemctl enable --now NetworkManager
 fi
 
-NM_APPLET_DESKTOP="/etc/xdg/autostart/nm-applet.desktop"
-if [ -f "$NM_APPLET_DESKTOP" ]; then
-  sudo rm "$NM_APPLET_DESKTOP"
+nm_applet_desktop="/etc/xdg/autostart/nm-applet.desktop"
+if [ -f "$nm_applet_desktop" ]; then
+  sudo rm "$nm_applet_desktop"
 fi

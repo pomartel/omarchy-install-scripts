@@ -5,12 +5,12 @@ if ! systemctl is-active --quiet keyd; then
   sudo systemctl enable --now keyd
 fi
 
-KEYD_CONFIG_FILE="$HOME/.config/keyd/default.conf"
-KEYD_CONFIG_SYMLINK="/etc/keyd/default.conf"
+keyd_config_file="$HOME/.config/keyd/default.conf"
+keyd_config_symlink="/etc/keyd/default.conf"
 
-if [ ! -L "$KEYD_CONFIG_SYMLINK" ]; then
+if [ ! -L "$keyd_config_symlink" ]; then
   echo "Setting up symlink for keyd config..."
-  sudo rm "$KEYD_CONFIG_SYMLINK"
-  sudo ln -sfn "$KEYD_CONFIG_FILE" "$KEYD_CONFIG_SYMLINK"
+  sudo rm "$keyd_config_symlink"
+  sudo ln -sfn "$keyd_config_file" "$keyd_config_symlink"
   sudo systemctl restart keyd
 fi

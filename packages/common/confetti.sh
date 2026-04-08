@@ -1,20 +1,20 @@
 if omarchy-cmd-missing confetti; then
 
-  INSTALL_DIR="/usr/local/bin"
-  BIN_NAME="confetti"
-  REPO="Skxxtz/sherlock-confetti"
+  install_dir="/usr/local/bin"
+  bin_name="confetti"
+  repo="Skxxtz/sherlock-confetti"
 
   tmp_dir="$(mktemp -d)"
 
-  echo "Installing ${BIN_NAME} to ${INSTALL_DIR}/${BIN_NAME}"
+  echo "Installing ${bin_name} to ${install_dir}/${bin_name}"
 
-  latest_tag="$(gh release view -R "${REPO}" --json tagName -q .tagName)"
+  latest_tag="$(gh release view -R "${repo}" --json tagName -q .tagName)"
   if [[ -z "${latest_tag}" ]]; then
     echo "Could not determine latest release tag." >&2
   fi
 
   asset_name="confetti-v${latest_tag}-bin-linux-x86_64.tar.gz"
-  gh release download -R "${REPO}" -p "${asset_name}" -D "${tmp_dir}" --clobber
+  gh release download -R "${repo}" -p "${asset_name}" -D "${tmp_dir}" --clobber
 
   archive_path="${tmp_dir}/${asset_name}"
   if [[ ! -f "${archive_path}" ]]; then
@@ -23,10 +23,10 @@ if omarchy-cmd-missing confetti; then
 
   tar -xzf "${archive_path}" -C "${tmp_dir}"
 
-  if [[ ! -f "${tmp_dir}/${BIN_NAME}" ]]; then
-    echo "Binary not found after extraction: ${BIN_NAME}" >&2
+  if [[ ! -f "${tmp_dir}/${bin_name}" ]]; then
+    echo "Binary not found after extraction: ${bin_name}" >&2
   fi
 
-  sudo install -m 0755 "${tmp_dir}/${BIN_NAME}" "${INSTALL_DIR}/${BIN_NAME}"
+  sudo install -m 0755 "${tmp_dir}/${bin_name}" "${install_dir}/${bin_name}"
 
 fi

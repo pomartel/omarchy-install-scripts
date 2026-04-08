@@ -1,6 +1,6 @@
 #!/bin/bash
 
-BASE="$HOME/Work"
+base="$HOME/Work"
 
 clone_if_missing() {
   local repo="$1"
@@ -10,7 +10,7 @@ clone_if_missing() {
     dir="$(basename "$repo" .git)"
   fi
 
-  local path="$BASE/$dir"
+  local path="$base/$dir"
 
   if [ ! -d "$path" ]; then
     git clone "$repo" "$path"
