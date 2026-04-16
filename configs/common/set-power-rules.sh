@@ -13,8 +13,7 @@ else
   ac_brightness="80%"
 fi
 
-rule_file="/etc/udev/rules.d/99-display-brightness.rules"
-cat <<EOF | sudo tee "$rule_file" >/dev/null
+cat <<EOF | sudo tee "/etc/udev/rules.d/99-display-brightness.rules" >/dev/null
 ACTION=="change", SUBSYSTEM=="power_supply", ATTR{type}=="Mains", ATTR{online}=="0", RUN+="/usr/bin/brightnessctl -c backlight set $bat_brightness%"
 ACTION=="change", SUBSYSTEM=="power_supply", ATTR{type}=="Mains", ATTR{online}=="1", RUN+="/usr/bin/brightnessctl -c backlight set $ac_brightness%"
 EOF
