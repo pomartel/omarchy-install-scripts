@@ -6,11 +6,3 @@ SUBSYSTEM=="power_supply", ATTR{type}=="Mains", ATTR{online}=="1", RUN+="/usr/bi
 EOF
 
 sudo udevadm control --reload-rules
-
-# POWER_SAVER_BATTERY_TRESHOLD env variable is set in ~/.config/uwsm/env
-# Switch power profile to power-saver on low battery
-service=powerprofile-low-battery.timer
-if ! systemctl is-active --user --quiet "$service"; then
-  systemctl --user enable --now "$service"
-  echo "Started $service"
-fi
