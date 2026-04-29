@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ "$INSTALL_TARGET" = "school" ]; then
+if [ "$INSTALL_TARGET" = "asus" ]; then
   bat_brightness="50%"
   ac_brightness="100%"
 else

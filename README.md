@@ -52,8 +52,8 @@ This flow:
 
 `set-target.sh` maps hostname to target:
 
-- `home-omarchy` -> `home`
-- `school-omarchy` -> `school`
+- `lenovo-omarchy` -> `lenovo`
+- `asus-omarchy` -> `asus`
 
 If hostname is unknown, the script exits with an error.
 
@@ -97,21 +97,21 @@ Current package scripts:
 - `common/typora-themes.sh`: Clones and installs Typora default themes into `~/.config/Typora/themes`.
 - `common/voxtype.sh`: Installs Voxtype and registers its user service.
 - `common/zed.sh`: Installs Zed and Omazed, then runs `omazed setup` if needed.
-- `home/anylist.sh`: Installs the Anylist web app.
-- `home/aws-cli.sh`: Installs `aws-cli`.
-- `home/calibre.sh`: Installs Calibre.
-- `home/heroku.sh`: Installs the Heroku CLI globally with npm.
-- `home/memcached.sh`: Installs Memcached.
-- `home/mkcert.sh`: Installs `mkcert` and `nss`.
-- `home/nginx.sh`: Installs and enables Nginx.
-- `home/postgresql.sh`: Installs PostgreSQL, initializes the cluster if needed, enables the service, and creates the `po` superuser if missing.
-- `home/redis.sh`: Installs and enables Redis.
-- `home/restsic.sh`: Installs `restic`.
-- `home/ruby-erb.sh`: Installs `ruby-erb`.
-- `home/ruby-on-rails.sh`: Installs the Omarchy Ruby development environment when `rails` is missing.
-- `home/yarn.sh`: Installs Yarn.
-- `school/man-pages-fr.sh`: Installs French man pages.
-- `school/networking.sh`: Installs and configures NetworkManager with `wpa_supplicant`, disables conflicting services, and removes the `nm-applet` autostart desktop entry.
+- `lenovo/anylist.sh`: Installs the Anylist web app.
+- `lenovo/aws-cli.sh`: Installs `aws-cli`.
+- `lenovo/calibre.sh`: Installs Calibre.
+- `lenovo/heroku.sh`: Installs the Heroku CLI globally with npm.
+- `lenovo/memcached.sh`: Installs Memcached.
+- `lenovo/mkcert.sh`: Installs `mkcert` and `nss`.
+- `lenovo/nginx.sh`: Installs and enables Nginx.
+- `lenovo/postgresql.sh`: Installs PostgreSQL, initializes the cluster if needed, enables the service, and creates the `po` superuser if missing.
+- `lenovo/redis.sh`: Installs and enables Redis.
+- `lenovo/restsic.sh`: Installs `restic`.
+- `lenovo/ruby-erb.sh`: Installs `ruby-erb`.
+- `lenovo/ruby-on-rails.sh`: Installs the Omarchy Ruby development environment when `rails` is missing.
+- `lenovo/yarn.sh`: Installs Yarn.
+- `asus/man-pages-fr.sh`: Installs French man pages.
+- `asus/networking.sh`: Installs and configures NetworkManager with `wpa_supplicant`, disables conflicting services, and removes the `nm-applet` autostart desktop entry.
 
 Inactive package scripts:
 
@@ -132,17 +132,17 @@ Notes:
 
 Current config scripts:
 
-- `common/clone-git-projects.sh`: Clones predefined repositories into `~/Work`, including extra home-only repositories when `INSTALL_TARGET=home`.
+- `common/clone-git-projects.sh`: Clones predefined repositories into `~/Work`, including extra lenovo-only repositories when `INSTALL_TARGET=lenovo`.
 - `common/configure-hibernation.sh`: Writes systemd sleep and logind drop-ins for suspend-then-hibernate behavior.
 - `common/copy-sudoers-rules.sh`: Writes `/etc/sudoers.d/custom-sudoers-rules` with custom sudo timeout and tty ticket behavior.
 - `common/create-dropbox-symlinks.sh`: Replaces local folders if needed and symlinks `Documents`, `Pictures`, `Videos`, and `Cours` to Dropbox.
 - `common/disable-plocate.sh`: Masks `plocate-updatedb.timer` when it is active.
 - `common/remove-default-apps.sh`: Removes selected default Omarchy web apps, drops `signal-desktop` and `alacritty`, and deletes `~/Work/tries`.
 - `common/set-default-font.sh`: Sets the Omarchy font to `JetBrainsMonoNL Nerd Font` when needed.
-- `home/configure-bluetooth-wake.sh`: Installs Bluetooth wake udev rules, enables wake on current Bluetooth controllers, and enables wake for paired HID devices when possible.
-- `home/enable-config-backup.sh`: Enables the `config-backup.timer` user service when it is not already active.
-- `home/set-locale.sh`: Sets system locale to `en_CA.UTF-8`.
-- `school/set-locale.sh`: Sets system locale to `fr_CA.UTF-8`.
+- `lenovo/configure-bluetooth-wake.sh`: Installs Bluetooth wake udev rules, enables wake on current Bluetooth controllers, and enables wake for paired HID devices when possible.
+- `lenovo/enable-config-backup.sh`: Enables the `config-backup.timer` user service when it is not already active.
+- `lenovo/set-locale.sh`: Sets system locale to `en_CA.UTF-8`.
+- `asus/set-locale.sh`: Sets system locale to `fr_CA.UTF-8`.
 
 Fresh-install-only config scripts:
 
