@@ -1,4 +1,4 @@
-omarchy-pkg-add networkmanager network-manager-applet wpa_supplicant
+omarchy-pkg-drop networkmanager network-manager-applet wpa_supplicant
 
 sudo tee "/etc/NetworkManager/conf.d/wifi_backend.conf" >/dev/null <<EOF
 [device]
