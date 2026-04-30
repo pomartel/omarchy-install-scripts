@@ -1,1 +1,1 @@
-omarchy-install-terminal ghostty
+omarchy-install-terminal ghostty ghostty-nautilus
