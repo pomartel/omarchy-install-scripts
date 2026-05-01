@@ -11,5 +11,6 @@ omarchy-webapp-remove "Fizzy" >/dev/null
 omarchy-pkg-drop signal-desktop
 omarchy-pkg-drop alacritty
 omarchy-pkg-drop chromium
+omarchy-pkg-drop plocate
 
 rm -rf ~/Work/tries

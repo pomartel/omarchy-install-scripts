@@ -1,2 +1,2 @@
 # Brave browser
-omarchy-pkg-aur-add brave-bin
+omarchy-pkg-aur-add brave-origin-nightly-bin
