@@ -1,16 +1,14 @@
 #!/bin/bash
 
 # Redirect the output to /dev/null to suppress any output if all is good!
-omarchy-webapp-remove "HEY" >/dev/null
-omarchy-webapp-remove "Basecamp" >/dev/null
-omarchy-webapp-remove "Google Photos" >/dev/null
-omarchy-webapp-remove "Google Messages" >/dev/null
-omarchy-webapp-remove "Figma" >/dev/null
-omarchy-webapp-remove "Fizzy" >/dev/null
+omarchy-webapp-remove \
+  "Basecamp" \
+  "Figma" \
+  "Fizzy" \
+  "Google Messages" \
+  "Google Photos" \
+  "HEY" >/dev/null
 
-omarchy-pkg-drop signal-desktop
-omarchy-pkg-drop alacritty
-omarchy-pkg-drop chromium
-omarchy-pkg-drop plocate
+omarchy-pkg-drop alacritty chromium plocate signal-desktop
 
 rm -rf ~/Work/tries
