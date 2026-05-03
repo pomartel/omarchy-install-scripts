@@ -17,7 +17,7 @@ clone_if_missing() {
   fi
 }
 
-if [ "$INSTALL_TARGET" = "lenovo" ]; then
+if [ "$INSTALL_TARGET" = "asus" ]; then
   clone_if_missing "git@github.com:pomartel/poll-app.git"
   clone_if_missing "git@github.com:pomartel/fbpoll.co.git" "poll-app.com"
   clone_if_missing "git@github.com:pomartel/coderubik.com.git"
