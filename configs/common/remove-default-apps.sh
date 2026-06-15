@@ -9,6 +9,6 @@ omarchy-webapp-remove \
   "Google Photos" \
   "HEY" >/dev/null
 
-omarchy-pkg-drop chromium plocate signal-desktop
+omarchy-pkg-drop chromium signal-desktop
 
 rm -rf ~/Work/tries
