@@ -78,6 +78,7 @@ Current package scripts:
 - `common/codex.sh`: Installs `openai-codex`.
 - `common/confetti.sh`: Downloads and installs the latest `confetti` binary from GitHub Releases.
 - `common/dropbox.sh`: Installs Dropbox through Omarchy helpers.
+- `common/droidcam.sh`: Installs DroidCam, v4l2loopback, and iPhone USB support, then configures the virtual webcam to load at boot.
 - `common/espanso.sh`: Installs Espanso and starts its user service.
 - `common/fonts.sh`: Installs the Ubuntu font family.
 - `common/ghostty.sh`: Installs Ghostty through Omarchy helpers.
