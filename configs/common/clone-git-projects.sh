@@ -1,6 +1,6 @@
 #!/bin/bash
 
-base="$HOME/Work"
+base="$HOME/Projects"
 
 clone_if_missing() {
   local repo="$1"

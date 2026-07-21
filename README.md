@@ -92,10 +92,12 @@ Current package scripts:
 - `common/pandoc.sh`: Installs Pandoc.
 - `common/rsync.sh`: Installs `rsync`.
 - `common/shfmt.sh`: Installs `shfmt`.
+- `common/spotify.sh`: Installs Spotify using the Omarchy 4 service installer.
+- `common/spotifyd.sh`: Installs and enables the Spotify daemon.
 - `common/teams.sh`: Installs the Microsoft Teams web app if its desktop entry is missing.
 - `common/todoist.sh`: Installs the Todoist CLI globally with npm.
 - `common/trash.sh`: Installs `trash-cli`.
-- `common/typora-themes.sh`: Clones and installs Typora default themes into `~/.config/Typora/themes`.
+- `common/typora.sh`: Installs Typora.
 - `common/voxtype.sh`: Installs Voxtype and registers its user service.
 - `common/zed.sh`: Installs Zed and Omazed, then runs `omazed setup` if needed.
 - `lenovo/anylist.sh`: Installs the Anylist web app.
@@ -133,13 +135,13 @@ Notes:
 
 Current config scripts:
 
-- `common/clone-git-projects.sh`: Clones predefined repositories into `~/Work`, including extra lenovo-only repositories when `INSTALL_TARGET=lenovo`.
+- `common/clone-git-projects.sh`: Clones predefined repositories into `~/Projects`, including extra lenovo-only repositories when `INSTALL_TARGET=lenovo`.
 - `common/configure-hibernation.sh`: Writes systemd sleep and logind drop-ins for suspend-then-hibernate behavior.
 - `common/configure-bluetooth-wake.sh`: Installs a Bluetooth wake udev rule, enables `CNVW` when present, and enables wake on the active Bluetooth controller path discovered from `hci0`.
 - `common/copy-sudoers-rules.sh`: Writes `/etc/sudoers.d/custom-sudoers-rules` with custom sudo timeout and tty ticket behavior.
 - `common/create-dropbox-symlinks.sh`: Replaces local folders if needed and symlinks `Documents`, `Pictures`, `Videos`, and `Cours` to Dropbox.
 - `common/disable-plocate.sh`: Masks `plocate-updatedb.timer` when it is active.
-- `common/remove-default-apps.sh`: Removes selected default Omarchy web apps, drops `signal-desktop` and `alacritty`, and deletes `~/Work/tries`.
+- `common/remove-default-apps.sh`: Removes selected default Omarchy web apps, drops `signal-desktop` and `alacritty`, and deletes `~/Projects/tries`.
 - `common/set-default-font.sh`: Sets the Omarchy font to `JetBrainsMonoNL Nerd Font` when needed.
 - `lenovo/enable-config-backup.sh`: Enables the `config-backup.timer` user service when it is not already active.
 - `lenovo/set-locale.sh`: Sets system locale to `en_CA.UTF-8`.
