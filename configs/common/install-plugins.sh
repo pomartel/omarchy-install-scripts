@@ -17,7 +17,7 @@ ensure_omarchy_plugin() {
       omarchy plugin enable "$plugin_id"
     fi
   else
-    omarchy plugin add "$plugin_url" --enable --yes
+    omarchy plugin add "$project_path" --enable --yes
   fi
 }
 
