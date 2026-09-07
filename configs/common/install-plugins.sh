@@ -21,17 +21,9 @@ ensure_omarchy_plugin() {
   fi
 }
 
-ensure_omarchy_plugin \
-  "intemporel" \
-  "pomartel/intemporel"
-ensure_omarchy_plugin \
-  "idle-power" \
-  "pomartel/idle-power"
-ensure_omarchy_plugin \
-  "omarchy-todoist" \
-  "pomartel/omarchy-todoist"
-ensure_omarchy_plugin \
-  "qs-yadm" \
-  "pomartel/qs-yadm"
+ensure_omarchy_plugin "intemporel" "pomartel/intemporel"
+ensure_omarchy_plugin "idle-power" "pomartel/idle-power"
+ensure_omarchy_plugin "omarchy-todoist" "pomartel/omarchy-todoist"
+ensure_omarchy_plugin "qs-yadm" "pomartel/qs-yadm"
 
 unset -f ensure_omarchy_plugin
