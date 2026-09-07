@@ -28,7 +28,7 @@ ensure_omarchy_plugin \
   "idle-power" \
   "pomartel/idle-power"
 ensure_omarchy_plugin \
-  "io.github.aryan-techie.todoist" \
+  "omarchy-todoist" \
   "pomartel/omarchy-todoist"
 ensure_omarchy_plugin \
   "qs-yadm" \
