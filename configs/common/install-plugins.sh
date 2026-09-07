@@ -1,17 +1,12 @@
-clone_plugin_project_if_missing() {
-  local plugin_dir="$1"
-  local plugin_url="$2"
-  local plugin_path="$HOME/Projects/plugins/$plugin_dir"
-
-  if [ ! -d "$plugin_path" ]; then
-    git clone "$plugin_url" "$plugin_path"
-  fi
-}
-
 ensure_omarchy_plugin() {
   local plugin_id="$1"
   local plugin_url="$2"
+  local project_dir="${3:-}"
   local plugins
+
+  if [ -n "$project_dir" ] && [ ! -d "$HOME/Projects/plugins/$project_dir" ]; then
+    git clone "$plugin_url" "$HOME/Projects/plugins/$project_dir"
+  fi
 
   plugins=$(omarchy plugin list --json) || return
 
@@ -25,27 +20,20 @@ ensure_omarchy_plugin() {
   fi
 }
 
-clone_plugin_project_if_missing \
-  "intemporel" \
-  "git@github.com:pomartel/intemporel.git"
-clone_plugin_project_if_missing \
-  "idle-power" \
-  "git@github.com:pomartel/idle-power.git"
-clone_plugin_project_if_missing \
-  "qs-yadm" \
-  "git@github.com:pomartel/qs-yadm.git"
-
 ensure_omarchy_plugin \
   "intemporel" \
-  "https://github.com/pomartel/intemporel.git"
+  "https://github.com/pomartel/intemporel.git" \
+  "intemporel"
 ensure_omarchy_plugin \
   "idle-power" \
-  "https://github.com/pomartel/idle-power.git"
+  "https://github.com/pomartel/idle-power.git" \
+  "idle-power"
 ensure_omarchy_plugin \
   "io.github.aryan-techie.todoist" \
   "https://github.com/Aryan-Techie/omarchy-todoist.git"
 ensure_omarchy_plugin \
   "qs-yadm" \
-  "https://github.com/pomartel/qs-yadm.git"
+  "https://github.com/pomartel/qs-yadm.git" \
+  "qs-yadm"
 
 unset -f ensure_omarchy_plugin
