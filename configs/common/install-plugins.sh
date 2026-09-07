@@ -1,7 +1,8 @@
 ensure_omarchy_plugin() {
   local plugin_id="$1"
-  local plugin_url="$2"
-  local project_path="$HOME/Projects/plugins/$(basename "$plugin_url" .git)"
+  local repository="$2"
+  local plugin_url="https://github.com/$repository.git"
+  local project_path="$HOME/Projects/plugins/$(basename "$repository")"
   local plugins
 
   if [ ! -d "$project_path" ]; then
@@ -22,15 +23,15 @@ ensure_omarchy_plugin() {
 
 ensure_omarchy_plugin \
   "intemporel" \
-  "https://github.com/pomartel/intemporel.git"
+  "pomartel/intemporel"
 ensure_omarchy_plugin \
   "idle-power" \
-  "https://github.com/pomartel/idle-power.git"
+  "pomartel/idle-power"
 ensure_omarchy_plugin \
   "io.github.aryan-techie.todoist" \
-  "https://github.com/Aryan-Techie/omarchy-todoist.git"
+  "Aryan-Techie/omarchy-todoist"
 ensure_omarchy_plugin \
   "qs-yadm" \
-  "https://github.com/pomartel/qs-yadm.git"
+  "pomartel/qs-yadm"
 
 unset -f ensure_omarchy_plugin
