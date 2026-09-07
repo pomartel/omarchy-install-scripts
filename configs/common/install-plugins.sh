@@ -1,3 +1,13 @@
+clone_plugin_project_if_missing() {
+  local plugin_dir="$1"
+  local plugin_url="$2"
+  local plugin_path="$HOME/Projects/plugins/$plugin_dir"
+
+  if [ ! -d "$plugin_path" ]; then
+    git clone "$plugin_url" "$plugin_path"
+  fi
+}
+
 ensure_omarchy_plugin() {
   local plugin_id="$1"
   local plugin_url="$2"
@@ -14,6 +24,16 @@ ensure_omarchy_plugin() {
     omarchy plugin add "$plugin_url" --enable --yes
   fi
 }
+
+clone_plugin_project_if_missing \
+  "intemporel" \
+  "git@github.com:pomartel/intemporel.git"
+clone_plugin_project_if_missing \
+  "idle-power" \
+  "git@github.com:pomartel/idle-power.git"
+clone_plugin_project_if_missing \
+  "qs-yadm" \
+  "git@github.com:pomartel/qs-yadm.git"
 
 ensure_omarchy_plugin \
   "intemporel" \
