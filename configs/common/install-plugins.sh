@@ -29,7 +29,7 @@ ensure_omarchy_plugin \
   "pomartel/idle-power"
 ensure_omarchy_plugin \
   "io.github.aryan-techie.todoist" \
-  "Aryan-Techie/omarchy-todoist"
+  "pomartel/omarchy-todoist"
 ensure_omarchy_plugin \
   "qs-yadm" \
   "pomartel/qs-yadm"
