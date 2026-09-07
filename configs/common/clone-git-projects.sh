@@ -21,10 +21,8 @@ if [ "$INSTALL_TARGET" = "lenovo" ]; then
   clone_if_missing "git@github.com:pomartel/poll-app.git"
   clone_if_missing "git@github.com:pomartel/fbpoll.co.git" "poll-app.com"
   clone_if_missing "git@github.com:pomartel/coderubik.com.git"
+  clone_if_missing "git@github.com:pomartel/alexa-anylist-sync.git"
 fi
 
 clone_if_missing "git@github.com:pomartel/sudomarchy"
-clone_if_missing "git@github.com:pomartel/intemporel"
-clone_if_missing "git@github.com:pomartel/idle-power"
-clone_if_missing "git@github.com:pomartel/qs-yadm"
 clone_if_missing "git@git.dti.crosemont.quebec:pmartel/markdown-export.git" "markdown"
