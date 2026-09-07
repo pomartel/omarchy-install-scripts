@@ -94,6 +94,7 @@ Current package scripts:
 - `common/shfmt.sh`: Installs `shfmt`.
 - `common/spotify.sh`: Installs Spotify using the Omarchy 4 service installer.
 - `common/spotifyd.sh`: Installs and enables the Spotify daemon.
+- `common/tailscale.sh`: Installs Tailscale.
 - `common/teams.sh`: Installs the Microsoft Teams web app if its desktop entry is missing.
 - `common/trash.sh`: Installs `trash-cli`.
 - `common/typora.sh`: Installs Typora.
