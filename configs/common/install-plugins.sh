@@ -2,12 +2,7 @@ ensure_omarchy_plugin() {
   local plugin_id="$1"
   local repository="$2"
   local plugin_url="https://github.com/$repository.git"
-  local project_path="$HOME/Projects/plugins/$(basename "$repository")"
   local plugins
-
-  if [ ! -d "$project_path" ]; then
-    git clone "$plugin_url" "$project_path"
-  fi
 
   plugins=$(omarchy plugin list --json) || return
 
@@ -17,7 +12,7 @@ ensure_omarchy_plugin() {
       omarchy plugin enable "$plugin_id"
     fi
   else
-    omarchy plugin add "$project_path" --enable --yes
+    omarchy plugin add "$plugin_url" --enable --yes
   fi
 }
 

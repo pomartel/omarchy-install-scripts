@@ -135,13 +135,13 @@ Notes:
 
 Current config scripts:
 
-- `common/clone-git-projects.sh`: Clones predefined repositories into `~/Projects`, including `idle-power`, and extra lenovo-only repositories when `INSTALL_TARGET=lenovo`.
+- `common/clone-git-projects.sh`: Clones predefined repositories into `~/Projects`, plus extra lenovo-only repositories when `INSTALL_TARGET=lenovo`.
 - `common/configure-hibernation.sh`: Writes systemd sleep and logind drop-ins for suspend-then-hibernate behavior.
 - `common/configure-bluetooth-wake.sh`: Installs a Bluetooth wake udev rule, enables `CNVW` when present, and enables wake on the active Bluetooth controller path discovered from `hci0`.
 - `common/copy-sudoers-rules.sh`: Writes `/etc/sudoers.d/custom-sudoers-rules` with custom sudo timeout and tty ticket behavior.
 - `common/create-dropbox-symlinks.sh`: Replaces local folders if needed and symlinks `Documents`, `Pictures`, `Videos`, and `Cours` to Dropbox.
 - `common/disable-plocate.sh`: Masks `plocate-updatedb.timer` when it is active.
-- `common/install-plugins.sh`: Installs and enables the configured Omarchy plugins, including `idle-power` from GitHub.
+- `common/install-plugins.sh`: Installs and enables the configured Omarchy plugins directly into Omarchy's live plugin directory from GitHub.
 - `common/remove-default-apps.sh`: Removes selected default Omarchy web apps, drops `signal-desktop` and `alacritty`, and deletes `~/Projects/tries`.
 - `common/set-default-font.sh`: Sets the Omarchy font to `JetBrainsMonoNL Nerd Font` when needed.
 - `lenovo/enable-config-backup.sh`: Enables the `config-backup.timer` user service when it is not already active.
