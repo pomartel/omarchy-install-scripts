@@ -136,7 +136,6 @@ Current config scripts:
 - `common/configure-bluetooth-wake.sh`: Installs a Bluetooth wake udev rule, enables `CNVW` when present, and enables wake on the active Bluetooth controller path discovered from `hci0`.
 - `common/copy-sudoers-rules.sh`: Writes `/etc/sudoers.d/custom-sudoers-rules` with custom sudo timeout and tty ticket behavior.
 - `common/create-dropbox-symlinks.sh`: Replaces local folders if needed and symlinks `Documents`, `Pictures`, `Videos`, and `Cours` to Dropbox.
-- `common/disable-plocate.sh`: Masks `plocate-updatedb.timer` when it is active.
 - `common/install-plugins.sh`: Installs and enables the configured Omarchy plugins directly into Omarchy's live plugin directory from GitHub.
 - `common/install-typora-themes.sh`: Installs the Typora default themes.
 - `common/remove-default-apps.sh`: Removes selected default Omarchy web apps, drops `signal-desktop` and `alacritty`, and deletes `~/Projects/tries`.
