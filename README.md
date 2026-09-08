@@ -76,7 +76,6 @@ Current package scripts:
 - `common/brave.sh`: Installs Brave.
 - `common/chatgpt.sh`: Sets Codex as the default Omarchy agent.
 - `common/chokidar.sh`: Installs `chokidar-cli` globally with npm.
-- `common/chrome.sh`: Installs Google Chrome through the Omarchy browser helper. The Codex Chrome extension remains a per-profile browser setting and must be added from Chrome's Web Store.
 - `common/confetti.sh`: Downloads and installs the latest `confetti` binary from GitHub Releases.
 - `common/dropbox.sh`: Installs Dropbox through Omarchy helpers.
 - `common/espanso.sh`: Installs Espanso and starts its user service.
