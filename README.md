@@ -31,7 +31,7 @@ Run:
 This flow:
 
 1. Loads machine target from `set-target.sh`
-2. Installs and initializes yadm with `configs/new-install/install-yadm.sh`
+2. Installs and initializes yadm directly from `NEW-INSTALL.sh`
 3. Runs `INSTALL.sh`
 
 ### Idempotent install/update
@@ -68,39 +68,38 @@ Notes:
 
 - `packages/add-packages.sh` uses `source`, so package scripts run in the current shell.
 - `packages/common/_node.sh` is prefixed with `_` so it sorts first and installs Node before other npm-based scripts.
-- `packages/old/` contains inactive scripts that are not loaded automatically.
 
 Current package scripts:
 
 - `common/_node.sh`: Installs the Omarchy Node development environment when `node` is missing.
+- `common/anylist.sh`: Installs the Anylist web app.
 - `common/brave.sh`: Installs Brave.
+- `common/chatgpt.sh`: Sets Codex as the default Omarchy agent.
 - `common/chokidar.sh`: Installs `chokidar-cli` globally with npm.
-- `common/codex.sh`: Installs `openai-codex`.
+- `common/chrome.sh`: Installs Google Chrome through the Omarchy browser helper. The Codex Chrome extension remains a per-profile browser setting and must be added from Chrome's Web Store.
 - `common/confetti.sh`: Downloads and installs the latest `confetti` binary from GitHub Releases.
 - `common/dropbox.sh`: Installs Dropbox through Omarchy helpers.
-- `common/droidcam.sh`: Installs DroidCam, v4l2loopback, and iPhone USB support, then configures the virtual webcam to load at boot.
 - `common/espanso.sh`: Installs Espanso and starts its user service.
 - `common/fonts.sh`: Installs the Ubuntu font family.
 - `common/ghostty.sh`: Installs Ghostty through Omarchy helpers.
-- `common/gitlab.sh`: Installs `glab`.
+- `common/gitlab-cli.sh`: Installs `glab`.
 - `common/hyprland-monitor-attached.sh`: Installs `hyprland-monitor-attached`.
-- `common/intel-media-driver.sh`: Installs the Intel VAAPI media driver.
+- `common/install-plugins.sh`: Installs and enables the configured Omarchy plugins.
+- `common/install-typora-themes.sh`: Installs the Typora default themes.
 - `common/keyd.sh`: Installs and enables `keyd`, then symlinks the config from `~/.config/keyd/default.conf`.
-- `common/live-server.sh`: Installs `live-server` globally with npm.
 - `common/marp.sh`: Installs the Marp CLI globally with npm.
-- `common/onedrive.sh`: Installs `onedrive-abraunegg`.
+- `common/onlyoffice.sh`: Installs OnlyOffice.
 - `common/pandoc.sh`: Installs Pandoc.
 - `common/rsync.sh`: Installs `rsync`.
-- `common/shfmt.sh`: Installs `shfmt`.
+- `common/shell.sh`: Installs shell development and testing tools.
+- `common/solaar.sh`: Installs Solaar.
 - `common/spotify.sh`: Installs Spotify using the Omarchy 4 service installer.
-- `common/spotifyd.sh`: Installs and enables the Spotify daemon.
 - `common/tailscale.sh`: Installs Tailscale.
-- `common/teams.sh`: Installs the Microsoft Teams web app if its desktop entry is missing.
 - `common/trash.sh`: Installs `trash-cli`.
 - `common/typora.sh`: Installs Typora.
 - `common/voxtype.sh`: Installs Voxtype and registers its user service.
 - `common/zed.sh`: Installs Zed and Omazed, then runs `omazed setup` if needed.
-- `lenovo/anylist.sh`: Installs the Anylist web app.
+- `lenovo/droidcam.sh`: Installs DroidCam, v4l2loopback, and iPhone USB support, then configures the virtual webcam to load at boot.
 - `lenovo/aws-cli.sh`: Installs `aws-cli`.
 - `lenovo/calibre.sh`: Installs Calibre.
 - `lenovo/heroku.sh`: Installs the Heroku CLI globally with npm.
@@ -114,11 +113,9 @@ Current package scripts:
 - `lenovo/ruby-on-rails.sh`: Installs the Omarchy Ruby development environment when `rails` is missing.
 - `lenovo/yarn.sh`: Installs Yarn.
 - `asus/man-pages-fr.sh`: Installs French man pages.
-- `asus/networking.sh`: Installs and configures NetworkManager with `wpa_supplicant`, disables conflicting services, and removes the `nm-applet` autostart desktop entry.
+- `asus/set-locale.sh`: Sets the system locale to `fr_CA.UTF-8`.
 
-Inactive package scripts:
-
-- `old/airplay.sh`: Installs AirPlay support for Pipewire and opens firewall ports for streaming.
+The Lenovo-only configuration scripts enable machine-specific services and hardware features: config backup, direct boot, fingerprint reader support, the Economist-to-Kindle timer, and the ThinkPad boot screen.
 
 ## Configuration scripts (`configs/`)
 
@@ -130,28 +127,24 @@ Configuration scripts are sourced in this order:
 Notes:
 
 - `configs/apply-configs.sh` also uses `source`, so config scripts run in the current shell.
-- `configs/new-install/` contains scripts used only by `NEW-INSTALL.sh`.
-- `configs/old/` contains inactive scripts that are not loaded automatically.
 
 Current config scripts:
 
 - `common/clone-git-projects.sh`: Clones predefined repositories into `~/Projects`, plus extra lenovo-only repositories when `INSTALL_TARGET=lenovo`.
-- `common/configure-hibernation.sh`: Writes systemd sleep and logind drop-ins for suspend-then-hibernate behavior.
+- `common/configure-auto-display-brightness.sh`: Configures automatic display brightness rules for battery and AC power.
+- `common/configure-auto-powerprofile.sh`: Configures automatic power-profile rules.
 - `common/configure-bluetooth-wake.sh`: Installs a Bluetooth wake udev rule, enables `CNVW` when present, and enables wake on the active Bluetooth controller path discovered from `hci0`.
 - `common/copy-sudoers-rules.sh`: Writes `/etc/sudoers.d/custom-sudoers-rules` with custom sudo timeout and tty ticket behavior.
 - `common/create-dropbox-symlinks.sh`: Replaces local folders if needed and symlinks `Documents`, `Pictures`, `Videos`, and `Cours` to Dropbox.
-- `common/disable-plocate.sh`: Masks `plocate-updatedb.timer` when it is active.
 - `common/install-plugins.sh`: Installs and enables the configured Omarchy plugins directly into Omarchy's live plugin directory from GitHub.
+- `common/install-typora-themes.sh`: Installs the Typora default themes.
 - `common/remove-default-apps.sh`: Removes selected default Omarchy web apps, drops `signal-desktop` and `alacritty`, and deletes `~/Projects/tries`.
-- `common/set-default-font.sh`: Sets the Omarchy font to `JetBrainsMonoNL Nerd Font` when needed.
+- `common/setup-uinput.sh`: Grants the `input` group access to the `uinput` device for Solaar.
 - `lenovo/enable-config-backup.sh`: Enables the `config-backup.timer` user service when it is not already active.
-- `lenovo/set-locale.sh`: Sets system locale to `en_CA.UTF-8`.
+- `lenovo/enable-direct-boot.sh`: Enables direct Omarchy boot on Lenovo systems.
+- `lenovo/enable-fingerprint-reader.sh`: Configures the fingerprint reader and its no-autosuspend rule.
+- `lenovo/enable-send-economist-to-kindle-timer.sh`: Enables the Economist-to-Kindle user timer.
+- `lenovo/thinkpad-boot-screen.sh`: Installs and selects the ThinkPad boot screen theme.
 - `asus/set-locale.sh`: Sets system locale to `fr_CA.UTF-8`.
 
-Fresh-install-only config scripts:
-
-- `new-install/install-yadm.sh`: Installs yadm, clones `git@github.com:pomartel/config-files.git`, resets work tree to repo state, applies alternates, and decrypts secrets.
-
-Inactive config scripts:
-
-- `old/set-power-rules.sh`: Writes `/etc/udev/rules.d/99-power-profile.rules`, sets display brightness rules, and enables `powerprofile-low-battery.timer`.
+The fresh-install flow in `NEW-INSTALL.sh` installs yadm, clones `git@github.com:pomartel/config-files.git`, resets the work tree, applies alternates, and decrypts secrets before running `INSTALL.sh`.
