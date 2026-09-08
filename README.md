@@ -81,7 +81,6 @@ Current package scripts:
 - `common/dropbox.sh`: Installs Dropbox through Omarchy helpers.
 - `common/espanso.sh`: Installs Espanso and starts its user service.
 - `common/fonts.sh`: Installs the Ubuntu font family.
-- `common/ghostty.sh`: Installs Ghostty through Omarchy helpers.
 - `common/gitlab-cli.sh`: Installs `glab`.
 - `common/hyprland-monitor-attached.sh`: Installs `hyprland-monitor-attached`.
 - `common/install-plugins.sh`: Installs and enables the configured Omarchy plugins.
