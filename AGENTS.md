@@ -49,3 +49,8 @@ points solely as a test because they modify the current machine.
 
 Favor simple, readable code. This is a personal project, so do not add
 complexity for unsupported machines or hypothetical edge cases.
+
+## Delivery
+
+Always commit and push completed changes, then provide a link to the GitHub
+commit page.
