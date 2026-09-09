@@ -22,4 +22,8 @@ ensure_omarchy_plugin "omarchy-todoist" "pomartel/omarchy-todoist"
 ensure_omarchy_plugin "qs-yadm" "pomartel/qs-yadm"
 ensure_omarchy_plugin "crmne.hyprmoncfg" "crmne/omarchy-hyprmoncfg"
 
+if [ "$INSTALL_TARGET" = "lenovo" ]; then
+  ensure_omarchy_plugin "jankeesvw.time-machine" "jankeesvw/omarchy-time-machine"
+fi
+
 unset -f ensure_omarchy_plugin
