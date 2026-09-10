@@ -21,6 +21,12 @@ ensure_omarchy_plugin "idle-power" "pomartel/idle-power"
 ensure_omarchy_plugin "omarchy-todoist" "pomartel/omarchy-todoist"
 ensure_omarchy_plugin "qs-yadm" "pomartel/qs-yadm"
 ensure_omarchy_plugin "crmne.hyprmoncfg" "crmne/omarchy-hyprmoncfg"
+ensure_omarchy_plugin "io.github.tyrichards.tray" "TyRichards/omarchy-tray"
+
+tray_install_script="$HOME/.config/omarchy/plugins/io.github.tyrichards.tray/install.sh"
+if [ -x "$tray_install_script" ]; then
+  "$tray_install_script"
+fi
 
 if [ "$INSTALL_TARGET" = "lenovo" ]; then
   ensure_omarchy_plugin "jankeesvw.time-machine" "jankeesvw/omarchy-time-machine"
