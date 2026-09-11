@@ -24,4 +24,4 @@ if [ "$INSTALL_TARGET" = "lenovo" ]; then
 fi
 
 clone_if_missing "git@github.com:pomartel/sudomarchy"
-clone_if_missing "git@git.dti.crosemont.quebec:pmartel/markdown-export.git" "markdown"
+clone_if_missing "git@git.dti.crosemont.quebec:pmartel/markdown-to-html.git" "markdown-to-html"
