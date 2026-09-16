@@ -1,2 +1,2 @@
 # Google Chrome browser
-omarchy-pkg-aur-add google-chrome
+omarchy-pkg-remove google-chrome
