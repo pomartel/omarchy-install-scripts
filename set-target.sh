@@ -1,7 +1,7 @@
-# If the computer name is lenovo-omarchy, set INSTALL_TARGET to lenovo. If set to asus-omarchy, set it to asus. Otherwise, exit with an error.
+# If the computer name is lenovo-omarchy, set INSTALL_TARGET to lenovo. If set to asus, set it to asus. Otherwise, exit with an error.
 if [ "$HOSTNAME" == "lenovo-omarchy" ]; then
   INSTALL_TARGET="lenovo"
-elif [ "$HOSTNAME" == "asus-omarchy" ]; then
+elif [ "$HOSTNAME" == "asus" ]; then
   INSTALL_TARGET="asus"
 else
   echo "ERROR: Unknown hostname '$HOSTNAME'. Cannot determine INSTALL_TARGET." >&2
