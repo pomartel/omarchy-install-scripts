@@ -1,5 +1,5 @@
-# If the computer name is lenovo-omarchy, set INSTALL_TARGET to lenovo. If set to asus, set it to asus. Otherwise, exit with an error.
-if [ "$HOSTNAME" == "lenovo-omarchy" ]; then
+# If the computer name is lenovo, set INSTALL_TARGET to lenovo. If set to asus, set it to asus. Otherwise, exit with an error.
+if [ "$HOSTNAME" == "lenovo" ]; then
   INSTALL_TARGET="lenovo"
 elif [ "$HOSTNAME" == "asus" ]; then
   INSTALL_TARGET="asus"

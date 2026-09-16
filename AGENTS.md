@@ -13,7 +13,7 @@ my Asus and Lenovo laptops.
 - `NEW-INSTALL.sh`: destructive fresh-machine bootstrap; it is intentionally
   exempt from the normal idempotence requirement
 
-`set-target.sh` maps the `lenovo-omarchy` and `asus` hostnames to their
+`set-target.sh` maps the `lenovo` and `asus` hostnames to their
 corresponding target directories.
 
 ## Script conventions
