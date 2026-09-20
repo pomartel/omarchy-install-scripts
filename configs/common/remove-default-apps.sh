@@ -13,13 +13,10 @@ for webapp in \
   "WhatsApp" \
   "X" \
   "YouTube" \
-  "Zoom"
-do
+  "Zoom"; do
   if [[ -e "$HOME/.local/share/applications/$webapp.desktop" ]]; then
     omarchy-webapp-remove "$webapp" >/dev/null
   fi
 done
 
 omarchy-pkg-drop chromium
-
-rm -rf ~/Projects/tries
