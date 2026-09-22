@@ -18,17 +18,19 @@ already running need restarting. Locking 1Password does not revoke the loaded
 token. Normal `op` commands then use the service account without further
 personal-account prompts.
 
-The common installer installs the helper in `~/bin`, the systemd user service,
-and the post-boot hook on both laptops. It does not start the service during
-installation. Both laptops must have the 1Password desktop app's CLI integration
-and autostart enabled, with access to the referenced item in Private.
+The helper at `~/bin/agents-session-unlock`, the systemd user service, and the
+post-boot hook are tracked directly by yadm in
+[config-files](https://github.com/pomartel/config-files). Sync them with
+`yadm pull`; no installation script is needed. They take effect at the next
+desktop login. Both laptops must have the 1Password desktop app's CLI
+integration and autostart enabled, with access to the referenced item in Private.
 
 If authorization is cancelled, times out, or the token is rotated, retry with
 `systemctl --user restart agents-session-token.service`. Start applications
 that need credentials after that command succeeds. Stopping the service clears
 the token from the systemd manager; running applications retain their copy until
 closed. Old plaintext `OP_SERVICE_ACCOUNT_TOKEN` assignments in UWSM files must
-be removed separately; the installer does not edit existing secret files.
+be removed separately; yadm does not manage secret values.
 
 For an application that needs individual credentials:
 
