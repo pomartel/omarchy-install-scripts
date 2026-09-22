@@ -1,0 +1,76 @@
+#!/bin/bash
+# Keep credential values out of shell traces, including bash -x invocations.
+set +x
+set -euo pipefail
+
+fail() {
+  printf '%s\n' "$*" >&2
+  exit 1
+}
+
+usage() {
+  cat <<'EOF'
+Usage:
+  op-service setup 'op://Vault/Service account item/field'
+  op-service check
+  op-service run -- COMMAND [ARGUMENT ...]
+
+Setup copies a token from 1Password into this laptop's login keyring.
+Use the token field's "Copy Secret Reference" action in 1Password.
+Run exposes the token only to COMMAND and its children.
+EOF
+}
+
+case ${1:-} in
+-h | --help | '')
+  usage
+  exit 0
+  ;;
+setup) [[ $# == 2 && $2 == op://* ]] || {
+  usage >&2
+  exit 2
+} ;;
+check) [[ $# == 1 ]] || {
+  usage >&2
+  exit 2
+} ;;
+run) [[ $# -ge 3 && $2 == -- ]] || {
+  usage >&2
+  exit 2
+} ;;
+*)
+  usage >&2
+  exit 2
+  ;;
+esac
+
+command -v secret-tool >/dev/null || fail 'Install libsecret to use the login keyring.'
+[[ -x /usr/bin/op ]] || fail 'Install 1Password CLI first.'
+unset OP_CONNECT_HOST OP_CONNECT_TOKEN OP_ACCOUNT OP_SERVICE_ACCOUNT_TOKEN
+
+if [[ $1 == setup ]]; then
+  # Authenticate through the personal account to bootstrap service-account access.
+  token=$(/usr/bin/op read "$2" 2>/dev/null) ||
+    fail 'Could not read the token. Unlock 1Password, enable CLI integration, and check the secret reference.'
+  [[ -n $token ]] || fail 'The selected field is empty.'
+  OP_SERVICE_ACCOUNT_TOKEN=$token /usr/bin/op user get --me >/dev/null 2>&1 ||
+    fail '1Password could not authenticate this token; the keyring was not changed.'
+  printf '%s' "$token" | secret-tool store --label='1Password service account' service op-service-account ||
+    fail 'Could not save the token. Check that your login keyring is available and unlocked.'
+  unset token
+  printf 'Service account saved in this laptop\047s login keyring.\n'
+  exit 0
+fi
+
+OP_SERVICE_ACCOUNT_TOKEN=$(secret-tool lookup service op-service-account) ||
+  fail 'No accessible token. Unlock your login keyring or run op-service setup first.'
+[[ -n $OP_SERVICE_ACCOUNT_TOKEN ]] || fail 'The stored token is empty. Run op-service setup again.'
+export OP_SERVICE_ACCOUNT_TOKEN
+
+if [[ $1 == check ]]; then
+  /usr/bin/op user get --me >/dev/null 2>&1 || fail 'Service-account authentication failed.'
+  printf 'Service-account authentication succeeded.\n'
+else
+  shift 2
+  exec "$@"
+fi
