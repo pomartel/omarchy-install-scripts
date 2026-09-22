@@ -4,39 +4,25 @@ This repository automates my machine setup for Omarchy environments.
 
 ## 1Password service accounts
 
-`configs/common/install-op-service.sh` installs `~/bin/op-service` on both
-laptops. It requires 1Password CLI (`op`), `secret-tool` (libsecret), and an
-unlocked desktop login keyring. The launcher code syncs through Git; tokens do
-not. The login keyring is accessible to applications running as your user, so
-use a service account limited to the vaults and permissions you need.
+UWSM automatically sources the local `~/.config/uwsm/env.d/secrets` file at
+login, without a custom loader. This file must have permissions `600`
+and contain an exported `OP_SERVICE_ACCOUNT_TOKEN`. Keep the real token out of
+Git, Dropbox, shell history, and command output. It is stored as plaintext on
+disk and made available to applications in the desktop session.
 
-Save the service-account token in your personal 1Password vault. On each laptop,
-copy the token field's **secret reference** (not its value), then run:
+The token authenticates 1Password CLI against the service account's permitted
+vaults, including `Agents`, without personal-account approval prompts. Save a
+backup of the token in your Private 1Password vault. Provision the secrets file
+separately on Lenovo and Asus; the installer does not sync credentials.
 
-```bash
-op-service setup 'op://Private/Service account — Lenovo/credential'
-op-service check
-```
-
-Replace the example reference with the copied reference for that laptop.
-Setup uses your personal 1Password login (enable CLI integration in the desktop
-app) to copy the token directly into the local keyring without printing it.
-It validates the token before replacing an existing keyring entry. Repeat setup
-after rotating the token. An unavailable keyring stops the command; there is no
-fallback to personal 1Password access.
-
-Launch a coding agent, script, or application with:
+Log out and back in after changing secrets so applications inherit the updated
+environment. Existing processes keep their previous environment. No custom
+wrapper is required. For an application that needs individual credentials:
 
 ```bash
-op-service run -- your-agent-command
-op-service run -- ./your-script.sh
-op-service run -- op run --env-file=.env.op -- your-app-command
+op run --env-file=.env.op -- your-app-command
 ```
 
-For the final example, `.env.op` holds references such as
-`API_KEY=op://Agents/My API/credential`, not secret values. The launched
-process and its children receive `OP_SERVICE_ACCOUNT_TOKEN`; existing apps and
-desktop launcher shortcuts do not. Fully quit an existing app before launching
-it this way. This provides 1Password authentication, not automatic integration
-with every application's credential settings. Avoid commands that print their
-environment or secrets when running inside an agent session.
+`.env.op` holds references such as `API_KEY=op://Agents/My API/credential`,
+not secret values. Avoid printing the environment or secret values in agent
+sessions.
