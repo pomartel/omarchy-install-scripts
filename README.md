@@ -21,8 +21,9 @@ personal-account prompts.
 The helper at `~/bin/agents-session-unlock`, the systemd user service, and the
 post-boot hook are tracked directly by yadm in
 [config-files](https://github.com/pomartel/config-files). Sync them with
-`yadm pull`; no installation script is needed. They take effect at the next
-desktop login. Both laptops must have the 1Password desktop app's CLI
+`yadm pull`. The common install script reloads systemd's user units and starts
+the service if it is inactive; it does not copy the yadm-managed files. The
+post-boot hook starts it at subsequent desktop logins. Both laptops must have the 1Password desktop app's CLI
 integration and autostart enabled, with access to the referenced item in Private.
 
 If authorization is cancelled, times out, or the token is rotated, retry with
