@@ -4,20 +4,33 @@ This repository automates my machine setup for Omarchy environments.
 
 ## 1Password service accounts
 
-UWSM automatically sources the local `~/.config/uwsm/env.d/secrets` file at
-login, without a custom loader. This file must have permissions `600`
-and contain an exported `OP_SERVICE_ACCOUNT_TOKEN`. Keep the real token out of
-Git, Dropbox, shell history, and command output. It is stored as plaintext on
-disk and made available to applications in the desktop session.
+At desktop login, an Omarchy post-boot hook starts
+`agents-session-token.service`. It waits for the 1Password desktop app to start,
+then fetches `op://Private/Service Account Auth Token for Agents/credential`
+through desktop CLI integration. Approve that read when prompted. If the app is
+locked, you may also need to unlock it.
 
-The token authenticates 1Password CLI against the service account's permitted
-vaults, including `Agents`, without personal-account approval prompts. Save a
-backup of the token in your Private 1Password vault. Provision the secrets file
-separately on Lenovo and Asus; the installer does not sync credentials.
+The service validates access to `Agents`, then uses `uwsm finalize` to publish
+`OP_SERVICE_ACCOUNT_TOKEN` to the desktop session and register it for cleanup
+at logout. No plaintext token file or keyring copy is created. The token is
+available in the session environment to newly launched applications; apps
+already running need restarting. Locking 1Password does not revoke the loaded
+token. Normal `op` commands then use the service account without further
+personal-account prompts.
 
-Log out and back in after changing secrets so applications inherit the updated
-environment. Existing processes keep their previous environment. No custom
-wrapper is required. For an application that needs individual credentials:
+The common installer installs the helper in `~/bin`, the systemd user service,
+and the post-boot hook on both laptops. It does not start the service during
+installation. Both laptops must have the 1Password desktop app's CLI integration
+and autostart enabled, with access to the referenced item in Private.
+
+If authorization is cancelled, times out, or the token is rotated, retry with
+`systemctl --user restart agents-session-token.service`. Start applications
+that need credentials after that command succeeds. Stopping the service clears
+the token from the systemd manager; running applications retain their copy until
+closed. Old plaintext `OP_SERVICE_ACCOUNT_TOKEN` assignments in UWSM files must
+be removed separately; the installer does not edit existing secret files.
+
+For an application that needs individual credentials:
 
 ```bash
 op run --env-file=.env.op -- your-app-command
