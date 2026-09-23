@@ -23,7 +23,6 @@ ensure_omarchy_plugin "crmne.hyprmoncfg" "crmne/omarchy-hyprmoncfg"
 
 if [ "$INSTALL_TARGET" = "lenovo" ]; then
   ensure_omarchy_plugin "jankeesvw.time-machine" "jankeesvw/omarchy-time-machine"
-  ensure_omarchy_plugin "io.github.ayandexyz.glance" "ayandexyz/omarchy-glance"
 fi
 
 unset -f ensure_omarchy_plugin
