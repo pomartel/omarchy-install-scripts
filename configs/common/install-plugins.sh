@@ -19,6 +19,7 @@ ensure_omarchy_plugin() {
 ensure_omarchy_plugin "intemporel" "pomartel/intemporel"
 ensure_omarchy_plugin "omarchy-todoist" "pomartel/omarchy-todoist"
 ensure_omarchy_plugin "qs-yadm" "pomartel/qs-yadm"
+ensure_omarchy_plugin "crmne.active-window" "crmne/omarchy-active-window"
 ensure_omarchy_plugin "crmne.hyprmoncfg" "crmne/omarchy-hyprmoncfg"
 
 if [ "$INSTALL_TARGET" = "lenovo" ]; then
