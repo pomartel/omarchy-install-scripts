@@ -33,6 +33,10 @@ and simple Bash style.
 Use Omarchy commands for package and service installation whenever an
 appropriate command exists.
 
+Before adding a file or file-writing step, check whether the target file is
+already tracked by YADM. Do not recreate, overwrite, or duplicate files that
+YADM manages; let YADM remain the source of truth for those configurations.
+
 Except for `NEW-INSTALL.sh`, scripts must be safe to run repeatedly. Avoid
 printing success messages when an individual operation makes no change.
 Warnings, errors, actions that actually changed state, and the top-level
