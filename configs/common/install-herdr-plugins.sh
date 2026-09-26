@@ -11,7 +11,9 @@ ensure_herdr_plugin() {
   local plugins
   plugins=$(herdr plugin list --json) || return
 
-  if jq -e --arg id "$plugin_id" 'any(.result.plugins[]; .plugin_id == $id)' <<<"$plugins" >/dev/null; then
+  if jq -e --arg id "$plugin_id" --arg repo "$repository" \
+    'any(.result.plugins[]; .plugin_id == $id and
+      ((.source.owner + "/" + .source.repo) == $repo))' <<<"$plugins" >/dev/null; then
     if ! jq -e --arg id "$plugin_id" \
       'any(.result.plugins[]; .plugin_id == $id and .enabled)' <<<"$plugins" >/dev/null; then
       herdr plugin enable "$plugin_id"
@@ -21,7 +23,7 @@ ensure_herdr_plugin() {
   fi
 }
 
-ensure_herdr_plugin "attention.jump" "milkyskies/herdr-attention"
+ensure_herdr_plugin "attention.jump" "pomartel/herdr-attention"
 ensure_herdr_plugin "herdr.auto-title" "kryptamine/herdr-auto-title"
 
 unset -f ensure_herdr_plugin
