@@ -1,2 +1,2 @@
-# Default file manager; desktop preferences are synced through YADM.
-omarchy pkg aur add flea-bin
+# Install Flea and make it the default file manager and file chooser.
+omarchy pkg aur add flea-bin && flea --default
