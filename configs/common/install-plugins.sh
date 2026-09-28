@@ -22,6 +22,7 @@ ensure_omarchy_plugin "qs-yadm" "pomartel/qs-yadm"
 ensure_omarchy_plugin "crmne.active-window" "crmne/omarchy-active-window"
 ensure_omarchy_plugin "crmne.hyprmoncfg" "crmne/omarchy-hyprmoncfg"
 ensure_omarchy_plugin "io.github.mtolhuys.fathom" "mtolhuys/fathom"
+ensure_omarchy_plugin "io.github.tyrichards.tray" "TyRichards/omarchy-tray"
 
 if [ "$INSTALL_TARGET" = "lenovo" ]; then
   ensure_omarchy_plugin "jankeesvw.time-machine" "jankeesvw/omarchy-time-machine"
