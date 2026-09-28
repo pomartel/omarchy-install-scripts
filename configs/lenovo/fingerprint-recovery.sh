@@ -18,7 +18,7 @@ apply_lenovo_fingerprint_recovery() (
     ;;
   esac
 
-  local assets source_dir target_dir plugin_id stage config_source lock_state changed=0
+  local assets source_dir target_dir plugin_id stage config_source lock_state plugins changed=0
   assets="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/fingerprint-recovery"
   source_dir="${OMARCHY_PATH:-/usr/share/omarchy}/shell/plugins/lock"
   plugin_id="$(id -un).lock"
@@ -94,31 +94,48 @@ apply_lenovo_fingerprint_recovery() (
   done
   ((check_only)) && return 0
 
-  lock_state=$(omarchy-shell lock status)
+  lock_state=$(OMARCHY_SHELL_IPC_TIMEOUT=10s omarchy-shell lock status)
   jq -e '.secure == false and .requested == false' <<<"$lock_state" >/dev/null || {
     echo "Unlock the desktop before changing the lock plugin." >&2
     return 1
   }
-  # Get authorization before clone/enable modifies the user configuration.
-  sudo -v
+  # Install privileged files before changing the lock selection. Use the
+  # graphical agent when no interactive terminal is available.
+  if [[ ! -e $hook || ! -e $timeout_file ]]; then
+    local -a elevate=(sudo)
+    [[ -t 0 ]] || elevate=(pkexec)
+    # The privileged shell expands these variables from its positional arguments.
+    # shellcheck disable=SC2016
+    "${elevate[@]}" /usr/bin/bash -euo pipefail -c '
+      assets=$1; hook=$2; timeout_file=$3
+      for destination in "$hook" "$timeout_file"; do
+        if [[ -e $destination ]] && ! cmp -s "$assets/${destination##*/}" "$destination"; then
+          echo "Preserving existing $destination; it changed during installation." >&2
+          exit 1
+        fi
+      done
+      if [[ ! -e $hook ]]; then
+        install -Dm755 -o root -g root "$assets/fprintd-resume" "$hook"
+        echo "Installed fingerprint recovery after resume."
+      fi
+      if [[ ! -e $timeout_file ]]; then
+        install -Dm644 -o root -g root "$assets/10-stop-timeout.conf" "$timeout_file"
+        systemctl daemon-reload
+        echo "Bound fingerprint daemon stop time to three seconds."
+      fi
+    ' bash "$assets" "$hook" "$timeout_file"
+  fi
   if [[ ! -e $target_dir ]]; then
     omarchy plugin clone omarchy.lock
     cp -a "$stage/plugin/." "$target_dir/"
     changed=1
-  fi
-  if ! omarchy plugin list --json | jq -e --arg id "$plugin_id" \
-    'any(.[]; .id == $id and .enabled)' >/dev/null; then
-    omarchy plugin enable "$plugin_id"
-    changed=1
-  fi
-  if [[ ! -e $hook ]]; then
-    sudo install -Dm755 -o root -g root "$assets/fprintd-resume" "$hook"
-    echo "Installed fingerprint recovery after resume."
-  fi
-  if [[ ! -e $timeout_file ]]; then
-    sudo install -Dm644 -o root -g root "$assets/10-stop-timeout.conf" "$timeout_file"
-    sudo systemctl daemon-reload
-    echo "Bound fingerprint daemon stop time to three seconds."
+  else
+    plugins=$(OMARCHY_SHELL_IPC_TIMEOUT=10s omarchy plugin list --json)
+    if ! jq -e --arg id "$plugin_id" \
+      'any(.[]; .id == $id and .enabled)' <<<"$plugins" >/dev/null; then
+      omarchy plugin enable "$plugin_id"
+      changed=1
+    fi
   fi
   if ((changed)); then
     omarchy restart shell

@@ -15,6 +15,9 @@ The script also runs through the normal Lenovo configuration runner. Both the
 actual hostname and `INSTALL_TARGET` must identify Lenovo. On Asus it does nothing.
 `--check` stages the patch in a temporary directory and checks prerequisites;
 it does not install files, request sudo, or restart the shell.
+Installation uses sudo in an interactive terminal and a graphical polkit
+authentication prompt when launched without one. A repeat run with both system
+files already installed does not request administrator authentication.
 
 Pull the matching `config-files` change and run `yadm alt` first. YADM now owns
 separate `shell.json##hostname.lenovo` and `shell.json##hostname.asus` files.
