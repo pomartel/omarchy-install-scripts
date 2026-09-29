@@ -18,13 +18,13 @@ ensure_omarchy_plugin() {
 
 ensure_omarchy_plugin "intemporel" "pomartel/intemporel"
 ensure_omarchy_plugin "pomartel.omatasks" "pomartel/omatasks"
-# Retain the old checkouts, but show only the French fork after migration.
-for todoist_legacy_id in omarchy-todoist crmne.todoist; do
-  if omarchy plugin list --json | jq -e --arg id "$todoist_legacy_id" 'any(.[]; .id == $id and .enabled)' >/dev/null; then
-    omarchy plugin disable "$todoist_legacy_id"
-  fi
-done
-unset todoist_legacy_id
+# Remove the retired plugin; keep upstream OmaTasks installed but off the bar.
+if omarchy plugin list --json | jq -e 'any(.[]; .id == "omarchy-todoist")' >/dev/null; then
+  omarchy plugin remove "omarchy-todoist" --yes
+fi
+if omarchy plugin list --json | jq -e 'any(.[]; .id == "crmne.todoist" and .enabled)' >/dev/null; then
+  omarchy plugin disable "crmne.todoist"
+fi
 ensure_omarchy_plugin "qs-yadm" "pomartel/qs-yadm"
 ensure_omarchy_plugin "crmne.active-window" "crmne/omarchy-active-window"
 ensure_omarchy_plugin "crmne.hyprmoncfg" "crmne/omarchy-hyprmoncfg"
