@@ -16,7 +16,7 @@ ensure_omarchy_plugin() {
   fi
 }
 
-ensure_omarchy_plugin "intemporel" "pomartel/intemporel"
+ensure_omarchy_plugin "pomartel.omacal" "pomartel/omacal"
 ensure_omarchy_plugin "pomartel.omatasks" "pomartel/omatasks"
 # Remove the retired plugin; keep upstream OmaTasks installed but off the bar.
 if omarchy plugin list --json | jq -e 'any(.[]; .id == "omarchy-todoist")' >/dev/null; then
