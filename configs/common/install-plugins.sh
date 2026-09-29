@@ -26,7 +26,7 @@ ensure_omarchy_plugin "io.github.tyrichards.tray" "TyRichards/omarchy-tray"
 
 if [ "$INSTALL_TARGET" = "lenovo" ]; then
   ensure_omarchy_plugin "jankeesvw.time-machine" "jankeesvw/omarchy-time-machine"
-  ensure_omarchy_plugin "io.github.alexanderpuschkinberlin.keyboard-backlight" "alexanderpuschkinberlin/omarchy-keyboard-backlight"
+  ensure_omarchy_plugin "keyboard-backlight" "pomartel/keyboard-backlight"
 fi
 
 unset -f ensure_omarchy_plugin
