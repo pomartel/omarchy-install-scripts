@@ -1,5 +1,13 @@
 configure_gws_calendar() {
+  local gws_config_dir="${GOOGLE_WORKSPACE_CLI_CONFIG_DIR:-$HOME/.config/gws}"
   local auth_status
+
+  # Existing credentials are enough for installation; gws refreshes tokens
+  # when used. Diagnose or reconnect an existing account manually if needed.
+  if [[ -s "$gws_config_dir/credentials.enc" || -s "$gws_config_dir/credentials.json" ]]; then
+    return
+  fi
+
   # Keep auth warnings/errors visible, but omit the routine backend announcement.
   auth_status=$(gws auth status 2> >(sed '/^Using keyring backend: /d' >&2)) || return
 

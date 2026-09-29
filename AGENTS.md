@@ -42,6 +42,12 @@ printing success messages when an individual operation makes no change.
 Warnings, errors, actions that actually changed state, and the top-level
 completion summary may be printed.
 
+Runs with nothing new to install or configure must be fast as well as quiet.
+Use cheap local checks to skip completed work before invoking slower commands.
+Do not perform routine authentication checks, network requests, or other
+expensive validation for already installed and configured software; reserve
+those checks for initial setup, necessary changes, or explicit troubleshooting.
+
 Do not add destructive behavior or broaden existing deletion/reset operations
 without explicit instruction.
 
