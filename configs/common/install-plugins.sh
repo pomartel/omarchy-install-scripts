@@ -2,14 +2,22 @@ ensure_omarchy_plugin() {
   local plugin_id="$1"
   local repository="$2"
   local plugin_url="https://github.com/$repository.git"
-  local plugins
+  local plugins shell_config
 
   plugins=$(omarchy plugin list --json) || return
 
   if jq -e --arg id "$plugin_id" 'any(.[]; .id == $id)' <<<"$plugins" >/dev/null; then
     if ! jq -e --arg id "$plugin_id" \
       'any(.[]; .id == $id and .enabled)' <<<"$plugins" >/dev/null; then
-      omarchy plugin enable "$plugin_id"
+      # Tray widgets can be loaded via plugins[] without sitting directly on
+      # the bar, so plugin list reports them as disabled even when configured.
+      shell_config=$(omarchy-shell shell listShellConfig) || return
+      if ! jq -e --arg id "$plugin_id" '
+        any(.plugins[]?; .id == $id)
+        and ((.disabledPlugins // []) | index($id) == null)
+      ' <<<"$shell_config" >/dev/null; then
+        omarchy plugin enable "$plugin_id"
+      fi
     fi
   else
     omarchy plugin add "$plugin_url" --enable --yes

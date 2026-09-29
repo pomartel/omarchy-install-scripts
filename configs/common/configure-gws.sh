@@ -1,6 +1,7 @@
 configure_gws_calendar() {
   local auth_status
-  auth_status=$(gws auth status) || return
+  # Keep auth warnings/errors visible, but omit the routine backend announcement.
+  auth_status=$(gws auth status 2> >(sed '/^Using keyring backend: /d' >&2)) || return
 
   # An expired access token can be refreshed without another browser login.
   if jq -e '.has_refresh_token == true and .encryption_valid == true
