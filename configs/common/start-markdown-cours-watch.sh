@@ -5,3 +5,4 @@ if ! systemctl --user is-active --quiet "$service"; then
   systemctl --user enable --now "$service"
   echo "Started $service"
 fi
+unset service

@@ -1,6 +1,7 @@
 #!/bin/bash
-#
-if [[ ! -f "$HOME/.config/Typora/themes/github.css" ]]; then
+install_typora_themes() (
+  set -euo pipefail
+  [[ ! -f "$HOME/.config/Typora/themes/github.css" ]] || return 0
   tmp="$(mktemp -d)"
   trap 'rm -rf "$tmp"' EXIT
 
@@ -10,4 +11,7 @@ if [[ ! -f "$HOME/.config/Typora/themes/github.css" ]]; then
   cp -a "$tmp/themes/." "$HOME/.config/Typora/themes/"
 
   echo "Typora themes installed successfully."
-fi
+)
+
+install_typora_themes
+unset -f install_typora_themes

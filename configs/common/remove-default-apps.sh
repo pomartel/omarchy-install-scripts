@@ -19,4 +19,7 @@ for webapp in \
   fi
 done
 
-omarchy-pkg-drop chromium
+if pacman -Q chromium >/dev/null 2>&1; then
+  omarchy-pkg-drop chromium
+fi
+unset webapp

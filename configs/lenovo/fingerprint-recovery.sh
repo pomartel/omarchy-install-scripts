@@ -18,7 +18,7 @@ apply_lenovo_fingerprint_recovery() (
     ;;
   esac
 
-  local assets source_dir target_dir plugin_id stage config_source lock_state plugins changed=0
+  local assets source_dir target_dir plugin_id stage config_source lock_state plugins tracked_plugin changed=0
   assets="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/fingerprint-recovery"
   source_dir="${OMARCHY_PATH:-/usr/share/omarchy}/shell/plugins/lock"
   plugin_id="$(id -un).lock"
@@ -41,7 +41,8 @@ apply_lenovo_fingerprint_recovery() (
     echo "Pull config-files and run 'yadm alt' first: Lenovo needs its own shell.json alternate." >&2
     return 1
   }
-  if [[ -n $(yadm ls-files -- ".config/omarchy/plugins/$plugin_id") ]]; then
+  tracked_plugin=$(yadm -C "$HOME" ls-files -- ".config/omarchy/plugins/$plugin_id") || return
+  if [[ -n $tracked_plugin ]]; then
     echo "YADM already manages $plugin_id; refusing to overwrite it." >&2
     return 1
   fi
@@ -94,6 +95,14 @@ apply_lenovo_fingerprint_recovery() (
   done
   ((check_only)) && return 0
 
+  if [[ -e $target_dir ]]; then
+    plugins=$(OMARCHY_SHELL_IPC_TIMEOUT=10s omarchy plugin list --json)
+    if [[ -e $hook && -e $timeout_file ]] && jq -e --arg id "$plugin_id" \
+      'any(.[]; .id == $id and .enabled)' <<<"$plugins" >/dev/null; then
+      return 0
+    fi
+  fi
+
   lock_state=$(OMARCHY_SHELL_IPC_TIMEOUT=10s omarchy-shell lock status)
   jq -e '.secure == false and .requested == false' <<<"$lock_state" >/dev/null || {
     echo "Unlock the desktop before changing the lock plugin." >&2
@@ -130,7 +139,6 @@ apply_lenovo_fingerprint_recovery() (
     cp -a "$stage/plugin/." "$target_dir/"
     changed=1
   else
-    plugins=$(OMARCHY_SHELL_IPC_TIMEOUT=10s omarchy plugin list --json)
     if ! jq -e --arg id "$plugin_id" \
       'any(.[]; .id == $id and .enabled)' <<<"$plugins" >/dev/null; then
       omarchy plugin enable "$plugin_id"

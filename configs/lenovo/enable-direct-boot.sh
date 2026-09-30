@@ -1,5 +1,6 @@
-existing_entry=$(efibootmgr | grep -E "^Boot[0-9A-Fa-f]+\*? Omarchy([[:space:]]|$)" | head -1)
+boot_entries=$(efibootmgr)
 
-if [[ -z $existing_entry ]]; then
-  omarchy-config-direct-boot
+if ! grep -E '^Boot[0-9A-Fa-f]+\*? Omarchy([[:space:]]|$)' <<<"$boot_entries" >/dev/null; then
+  omarchy setup direct-boot
 fi
+unset boot_entries

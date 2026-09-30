@@ -2,7 +2,8 @@
 # Helpers are called by the sourced fragments below.
 # shellcheck disable=SC1090,SC2329
 
-set -euo pipefail
+set -Eeuo pipefail
+trap 'printf "Package setup failed at %s:%s\n" "${BASH_SOURCE[0]}" "$LINENO" >&2' ERR
 
 shopt -s nullglob
 
