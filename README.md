@@ -9,12 +9,8 @@ destructive bootstrap for a fresh machine.
 
 Repeated runs skip installed packages, configured plugins, existing Google
 credentials, matching configuration files, and downloaded Voxtype models.
-iCloud Photos uses its local installation on ordinary runs. To check for and
-install an upstream iCloud Photos update, run:
-
-```bash
-UPDATE_ICLOUD_PHOTOS=1 ./INSTALL.sh
-```
+iCloud Photos checks GitHub on every run and updates when the upstream revision
+changes. This check is intentionally uncached and needs no environment variable.
 
 To validate scripts without applying them, run:
 

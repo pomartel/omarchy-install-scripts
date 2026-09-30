@@ -47,6 +47,8 @@ Use cheap local checks to skip completed work before invoking slower commands.
 Do not perform routine authentication checks, network requests, or other
 expensive validation for already installed and configured software; reserve
 those checks for initial setup, necessary changes, or explicit troubleshooting.
+Exception: iCloud Photos must check GitHub for updates on every run, without an
+opt-in environment variable or an update-check cache.
 
 Do not add destructive behavior or broaden existing deletion/reset operations
 without explicit instruction.

@@ -1,4 +1,4 @@
-# Install locally; check upstream only when an update is explicitly requested.
+# Check upstream on every run and update the local installation when needed.
 (
   set -euo pipefail
 
@@ -8,11 +8,6 @@
   installed_revision="$cache/installed-revision"
 
   omarchy pkg add git rsync quickshell imagemagick ffmpeg jq wl-clipboard
-
-  if [[ ${UPDATE_ICLOUD_PHOTOS:-0} != 1 && -s "$installed_revision" &&
-    -x "$HOME/.local/bin/omarchy-icloud-photos" && -x "$application/.venv/bin/python" ]]; then
-    exit 0
-  fi
 
   latest=$(git ls-remote --exit-code "$upstream" HEAD | cut -f 1)
 

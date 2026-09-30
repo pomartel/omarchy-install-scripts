@@ -103,7 +103,7 @@ setup() {
   [ -e "$TEST_WORK/parent-trap" ]
 }
 
-@test "existing iCloud installation needs no network or installer call" {
+@test "failed iCloud upstream check preserves the installed revision" {
   mkdir -p "$HOME/.cache/omarchy-icloud-photos" "$HOME/.local/bin" \
     "$HOME/.local/share/omarchy-icloud-photos/.venv/bin"
   printf revision >"$HOME/.cache/omarchy-icloud-photos/installed-revision"
@@ -112,14 +112,14 @@ setup() {
   chmod +x "$HOME/.local/bin/omarchy-icloud-photos" \
     "$HOME/.local/share/omarchy-icloud-photos/.venv/bin/python"
   run bash -euo pipefail -c '
-    unset XDG_DATA_HOME XDG_CACHE_HOME UPDATE_ICLOUD_PHOTOS
+    unset XDG_DATA_HOME XDG_CACHE_HOME
     omarchy() { [[ "$*" == "pkg add git rsync quickshell imagemagick ffmpeg jq wl-clipboard" ]]; }
-    git() { touch "$TEST_WORK/unexpected"; return 99; }
+    git() { [[ $1 == ls-remote ]]; return 44; }
     source "$INSTALL_REPO/packages/common/omarchy-icloud-photos.sh"
   '
-  [ "$status" -eq 0 ]
+  [ "$status" -eq 44 ]
   [ -z "$output" ]
-  [ ! -e "$TEST_WORK/unexpected" ]
+  [ "$(cat "$HOME/.cache/omarchy-icloud-photos/installed-revision")" = revision ]
 }
 
 @test "failed PostgreSQL query does not attempt to create a role" {
@@ -137,7 +137,7 @@ setup() {
   [ ! -e "$TEST_WORK/unexpected" ]
 }
 
-@test "explicit iCloud update checks upstream and skips an unchanged revision" {
+@test "ordinary iCloud runs always check upstream and skip an unchanged revision" {
   mkdir -p "$HOME/.cache/omarchy-icloud-photos" "$HOME/.local/bin" \
     "$HOME/.local/share/omarchy-icloud-photos/.venv/bin"
   printf revision >"$HOME/.cache/omarchy-icloud-photos/installed-revision"
@@ -147,7 +147,6 @@ setup() {
     "$HOME/.local/share/omarchy-icloud-photos/.venv/bin/python"
   run bash -euo pipefail -c '
     unset XDG_DATA_HOME XDG_CACHE_HOME
-    UPDATE_ICLOUD_PHOTOS=1
     omarchy() { :; }
     git() {
       [[ $1 == ls-remote ]]
@@ -155,7 +154,8 @@ setup() {
       printf "revision\tHEAD\n"
     }
     source "$INSTALL_REPO/packages/common/omarchy-icloud-photos.sh"
-    [[ $(wc -l <"$TEST_WORK/checks") == 1 ]]
+    source "$INSTALL_REPO/packages/common/omarchy-icloud-photos.sh"
+    [[ $(wc -l <"$TEST_WORK/checks") == 2 ]]
   '
   [ "$status" -eq 0 ]
   [ -z "$output" ]
