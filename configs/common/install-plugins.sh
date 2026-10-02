@@ -43,7 +43,12 @@ install_omarchy_plugins() {
     shell_config=$(omarchy-shell shell listShellConfig) || return
   fi
   ensure_omarchy_plugin "qs-yadm" "pomartel/qs-yadm"
-  ensure_omarchy_plugin "crmne.active-window" "crmne/omarchy-active-window"
+  ensure_omarchy_plugin "tornikegomareli.spaces" "tornikegomareli/omarchy-spaces"
+  if jq -e 'any(.[]; .id == "crmne.active-window")' <<<"$plugins" >/dev/null; then
+    omarchy plugin remove "crmne.active-window" --yes || return
+    plugins=$(omarchy plugin list --json) || return
+    shell_config=$(omarchy-shell shell listShellConfig) || return
+  fi
   ensure_omarchy_plugin "crmne.hyprmoncfg" "crmne/omarchy-hyprmoncfg"
   ensure_omarchy_plugin "io.github.tyrichards.tray" "TyRichards/omarchy-tray"
 
