@@ -50,7 +50,12 @@ install_omarchy_plugins() {
     shell_config=$(omarchy-shell shell listShellConfig) || return
   fi
   ensure_omarchy_plugin "crmne.hyprmoncfg" "crmne/omarchy-hyprmoncfg"
-  ensure_omarchy_plugin "io.github.tyrichards.tray" "TyRichards/omarchy-tray"
+  # po.tray replaces this tray; enabling both duplicates the status icons.
+  if jq -e 'any(.[]; .id == "io.github.tyrichards.tray" and .enabled)' <<<"$plugins" >/dev/null; then
+    omarchy plugin disable "io.github.tyrichards.tray" || return
+    plugins=$(omarchy plugin list --json) || return
+    shell_config=$(omarchy-shell shell listShellConfig) || return
+  fi
 
   if [ "$INSTALL_TARGET" = "lenovo" ]; then
     ensure_omarchy_plugin "jankeesvw.time-machine" "jankeesvw/omarchy-time-machine"
