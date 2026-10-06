@@ -2,7 +2,16 @@
 
 Pinned from [Omarchy PR #7158](https://github.com/omacom/omarchy/pull/7158),
 commit `e77ed414f28382b8efd2e2633795c73ec36c089e`.
-The PR remains unmerged. This is a local workaround, not an Omarchy release.
+The PR was merged into `quattro` on October 4, 2026, as
+[`879d6583`](https://github.com/omacom/omarchy/commit/879d6583dacea9a6fe421319fe463d6cae73831b).
+This installer still carries an older, pinned version of the fix. The merged
+version also handles readers that prompt and then immediately fail, and improves
+enrollment detection and installation/removal of the recovery files.
+
+As checked on October 6, 2026, Lenovo's installed `omarchy 4.0.4-1` does not yet
+contain the upstream lock changes or recovery-file sources, and `po.lock` is
+still selected. Keep this workaround until the installed Omarchy includes the
+merged fix; the merge alone does not update the laptop.
 
 From `~/Install`, while the desktop is unlocked:
 
@@ -52,8 +61,28 @@ customizations without importing unrelated upstream changes.
 A repeat run is silent when nothing changes. A changed stock lock plugin,
 hand-edited clone, conflicting resume workaround, or incompatible patch causes
 the installer to stop before replacing existing files. Rebase and review this
-patch after an incompatible Omarchy update; do not force it or overwrite the
-clone. A clone does not automatically inherit later stock lock-screen updates.
+patch after an incompatible Omarchy update only if the upstream fix is still
+absent; do not force it or overwrite the clone. Once the merged fix is installed,
+retire this workaround instead of rebasing it. A clone does not automatically
+inherit later stock lock-screen updates.
+
+## Retire after the upstream update
+
+Confirm that the installed stock lock includes `FingerprintModel.js` and the
+merged fingerprint recovery logic, and that Omarchy's fingerprint migration has
+installed the resume hook and three-second stop timeout listed above. Check the
+installed files rather than relying on the package version alone.
+
+Before the next `INSTALL.sh` run, remove or disable
+`configs/lenovo/fingerprint-recovery.sh` so it cannot reapply the old patch.
+While unlocked, run `omarchy plugin enable omarchy.lock`, then
+`omarchy restart shell`. Review and commit the Lenovo-only selection change with
+YADM. Keep `po.lock` as a backup until the physical checks below pass.
+
+Keep the resume hook and stop-timeout drop-in: the merged Omarchy fix uses these
+same paths and manages their lifecycle. Do not delete them when retiring the
+local plugin. Verify fingerprint and password unlock after short and long
+suspends before removing the backup.
 
 ## Verify on the laptop
 
@@ -65,6 +94,10 @@ produce a continuous 250 ms retry loop. Reader-specific recovery still requires
 these physical tests; patch checks alone cannot establish it.
 
 ## Roll back
+
+These instructions undo the temporary fix **before** the upstream recovery is
+installed. After the upstream update, use the retirement procedure above and
+retain Omarchy's recovery files.
 
 While unlocked, run `omarchy plugin enable omarchy.lock`, then
 `omarchy restart shell`. Review that Lenovo-only configuration change with YADM.
