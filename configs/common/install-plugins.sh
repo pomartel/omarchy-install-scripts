@@ -31,24 +31,8 @@ install_omarchy_plugins() {
 
   ensure_omarchy_plugin "pomartel.omacal" "pomartel/omacal"
   ensure_omarchy_plugin "pomartel.omatasks" "pomartel/omatasks"
-  # Remove the retired plugin; keep upstream OmaTasks installed but off the bar.
-  if jq -e 'any(.[]; .id == "omarchy-todoist")' <<<"$plugins" >/dev/null; then
-    omarchy plugin remove "omarchy-todoist" --yes || return
-    plugins=$(omarchy plugin list --json) || return
-    shell_config=$(omarchy-shell shell listShellConfig) || return
-  fi
-  if jq -e 'any(.[]; .id == "crmne.todoist" and .enabled)' <<<"$plugins" >/dev/null; then
-    omarchy plugin disable "crmne.todoist" || return
-    plugins=$(omarchy plugin list --json) || return
-    shell_config=$(omarchy-shell shell listShellConfig) || return
-  fi
   ensure_omarchy_plugin "qs-yadm" "pomartel/qs-yadm"
   ensure_omarchy_plugin "tornikegomareli.spaces" "tornikegomareli/omarchy-spaces"
-  if jq -e 'any(.[]; .id == "crmne.active-window")' <<<"$plugins" >/dev/null; then
-    omarchy plugin remove "crmne.active-window" --yes || return
-    plugins=$(omarchy plugin list --json) || return
-    shell_config=$(omarchy-shell shell listShellConfig) || return
-  fi
   ensure_omarchy_plugin "crmne.hyprmoncfg" "crmne/omarchy-hyprmoncfg"
   ensure_omarchy_plugin "io.github.tyrichards.tray" "TyRichards/omarchy-tray"
 
