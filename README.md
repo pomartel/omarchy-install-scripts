@@ -9,8 +9,6 @@ destructive bootstrap for a fresh machine.
 
 Repeated runs skip installed packages, configured plugins, existing Google
 credentials, matching configuration files, and downloaded Voxtype models.
-iCloud Photos checks GitHub on every run and updates when the upstream revision
-changes. This check is intentionally uncached and needs no environment variable.
 
 To validate scripts without applying them, run:
 
