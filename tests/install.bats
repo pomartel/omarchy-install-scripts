@@ -33,12 +33,15 @@ setup() {
 
 @test "project cloning derives optional names and skips existing directories" {
   run bash -euo pipefail -c '
-    git() { [[ $1 == clone ]]; mkdir -p "$3"; echo "$3" >>"$TEST_WORK/clones"; }
+    git() { [[ $1 == clone && -d $(dirname "$3") ]]; mkdir "$3"; echo "$3" >>"$TEST_WORK/clones"; }
     INSTALL_TARGET=lenovo
     source "$INSTALL_REPO/configs/common/clone-git-projects.sh"
     source "$INSTALL_REPO/configs/common/clone-git-projects.sh"
-    [[ -d "$HOME/Projects/poll-app" && -d "$HOME/Projects/poll-app.com" ]]
-    [[ $(wc -l <"$TEST_WORK/clones") == 5 ]]
+    [[ -d "$HOME/Projects/poll/poll-app" && -d "$HOME/Projects/poll/poll-app.com" ]]
+    [[ -d "$HOME/Projects/poll/coderubik.com" && -d "$HOME/Projects/poll/url-to-pdf-api" ]]
+    [[ -d "$HOME/Projects/Progression/sf1" && -d "$HOME/Projects/icloud-reminders-keyboard-shortcuts" ]]
+    [[ -d "$HOME/Projects/TP-Cours/SF1/java-structures-séquentielles" ]]
+    [[ $(wc -l <"$TEST_WORK/clones") == 13 ]]
     ! declare -F clone_if_missing
   '
   [ "$status" -eq 0 ]
