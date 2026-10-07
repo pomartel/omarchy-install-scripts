@@ -1,2 +1,2 @@
 # Utilities for working with shell scripts
-omarchy-pkg-aur-add shellcheck shfmt bats bats-assert bats-support
+omarchy-pkg-aur-add shellcheck shfmt

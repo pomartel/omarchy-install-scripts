@@ -55,6 +55,9 @@ without explicit instruction.
 
 ## Validation
 
+Automated tests are not necessary for this personal installation repository.
+Do not add, maintain, or run a test suite unless explicitly requested.
+
 After changing shell scripts, run `bash -n` on the affected files and use
 `shellcheck` and `shfmt` when practical. Do not run the installation entry
 points solely as a test because they modify the current machine.

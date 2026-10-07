@@ -18,7 +18,6 @@ To validate scripts without applying them, run:
 bash -n path/to/changed-script.sh
 shellcheck -s bash path/to/changed-script.sh
 shfmt -d path/to/changed-script.sh
-bats tests/install.bats
 ```
 
 Lenovo's fingerprint resume and retry workaround is documented in
