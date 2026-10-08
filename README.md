@@ -20,3 +20,13 @@ shfmt -d path/to/changed-script.sh
 
 Lenovo's fingerprint resume and retry workaround is documented in
 [configs/lenovo/fingerprint-recovery/README.md](configs/lenovo/fingerprint-recovery/README.md).
+
+OmaMarp is installed on both laptops by `packages/common/omamarp.sh`, after the
+common Node.js setup. It installs the Qt/build dependencies and builds a pinned
+revision from the private GitHub repository using the existing SSH access.
+The build checkout lives in `$XDG_CACHE_HOME/omamarp/source` (default
+`~/.cache/omamarp/source`), separate from `~/Projects/OmaMarp`. Application files
+use `$XDG_DATA_HOME` (default `~/.local/share`). Matching installed revisions are
+skipped without a network request. To distribute an OmaMarp update, change the
+`revision` in this script. YADM continues to manage shortcuts and file associations;
+the installer does not overwrite the editor configuration.
