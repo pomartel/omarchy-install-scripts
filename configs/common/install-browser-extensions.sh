@@ -8,15 +8,10 @@ install_browser_extensions() {
       mkdir -p "$HOME/.local/share"
       git clone "git@github.com:pomartel/$extension.git" "$path"
       printf '\nPour activer %s dans Brave :\n' "$extension"
-      case "$extension" in
-      browser-tab-focus)
+      if [[ "$extension" == browser-tab-focus ]]; then
         printf '  Préparer le relais en exécutant : "%s/browser_tab_focus.py" --install\n' "$path"
         path="$path/extension"
-        ;;
-      icloud-reminders-keyboard-shortcuts)
-        printf "  Désactiver l’ancien userscript Tampermonkey, si présent.\n"
-        ;;
-      esac
+      fi
       printf '  1. Ouvrir brave://extensions dans le profil Brave souhaité.\n'
       printf '  2. Activer « Mode développeur ».\n'
       printf "  3. Cliquer sur « Charger l’extension non empaquetée ».\n"
