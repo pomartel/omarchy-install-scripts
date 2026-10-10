@@ -23,3 +23,8 @@ if pacman -Q chromium >/dev/null 2>&1; then
   omarchy-pkg-drop chromium
 fi
 unset webapp
+
+# Retired in favor of WhatsApp Web, on both laptops.
+if pacman -Q zapfast-bin >/dev/null 2>&1; then
+  omarchy-pkg-drop zapfast-bin
+fi
