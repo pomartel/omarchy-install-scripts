@@ -52,8 +52,8 @@ needs listening verification on this laptop.
 
 The Music/Balanced tuning loads with PipeWire and attaches only to the internal
 speakers; USB, HDMI and Bluetooth outputs bypass it. Installation briefly restarts
-audio. Repeat runs verify the generated configuration and impulse response locally
-and skip completed setup. No EasyEffects application or Omarchy tuning wrapper is
+audio. Repeat runs skip setup when the configuration, impulse response and packages
+are already present. No EasyEffects application or Omarchy tuning wrapper is
 installed. Generated files stay local to each machine and must not be added to
 YADM. The installer refuses to overwrite YADM-managed tuning files or stack with
 an active EasyEffects/Omarchy speaker tuning.
@@ -67,6 +67,4 @@ python ~/.local/share/speaker-tuning/source/dolby_to_pipewire.py --doctor
 To undo, remove only `Speaker_lenovo_Music_Balanced.conf` and its matching `.irs`
 (or `Speaker_asus_Music_Balanced.conf` and `.irs`) from
 `~/.config/pipewire/pipewire.conf.d/`, then run
-`systemctl --user restart pipewire pipewire-pulse`. Remove the corresponding
-`~/.local/state/speaker-tuning/lenovo.sha256` or `asus.sha256` marker too. Running
-`INSTALL.sh` again will reinstall the tuning.
+`systemctl --user restart pipewire pipewire-pulse`. Running `INSTALL.sh` again will reinstall the tuning.
