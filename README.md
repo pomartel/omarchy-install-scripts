@@ -33,14 +33,13 @@ fetch stops the installation rather than silently using an older commit. YADM
 continues to manage shortcuts and file associations;
 the installer does not overwrite the editor configuration.
 
-Internal speaker tuning is installed by `configs/lenovo/speaker-tuning.sh` and
-`configs/asus/speaker-tuning.sh`, using the shared
-`scripts/install-speaker-tuning.sh`. These also run through `./INSTALL.sh`.
-To install only the speaker tuning, run from this repository:
+Internal speaker tuning is installed by `configs/common/speaker-tuning.sh`,
+using `INSTALL_TARGET` to select the Lenovo or Asus tuning. It runs through
+`./INSTALL.sh`. To install only the speaker tuning, run from this repository:
 
 ```bash
-bash scripts/install-speaker-tuning.sh lenovo # ThinkPad X1 Carbon Gen 13
-bash scripts/install-speaker-tuning.sh asus   # Zenbook S 14 UX5406SA
+source ./set-target.sh
+source ./configs/common/speaker-tuning.sh
 ```
 
 The converter is pinned to v2026.10. Lenovo's checksum-verified driver is fetched
