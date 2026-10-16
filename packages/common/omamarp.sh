@@ -28,7 +28,9 @@ install_omamarp() (
   git -C "$source_dir" checkout --detach "$revision"
   "$source_dir/bin/install"
   printf '%s\n' "$revision" > "$app_dir/installed-revision"
+  printf 'OmaMarp installé ou mis à jour (%s).\n' "${revision:0:7}" >&3
 )
 
-install_omamarp >/dev/null 2>&1
+# Preserve the terminal output for the completion message only.
+install_omamarp 3>&1 >/dev/null 2>&1
 unset -f install_omamarp
