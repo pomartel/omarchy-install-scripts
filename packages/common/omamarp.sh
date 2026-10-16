@@ -30,5 +30,5 @@ install_omamarp() (
   printf '%s\n' "$revision" > "$app_dir/installed-revision"
 )
 
-install_omamarp
+install_omamarp >/dev/null 2>&1
 unset -f install_omamarp
