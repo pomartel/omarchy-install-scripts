@@ -15,4 +15,5 @@ missing, including during a fresh installation away from home.
 2026-10-16. Its old supplies-page IP address was removed and its manufacturer
 and inch labels normalized for PPD validation. It allows offline creation
 without querying the printer; printing still requires access to the home network.
-Existing queues retain their driver and print preferences.
+Existing queues are left unchanged. The passwordless resume rule is installed
+from `sudoers` after validation.
