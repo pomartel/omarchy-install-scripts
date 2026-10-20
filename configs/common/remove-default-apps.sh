@@ -5,6 +5,7 @@
 for webapp in \
   "Basecamp" \
   "Discord" \
+  "Google" \
   "Google Contacts" \
   "Google Maps" \
   "Google Messages" \
