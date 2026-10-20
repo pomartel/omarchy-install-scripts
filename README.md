@@ -18,9 +18,6 @@ shellcheck -s bash path/to/changed-script.sh
 shfmt -d path/to/changed-script.sh
 ```
 
-Lenovo's fingerprint resume and retry workaround is documented in
-[configs/lenovo/fingerprint-recovery/README.md](configs/lenovo/fingerprint-recovery/README.md).
-
 OmaMarp is installed on both laptops by `packages/common/omamarp.sh`, after the
 common Node.js setup. It installs the Qt/build dependencies and builds the latest
 commit on the private GitHub repository’s default branch (currently `master`),
