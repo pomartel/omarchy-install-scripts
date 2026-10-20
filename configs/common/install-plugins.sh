@@ -34,7 +34,6 @@ install_omarchy_plugins() {
   ensure_omarchy_plugin "qs-yadm" "pomartel/qs-yadm"
   ensure_omarchy_plugin "tornikegomareli.spaces" "tornikegomareli/omarchy-spaces"
   ensure_omarchy_plugin "crmne.hyprmoncfg" "crmne/omarchy-hyprmoncfg"
-  ensure_omarchy_plugin "io.github.tyrichards.tray" "TyRichards/omarchy-tray"
 
   if [ "$INSTALL_TARGET" = "lenovo" ]; then
     ensure_omarchy_plugin "jankeesvw.time-machine" "jankeesvw/omarchy-time-machine"
