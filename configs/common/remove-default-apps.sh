@@ -11,6 +11,7 @@ for webapp in \
   "Google Messages" \
   "Google Photos" \
   "HEY" \
+  "Tailscale" \
   "WhatsApp" \
   "X" \
   "YouTube" \
