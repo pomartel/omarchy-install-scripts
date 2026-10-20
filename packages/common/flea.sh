@@ -1,5 +1,4 @@
-# Install Flea and make it the default file manager and file chooser.
+# YADM manages the default file manager and file chooser preferences.
 if omarchy-pkg-missing flea-bin; then
   omarchy pkg aur add flea-bin
-  flea --default
 fi

@@ -1,31 +1,16 @@
 install_omarchy_plugins() {
-  local plugins shell_config
+  local plugins
   plugins=$(omarchy plugin list --json) || return
-  shell_config=$(omarchy-shell shell listShellConfig) || return
 
   ensure_omarchy_plugin() {
     local plugin_id="$1"
     local repository="$2"
     local plugin_url="https://github.com/$repository.git"
 
-    if jq -e --arg id "$plugin_id" 'any(.[]; .id == $id)' <<<"$plugins" >/dev/null; then
-      if ! jq -e --arg id "$plugin_id" \
-        'any(.[]; .id == $id and .enabled)' <<<"$plugins" >/dev/null; then
-        # Tray widgets can be loaded via plugins[] without sitting directly on
-        # the bar, so plugin list reports them as disabled even when configured.
-        if ! jq -e --arg id "$plugin_id" '
-        any(.plugins[]?; .id == $id)
-        and ((.disabledPlugins // []) | index($id) == null)
-      ' <<<"$shell_config" >/dev/null; then
-          omarchy plugin enable "$plugin_id" || return
-          plugins=$(omarchy plugin list --json) || return
-          shell_config=$(omarchy-shell shell listShellConfig) || return
-        fi
-      fi
-    else
-      omarchy plugin add "$plugin_url" --enable --yes || return
+    # YADM manages plugin activation and placement in each host's shell.json.
+    if ! jq -e --arg id "$plugin_id" 'any(.[]; .id == $id)' <<< "$plugins" > /dev/null; then
+      omarchy plugin add "$plugin_url" --yes || return
       plugins=$(omarchy plugin list --json) || return
-      shell_config=$(omarchy-shell shell listShellConfig) || return
     fi
   }
 
