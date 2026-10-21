@@ -1,3 +1,5 @@
+# Configure Google Workspace (GWS) authentication for the Calendar plugin.
+
 auth_status=$(gws auth status) || return
 gws_auth_ready='.has_refresh_token == true and .encryption_valid == true
   and ((.scopes // []) | index("https://www.googleapis.com/auth/calendar") != null)'

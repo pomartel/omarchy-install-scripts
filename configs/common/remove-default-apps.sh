@@ -10,6 +10,7 @@ for webapp in \
   "Google Messages" \
   "Google Photos" \
   "HEY" \
+  "Tailscale" \
   "WhatsApp" \
   "X" \
   "YouTube" \
@@ -20,6 +21,3 @@ for webapp in \
 done
 
 omarchy-pkg-drop chromium
-
-# Retired in favor of WhatsApp Web, on both laptops.
-omarchy-pkg-drop zapfast-bin

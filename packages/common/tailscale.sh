@@ -1,5 +1,2 @@
-if omarchy-cmd-missing tailscale; then
-  omarchy-install-service-tailscale
-fi
-
+omarchy-install-service-tailscale
 tailscale set --ssh
