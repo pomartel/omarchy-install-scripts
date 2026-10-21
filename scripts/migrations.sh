@@ -37,6 +37,22 @@ install_validate_link() {
   fi
 }
 
+install_commit_migrations() {
+  local repo=$1 path
+  local -a tracked=()
+  for path in "${install_removed[@]}"; do
+    if git -C "$repo" ls-files --error-unmatch -- "$path" >/dev/null 2>&1; then
+      tracked+=("$path")
+    fi
+  done
+  ((${#tracked[@]} > 0)) || return 0
+
+  # Commit only this run's removed links, leaving unrelated staged changes alone.
+  git -C "$repo" commit --only \
+    -m "Record completed migrations on $HOSTNAME" -- "${tracked[@]}" || return
+  git -C "$repo" push || return
+}
+
 install_run() {
   local mode=$1 root=. script
   case $mode in
@@ -63,6 +79,7 @@ install_run() {
     if [[ $mode == --pending ]]; then
       install_completed=$((${install_completed:-0} + 1))
       rm -- "$script"
+      install_removed+=("$script")
     fi
   done
 }
