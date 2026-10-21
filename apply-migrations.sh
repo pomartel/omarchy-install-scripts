@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -Eeuo pipefail
+source ./scripts/migrations.sh || exit
 
 install_start_time=$(date +%s.%N)
 install_completed=0
@@ -19,9 +19,7 @@ install_summary() {
 }
 trap install_summary EXIT
 
-source ./scripts/migrations.sh
 install_validate_hostname
 install_validate_queue
 
-source ./packages/add-packages.sh --pending
-source ./configs/apply-configs.sh --pending
+install_run --pending

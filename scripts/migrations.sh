@@ -2,6 +2,10 @@
 # Sourced by the entry points and fragment runners.
 # shellcheck disable=SC1090,SC2034,SC2329
 
+set -Eeuo pipefail
+shopt -s nullglob
+trap 'printf "Setup failed at %s:%s\n" "${BASH_SOURCE[0]}" "$LINENO" >&2' ERR
+
 install_validate_hostname() {
   if [[ $HOSTNAME != lenovo && $HOSTNAME != asus ]]; then
     printf "ERROR: Unsupported hostname '%s'. Expected lenovo or asus.\n" "$HOSTNAME" >&2
@@ -43,19 +47,41 @@ install_validate_queue() {
 }
 
 install_run_fragments() {
-  local kind=$1 mode=$2 scope script
-  for scope in common "$HOSTNAME"; do
+  local kind=$1 mode=$2 root=. script
+  case $mode in
+  --pending) root=./migrations/$HOSTNAME ;;
+  --all) ;;
+  *)
+    printf 'Invalid execution mode: %s (expected --all or --pending).\n' "$mode" >&2
+    return 1
+    ;;
+  esac
+
+  local -a install_scripts=("$root/$kind/common/"*.sh "$root/$kind/$HOSTNAME/"*.sh)
+  ((${#install_scripts[@]} > 0)) || return 0
+
+  if [[ $kind == packages ]]; then
+    source ./scripts/packages.sh
+    refresh_install_packages
+  fi
+
+  for script in "${install_scripts[@]}"; do
     if [[ $mode == --pending ]]; then
-      for script in ./migrations/"$HOSTNAME"/"$kind"/"$scope"/*.sh; do
-        install_validate_link "$script"
-        source "$script"
-        install_completed=$((${install_completed:-0} + 1))
-        rm -- "$script"
-      done
-    else
-      for script in ./"$kind"/"$scope"/*.sh; do
-        source "$script"
-      done
+      install_validate_link "$script"
+    fi
+    source "$script"
+    if [[ $mode == --pending ]]; then
+      install_completed=$((${install_completed:-0} + 1))
+      rm -- "$script"
     fi
   done
+
+  if [[ $kind == packages ]]; then
+    unset -f refresh_install_packages omarchy-pkg-missing omarchy-pkg-add omarchy-pkg-aur-add omarchy
+  fi
+}
+
+install_run() {
+  install_run_fragments packages "$1"
+  install_run_fragments configs "$1"
 }

@@ -7,6 +7,10 @@ pending migrations. The queues start empty. An empty queue does no setup work.
 `bootstrap.sh` is the destructive bootstrap for a fresh machine: it runs all
 applicable package and configuration scripts and leaves migration queues unchanged.
 
+Both entry points use the shared runner in `scripts/migrations.sh`. To run just
+one group, `packages/add-packages.sh` and `configs/apply-configs.sh` remain
+available with `--all` (the default) or `--pending`.
+
 ## Queueing migrations
 
 Pass a script path and a mandatory target to `queue-migration.sh`:

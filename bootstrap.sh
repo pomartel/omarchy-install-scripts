@@ -1,8 +1,6 @@
 #!/bin/bash
 
-set -euo pipefail
-
-source ./scripts/migrations.sh
+source ./scripts/migrations.sh || exit
 install_validate_hostname
 
 omarchy-pkg-add yadm
@@ -18,5 +16,4 @@ yadm alt
 echo "Decrypting secret files"
 yadm decrypt
 
-./packages/add-packages.sh
-./configs/apply-configs.sh
+install_run --all

@@ -20,6 +20,11 @@ my Asus and Lenovo laptops.
 Use Bash's `HOSTNAME` directly to select laptop-specific scripts and queues.
 The shared helper in `scripts/migrations.sh` validates that it is `lenovo` or
 `asus`; entry points and fragment runners call it before doing setup work.
+This helper also owns strict Bash mode, error reporting, script selection, and
+execution. Both entry points call `install_run` with `--pending` or `--all`.
+Keep `packages/add-packages.sh` and `configs/apply-configs.sh` as thin wrappers
+for running one group. Package-cache helpers live in `scripts/packages.sh` and
+are loaded only when the selected package list is nonempty.
 
 Queue common fragments for either laptop or both; laptop-specific fragments may
 only target their matching laptop. Queue prerequisites explicitly. Duplicate
