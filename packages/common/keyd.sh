@@ -10,4 +10,5 @@ sudo install -m 644 "$HOME/.config/udev/rules.d/70-hypr-leader-led.rules" "/etc/
 sudo udevadm control --reload-rules
 sudo udevadm trigger --action=change --subsystem-match=input
 
-omarchy-pkg-add keyd
+sudo systemctl enable keyd
+sudo systemctl restart keyd

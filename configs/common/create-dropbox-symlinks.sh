@@ -5,10 +5,6 @@ link_dropbox_folder() {
   local target="${HOME}/${folder}"
   local source="${HOME}/Dropbox/${folder}"
 
-  if [[ -L "$target" && $(readlink "$target") == "$source" ]]; then
-    return
-  fi
-
   if [[ -e "${target}" && ! -L "${target}" ]]; then
     rm -rf "${target}"
   fi
