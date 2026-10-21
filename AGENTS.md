@@ -31,6 +31,14 @@ also support `--pending`.
 Commit and push queued links and successful removals through the normal Git
 workflow. Installation and queue commands must not perform Git operations.
 
+Whenever adding or modifying a package or configuration fragment, also run
+`./queue-migration.sh PATH TARGET` for that script. Use `common` for scripts in
+`packages/common/` or `configs/common/`, and the matching `lenovo` or `asus`
+target for laptop-specific scripts. If the user explicitly limits a common
+script's rollout to one laptop, use that laptop as the target instead. Include
+the migration links in the same commit as the script change; an identical
+already-pending link satisfies this requirement.
+
 ## Script conventions
 
 Run the entry-point scripts from the repository root.
