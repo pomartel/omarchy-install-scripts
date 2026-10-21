@@ -35,5 +35,3 @@ for printer in Maison Travail; do
   fi
   printf '%s: created the print queue.\n' "$printer"
 done
-
-unset printer printer_uri printer_location

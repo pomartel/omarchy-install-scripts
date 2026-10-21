@@ -24,5 +24,3 @@ if [ "$HOSTNAME" = "lenovo" ]; then
 fi
 
 unset -f ensure_omarchy_plugin
-
-unset plugins

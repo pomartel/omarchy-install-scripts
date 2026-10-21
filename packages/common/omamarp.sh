@@ -11,4 +11,3 @@ fi
 git -C "$omamarp_source" fetch origin HEAD
 git -C "$omamarp_source" checkout --detach FETCH_HEAD
 "$omamarp_source/bin/install"
-unset omamarp_source

@@ -15,4 +15,3 @@ if ! modinfo -k "$(uname -r)" v4l2loopback >/dev/null; then
   echo "ERROR: v4l2loopback was not built for kernel $(uname -r)." >&2
   exit 1
 fi
-unset droidcam_module droidcam_options

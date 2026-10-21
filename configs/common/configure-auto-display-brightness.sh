@@ -17,4 +17,3 @@ EOF
 
 printf '%s\n' "$brightness_rules" | sudo tee /etc/udev/rules.d/99-display-brightness.rules >/dev/null
 sudo udevadm control --reload-rules
-unset brightness_rules bat_brightness ac_brightness

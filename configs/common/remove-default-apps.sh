@@ -22,7 +22,6 @@ for webapp in \
 done
 
 omarchy-pkg-drop chromium
-unset webapp
 
 # Retired in favor of WhatsApp Web, on both laptops.
 omarchy-pkg-drop zapfast-bin

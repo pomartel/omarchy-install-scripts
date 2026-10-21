@@ -7,4 +7,3 @@ Defaults !tty_tickets'
 
 printf '%s\n' "$sudoers_rules" | sudo tee "$sudoers_file" >/dev/null
 sudo chmod 600 "$sudoers_file"
-unset sudoers_file sudoers_rules

@@ -22,4 +22,3 @@ if [[ $postgres_role != 1 ]]; then
   echo "Creating PostgreSQL superuser 'po'..."
   sudo -iu postgres createuser --superuser po
 fi
-unset postgres_data_state postgres_role

@@ -19,5 +19,3 @@ for extension in browser-tab-focus icloud-reminders-keyboard-shortcuts; do
     printf "  Répéter l’activation pour chaque profil Brave et conserver le dossier local.\n\n"
   fi
 done
-
-unset extension path

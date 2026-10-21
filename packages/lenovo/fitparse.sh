@@ -6,5 +6,3 @@ if [[ ! -x "$fitparse_venv/bin/python" ]]; then
 fi
 
 "$fitparse_venv/bin/python" -m pip install fitparse
-
-unset fitparse_venv
