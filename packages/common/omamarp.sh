@@ -1,9 +1,9 @@
 # Install the latest OmaMarp default-branch commit on both laptops.
-install_omamarp() (
-  local revision
-  local data_dir="${XDG_DATA_HOME:-$HOME/.local/share}"
-  local source_dir="${XDG_CACHE_HOME:-$HOME/.cache}/omamarp/source"
-  local app_dir="$data_dir/omamarp"
+(
+  # Preserve terminal output for the completion message only.
+  data_dir="${XDG_DATA_HOME:-$HOME/.local/share}"
+  source_dir="${XDG_CACHE_HOME:-$HOME/.cache}/omamarp/source"
+  app_dir="$data_dir/omamarp"
 
   omarchy-pkg-add base-devel git qt6-base qt6-declarative qt6-webengine qt6-svg desktop-file-utils hunspell
 
@@ -17,20 +17,16 @@ install_omamarp() (
   revision=$(git -C "$source_dir" rev-parse 'FETCH_HEAD^{commit}')
 
   if [[ -f "$app_dir/installed-revision" ]] &&
-    [[ $(< "$app_dir/installed-revision") == "$revision" ]] &&
+    [[ $(<"$app_dir/installed-revision") == "$revision" ]] &&
     [[ -x "$app_dir/bin/omamarp" ]] &&
     [[ -f "$app_dir/preview/render.mjs" ]] &&
     [[ -d "$app_dir/node_modules/@marp-team/marp-core" ]] &&
     [[ -f "$data_dir/applications/omamarp.desktop" ]]; then
-    return 0
+    exit 0
   fi
 
   git -C "$source_dir" checkout --detach "$revision"
   "$source_dir/bin/install"
-  printf '%s\n' "$revision" > "$app_dir/installed-revision"
+  printf '%s\n' "$revision" >"$app_dir/installed-revision"
   printf 'OmaMarp installé ou mis à jour (%s).\n' "${revision:0:7}" >&3
-)
-
-# Preserve the terminal output for the completion message only.
-install_omamarp 3>&1 >/dev/null 2>&1
-unset -f install_omamarp
+) 3>&1 >/dev/null 2>&1

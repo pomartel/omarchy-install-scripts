@@ -1,7 +1,6 @@
 #!/bin/bash
 
-install_browser_extensions() {
-  local extension path
+(
   for extension in browser-tab-focus icloud-reminders-keyboard-shortcuts; do
     path="$HOME/.local/share/$extension"
     if [[ ! -e "$path" && ! -L "$path" ]]; then
@@ -21,7 +20,4 @@ install_browser_extensions() {
       printf "  Répéter l’activation pour chaque profil Brave et conserver le dossier local.\n\n"
     fi
   done
-}
-
-install_browser_extensions
-unset -f install_browser_extensions
+)

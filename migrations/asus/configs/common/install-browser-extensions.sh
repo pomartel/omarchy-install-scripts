@@ -1,0 +1,1 @@
+../../../../configs/common/install-browser-extensions.sh

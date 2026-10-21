@@ -37,15 +37,6 @@ install_validate_link() {
   fi
 }
 
-install_validate_queue() {
-  local entry
-  [[ -d ./migrations/$HOSTNAME ]] || return 0
-  find "./migrations/$HOSTNAME" -mindepth 1 ! -type d -print0 |
-    while IFS= read -r -d '' entry; do
-      install_validate_link "$entry"
-    done
-}
-
 install_run_fragments() {
   local kind=$1 mode=$2 root=. script
   case $mode in

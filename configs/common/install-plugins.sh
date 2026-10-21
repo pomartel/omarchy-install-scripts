@@ -1,6 +1,5 @@
-install_omarchy_plugins() {
-  local plugins
-  plugins=$(omarchy-plugin-list --json) || return
+(
+  plugins=$(omarchy-plugin-list --json) || exit
 
   ensure_omarchy_plugin() {
     local plugin_id="$1"
@@ -8,7 +7,7 @@ install_omarchy_plugins() {
     local plugin_url="https://github.com/$repository.git"
 
     # YADM manages plugin activation and placement in each host's shell.json.
-    if ! jq -e --arg id "$plugin_id" 'any(.[]; .id == $id)' <<< "$plugins" > /dev/null; then
+    if ! jq -e --arg id "$plugin_id" 'any(.[]; .id == $id)' <<<"$plugins" >/dev/null; then
       omarchy-plugin-add "$plugin_url" --yes || return
       plugins=$(omarchy-plugin-list --json) || return
     fi
@@ -26,7 +25,4 @@ install_omarchy_plugins() {
   fi
 
   unset -f ensure_omarchy_plugin
-}
-
-install_omarchy_plugins
-unset -f install_omarchy_plugins
+)
