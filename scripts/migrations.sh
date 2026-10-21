@@ -1,5 +1,5 @@
 #!/bin/bash
-# Sourced by the entry points and fragment runners.
+# Sourced by the fresh-install and pending-migration entry points.
 # shellcheck disable=SC1090,SC2034,SC2329
 
 set -Eeuo pipefail
