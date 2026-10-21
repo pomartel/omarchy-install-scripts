@@ -53,8 +53,23 @@ install_commit_migrations() {
   git -C "$repo" push || return
 }
 
+install_report_migrations() {
+  local end=$1 index duration result
+  ((${#install_ran[@]} > 0)) || return 0
+
+  printf '\nMigrations run:\n'
+  for index in "${!install_ran[@]}"; do
+    duration=$(awk -v start="${install_run_starts[$index]}" \
+      -v end="${install_run_ends[$index]:-$end}" 'BEGIN { printf "%.2f", end - start }')
+    result=completed
+    [[ -n ${install_run_ends[$index]:-} ]] || result='not completed'
+    printf '  %ss  [%s] %s\n' "$duration" "$result" "${install_ran[$index]}"
+  done
+  printf '\n'
+}
+
 install_run() {
-  local mode=$1 root=. script
+  local mode=$1 root=. script index
   case $mode in
   --pending) root=./migrations/$HOSTNAME ;;
   --all) ;;
@@ -74,9 +89,13 @@ install_run() {
   for script in "${install_scripts[@]}"; do
     if [[ $mode == --pending ]]; then
       install_validate_link "$script"
+      index=${#install_ran[@]}
+      install_ran+=("${script#"$root/"}")
+      install_run_starts+=("$EPOCHREALTIME")
     fi
     source "$script"
     if [[ $mode == --pending ]]; then
+      install_run_ends[index]=$EPOCHREALTIME
       install_completed=$((${install_completed:-0} + 1))
       rm -- "$script"
       install_removed+=("$script")
