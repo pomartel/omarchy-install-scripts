@@ -5,11 +5,28 @@ link_dropbox_folder() {
   local target="${HOME}/${folder}"
   local source="${HOME}/Dropbox/${folder}"
 
-  if [[ -e "${target}" && ! -L "${target}" ]]; then
-    rm -rf "${target}"
+  if [[ ! -d "$source" ]]; then
+    printf 'Dropbox folder is not ready: %s. Wait for synchronization and retry.\n' "$source" >&2
+    return 1
   fi
 
-  ln -sfn "${source}" "${target}"
+  if [[ -L "$target" ]]; then
+    if [[ $(readlink -- "$target") == "$source" ]]; then
+      return 0
+    fi
+    printf 'Refusing to replace an existing symlink: %s\n' "$target" >&2
+    return 1
+  fi
+
+  if [[ -d "$target" ]]; then
+    # rmdir only removes empty directories; existing files must be preserved.
+    rmdir -- "$target" || return
+  elif [[ -e "$target" ]]; then
+    printf 'Refusing to replace an existing file: %s\n' "$target" >&2
+    return 1
+  fi
+
+  ln -sT -- "$source" "$target"
 }
 
 link_dropbox_folder "Documents"

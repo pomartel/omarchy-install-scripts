@@ -1,7 +1,7 @@
 [
   {
-    "label": "Run INSTALL.sh",
-    "command": "./INSTALL.sh",
+    "label": "Apply pending migrations",
+    "command": "./apply-migrations.sh",
     "use_new_terminal": false,
     "allow_concurrent_runs": false,
     "reveal": "always",

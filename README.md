@@ -16,6 +16,13 @@ Run from the repository root. Both entry points validate `$HOSTNAME` and use
 Execution order is common packages, laptop packages, common configs, then laptop
 configs, with lexical ordering within each group.
 
+Both entry points share a nonblocking repository lock. A concurrent run fails
+before changing anything, including before bootstrap resets YADM.
+
+Dropbox symlink setup requires each destination folder to exist. It only replaces
+empty local directories and refuses existing files, nonempty directories, or
+symlinks pointing elsewhere. Resolve those conflicts manually and rerun the script.
+
 ## Migrations
 
 Queue an existing script with an explicit target:

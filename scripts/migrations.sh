@@ -13,6 +13,23 @@ install_validate_hostname() {
   fi
 }
 
+install_acquire_lock() {
+  # Lock the directory itself, without creating a file for an empty queue.
+  exec {install_lock_fd}<.
+  if ! flock --nonblock "$install_lock_fd"; then
+    printf 'Another installation is already running in %s.\n' "$PWD" >&2
+    return 1
+  fi
+}
+
+install_release_lock() {
+  if [[ -n ${install_lock_fd:-} ]]; then
+    # Explicitly unlock even if a started background service inherited the FD.
+    flock --unlock "$install_lock_fd"
+    exec {install_lock_fd}<&-
+  fi
+}
+
 install_validate_link() {
   local link=$1 source_path scope filename destination
   source_path=${link#./migrations/"$HOSTNAME"/}
