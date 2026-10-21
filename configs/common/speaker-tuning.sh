@@ -9,11 +9,8 @@ esac
 
 source_dir="${XDG_DATA_HOME:-$HOME/.local/share}/speaker-tuning/source"
 output_dir="${XDG_CONFIG_HOME:-$HOME/.config}/pipewire/pipewire.conf.d"
-conf="$output_dir/Speaker_${HOSTNAME}_Music_Balanced.conf"
-irs="${conf%.conf}.irs"
-packages=(git curl python-numpy python-scipy innoextract lsp-plugins-lv2 calf lilv-tools)
 
-for file in "$conf" "$irs"; do
+for file in "$output_dir/Speaker_${HOSTNAME}_Music_Balanced."{conf,irs}; do
   if yadm -C "$HOME" ls-files --error-unmatch "${file#"$HOME/"}" >/dev/null 2>&1; then
     echo "YADM manages $file; refusing to overwrite it." >&2
     return 1
@@ -26,7 +23,7 @@ if pgrep -x easyeffects >/dev/null ||
   return 1
 fi
 
-omarchy-pkg-add "${packages[@]}"
+omarchy-pkg-add git curl python-numpy python-scipy innoextract lsp-plugins-lv2 calf lilv-tools
 if [[ ! -d $source_dir ]]; then
   mkdir -p "$(dirname "$source_dir")"
   git clone --quiet --depth 1 --branch v2026.10 \
@@ -42,12 +39,11 @@ if [[ $HOSTNAME == lenovo ]]; then
 else
   # Exact UX5406SA tuning shared in device report #29; music avoids its leveler issue.
   # https://github.com/antoinecellerier/speaker-tuning-to-easyeffects/issues/29#issuecomment-5439844469
-  xml="$source_dir/SOUNDWIRE_MAN_01FA_FUNC_3556_SUBSYS_1E131043.xml"
-  comment=$(curl -fsSL --retry 3 \
-    https://api.github.com/repos/antoinecellerier/speaker-tuning-to-easyeffects/issues/comments/5439844469)
   # Python's regex contains literal Markdown backticks.
   # shellcheck disable=SC2016
-  python -c '
+  curl -fsSL --retry 3 \
+    https://api.github.com/repos/antoinecellerier/speaker-tuning-to-easyeffects/issues/comments/5439844469 |
+    python -c '
 import hashlib
 import json
 from pathlib import Path
@@ -60,7 +56,7 @@ expected = "7ff50507eac3d0f67b4616477befab2e34c037850633b05b247c685d0d89417e"
 if hashlib.sha256(xml.encode()).hexdigest() != expected:
     sys.exit("The shared Asus tuning changed; inspect it before installing.")
 Path(sys.argv[1]).write_text(xml)
-' "$xml" <<<"$comment"
+' "$source_dir/SOUNDWIRE_MAN_01FA_FUNC_3556_SUBSYS_1E131043.xml"
   # Let the converter match the XML to the Asus audio hardware.
   tuning_args=(--windows "$source_dir" --disable bass-enhancer)
 fi
