@@ -58,8 +58,10 @@ first.
 
 Keep one concern per script and preserve the existing directory organization
 and simple Bash style.
-Do not define functions that are called only once. Inline that code; use a
-subshell when it needs isolated variables, early exits, traps, or redirections.
+Do not define functions that are called only once. Inline that code and unset
+temporary variables afterward. Do not wrap straight-line code in a subshell
+just to scope variables. Keep subshells where isolation is needed for early
+exits, directory changes, traps, or redirections.
 Keep functions for logic reused by multiple callers or repeated operations.
 
 Use Omarchy commands for package and service installation whenever an
