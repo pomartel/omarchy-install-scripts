@@ -62,6 +62,10 @@ Do not define functions that are called only once. Inline that code without
 variable cleanup or parenthesized subshell wrappers; the collision risk is low.
 Use `return` for early exits from sourced fragments. Restore the working directory
 after changing it, and do not replace the runner's traps.
+Return a nonzero status when required work remains incomplete, including missing
+authentication or unavailable prerequisites. Logging a warning is not enough:
+status zero causes the migration link to be removed. Return zero only when the
+script's work is complete or already satisfied.
 Keep functions for logic reused by multiple callers or repeated operations.
 
 Use Omarchy commands for package and service installation whenever an

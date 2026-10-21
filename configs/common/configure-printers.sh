@@ -2,6 +2,7 @@
 
 set -euo pipefail
 
+printers_incomplete=false
 for printer in Maison Travail; do
   if lpstat -p "$printer" >/dev/null 2>&1; then
     continue
@@ -20,7 +21,8 @@ for printer in Maison Travail; do
 
   if ! timeout 8s ipptool -q -T 5 "$printer_uri" \
     /usr/share/cups/ipptool/get-printer-attributes.test; then
-    printf '%s: printer unavailable; skipping queue creation.\n' "$printer" >&2
+    printf '%s: printer unavailable; queue creation remains pending.\n' "$printer" >&2
+    printers_incomplete=true
     continue
   fi
 
@@ -35,3 +37,7 @@ for printer in Maison Travail; do
   fi
   printf '%s: created the print queue.\n' "$printer"
 done
+
+if [[ $printers_incomplete == true ]]; then
+  return 1
+fi
