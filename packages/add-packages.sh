@@ -6,6 +6,26 @@ set -Eeuo pipefail
 trap 'printf "Package setup failed at %s:%s\n" "${BASH_SOURCE[0]}" "$LINENO" >&2' ERR
 
 shopt -s nullglob
+source ./scripts/migrations.sh
+
+case ${1:---all} in
+--pending)
+  install_pending_packages=(./migrations/"$INSTALL_TARGET"/packages/{common,"$INSTALL_TARGET"}/*.sh)
+  if ((${#install_pending_packages[@]} == 0)); then
+    unset install_pending_packages
+    if [[ ${BASH_SOURCE[0]} == "$0" ]]; then
+      exit 0
+    fi
+    return 0
+  fi
+  unset install_pending_packages
+  ;;
+--all) ;;
+*)
+  printf 'Usage: %s [--all|--pending]\n' "${BASH_SOURCE[0]}" >&2
+  exit 1
+  ;;
+esac
 
 # Read Pacman's database once on the no-change path. Refresh after installations
 # so later fragments see packages pulled in as dependencies as well.
@@ -57,13 +77,7 @@ omarchy() {
 
 refresh_install_packages
 
-for pkg_script in ./packages/common/*.sh; do
-  source "$pkg_script"
-done
-
-for pkg_script in ./packages/"$INSTALL_TARGET"/*.sh; do
-  source "$pkg_script"
-done
+install_run_fragments packages "${1:---all}"
 
 unset -f refresh_install_packages omarchy-pkg-missing omarchy-pkg-add omarchy-pkg-aur-add omarchy
 unset install_packages

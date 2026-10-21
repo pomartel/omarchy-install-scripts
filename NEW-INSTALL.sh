@@ -15,4 +15,6 @@ yadm alt
 echo "Decrypting secret files"
 yadm decrypt
 
-./INSTALL.sh
+source ./set-target.sh
+./packages/add-packages.sh
+./configs/apply-configs.sh

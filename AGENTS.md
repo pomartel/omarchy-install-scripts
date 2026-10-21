@@ -9,12 +9,27 @@ my Asus and Lenovo laptops.
 - `packages/asus/` and `packages/lenovo/`: machine-specific packages
 - `configs/common/`: configuration applied to both computers
 - `configs/asus/` and `configs/lenovo/`: machine-specific configuration
-- `INSTALL.sh`: repeatable package and configuration update
+- `INSTALL.sh`: runs only pending migrations for the current laptop
+- `queue-migration.sh PATH TARGET`: queues a fragment for the mandatory target
+  `lenovo`, `asus`, or `common` (both laptops)
+- `migrations/lenovo/` and `migrations/asus/`: relative symlink queues mirroring
+  source paths under packages/configs; successful links are removed individually
 - `NEW-INSTALL.sh`: destructive fresh-machine bootstrap; it is intentionally
   exempt from the normal idempotence requirement
 
 `set-target.sh` maps the `lenovo` and `asus` hostnames to their
 corresponding target directories.
+
+Queue common fragments for either laptop or both; laptop-specific fragments may
+only target their matching laptop. Queue prerequisites explicitly. Duplicate
+links are a no-op; conflicting, invalid, or broken entries must not be overwritten
+or silently removed. INSTALL stops at the first failure and always reports the
+successful-script count and elapsed time. NEW-INSTALL runs all applicable scripts
+without consuming migrations. The fragment runners default to full execution and
+also support `--pending`.
+
+Commit and push queued links and successful removals through the normal Git
+workflow. Installation and queue commands must not perform Git operations.
 
 ## Script conventions
 

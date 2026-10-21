@@ -2,13 +2,56 @@
 
 This repository automates my machine setup for Omarchy environments.
 
-Run `./INSTALL.sh` from this directory to apply common scripts followed by
-the current laptop's scripts. Both runners stop on errors; the completion
-summary appears only after all scripts succeed. `NEW-INSTALL.sh` is the
-destructive bootstrap for a fresh machine.
+Run `./INSTALL.sh` from this directory to apply only the current laptop's
+pending migrations. The queues start empty. An empty queue does no setup work.
+`NEW-INSTALL.sh` is the destructive bootstrap for a fresh machine: it runs all
+applicable package and configuration scripts and leaves migration queues unchanged.
 
-Repeated runs skip installed packages, configured plugins, existing Google
-credentials, matching configuration files, and downloaded Voxtype models.
+## Queueing migrations
+
+Pass a script path and a mandatory target to `queue-migration.sh`:
+
+```bash
+./queue-migration.sh packages/common/typora.sh common
+./queue-migration.sh configs/common/configure-printers.sh asus
+./queue-migration.sh configs/lenovo/enable-direct-boot.sh lenovo
+```
+
+Targets are `lenovo`, `asus`, or `common` (both laptops). Common scripts can
+target either laptop or both; laptop-specific scripts can only target their own
+laptop. Paths can be absolute or relative to the repository root and must identify
+an existing `.sh` fragment directly inside a supported packages/configs subfolder.
+
+Migrations are relative symlinks mirroring the source path, for example
+`migrations/asus/packages/common/typora.sh`. Targeting `common` creates separate
+links for Lenovo and Asus. Queueing an identical link again does nothing;
+conflicting entries are rejected. Links execute the current contents of their
+source script, not a historical snapshot.
+
+Commit and push new links to distribute the work. On each laptop, `INSTALL.sh`
+runs common packages, laptop packages, common configs, then laptop configs,
+using lexical filename order within each group. Queue prerequisites explicitly;
+they are not added automatically.
+
+Each successful script is counted and its link is removed immediately. The first
+failure stops installation and keeps the failed and unexecuted links for retry.
+Broken or invalid links are rejected and retained. Success means a zero exit status
+under strict Bash error handling; stderr output alone is not a failure. If removing
+a completed link fails, installation stops and reports the error.
+
+Both successful and failed runs report the successful-script count and elapsed
+time, including when zero scripts ran:
+
+```text
+3 scripts completed successfully in 12.4s.
+Installation failed: 2 scripts completed successfully in 8.1s.
+```
+
+Commit and push completed link removals before synchronizing further changes.
+Neither command performs Git operations automatically. To run a script again,
+queue it again after its previous link has been removed.
+
+## Validation
 
 To validate scripts without applying them, run:
 
@@ -18,6 +61,8 @@ shellcheck -s bash path/to/changed-script.sh
 shfmt -d path/to/changed-script.sh
 ```
 
+## Application notes
+
 OmaMarp is installed on both laptops by `packages/common/omamarp.sh`, after the
 common Node.js setup. It installs the Qt/build dependencies and builds the latest
 commit on the private GitHub repository’s default branch (currently `master`),
@@ -25,14 +70,16 @@ using the existing SSH access.
 The build checkout lives in `$XDG_CACHE_HOME/omamarp/source` (default
 `~/.cache/omamarp/source`), separate from `~/Projects/OmaMarp`. Application files
 use `$XDG_DATA_HOME` (default `~/.local/share`). Matching installed revisions are
-skipped after fetching the remote default branch. Each run checks GitHub; a failed
-fetch stops the installation rather than silently using an older commit. YADM
+skipped after fetching the remote default branch. Each execution of this script
+checks GitHub; a failed fetch stops the installation rather than silently using
+an older commit. YADM
 continues to manage shortcuts and file associations;
 the installer does not overwrite the editor configuration.
 
 Internal speaker tuning is installed by `configs/common/speaker-tuning.sh`,
-using `INSTALL_TARGET` to select the Lenovo or Asus tuning. It runs through
-`./INSTALL.sh`. To install only the speaker tuning, run from this repository:
+using `INSTALL_TARGET` to select the Lenovo or Asus tuning. Queue it for
+`./INSTALL.sh` when needed. To install only the speaker tuning directly, run
+from this repository:
 
 ```bash
 source ./set-target.sh
@@ -63,4 +110,5 @@ python ~/.local/share/speaker-tuning/source/dolby_to_pipewire.py --doctor
 To undo, remove only `Speaker_lenovo_Music_Balanced.conf` and its matching `.irs`
 (or `Speaker_asus_Music_Balanced.conf` and `.irs`) from
 `~/.config/pipewire/pipewire.conf.d/`, then run
-`systemctl --user restart pipewire pipewire-pulse`. Running `INSTALL.sh` again will reinstall the tuning.
+`systemctl --user restart pipewire pipewire-pulse`. To reinstall the tuning,
+queue `configs/common/speaker-tuning.sh` for the appropriate laptop and run `INSTALL.sh`.

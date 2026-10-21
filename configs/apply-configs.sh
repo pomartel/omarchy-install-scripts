@@ -5,11 +5,14 @@ set -Eeuo pipefail
 trap 'printf "Configuration failed at %s:%s\n" "${BASH_SOURCE[0]}" "$LINENO" >&2' ERR
 
 shopt -s nullglob
+source ./scripts/migrations.sh
 
-for config_script in ./configs/common/*.sh; do
-  source "$config_script"
-done
+case ${1:---all} in
+--all | --pending) ;;
+*)
+  printf 'Usage: %s [--all|--pending]\n' "${BASH_SOURCE[0]}" >&2
+  exit 1
+  ;;
+esac
 
-for config_script in ./configs/"$INSTALL_TARGET"/*.sh; do
-  source "$config_script"
-done
+install_run_fragments configs "${1:---all}"
