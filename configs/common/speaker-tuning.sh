@@ -3,8 +3,7 @@
 (
   set -euo pipefail
 
-  : "${INSTALL_TARGET:?Source set-target.sh first}"
-  case "$INSTALL_TARGET" in
+  case "$HOSTNAME" in
   lenovo) [[ $(</sys/class/dmi/id/product_family) == 'ThinkPad X1 Carbon Gen 13' ]] ;;
   asus) [[ $(</sys/class/dmi/id/product_name) == *UX5406SA* ]] ;;
   *) exit 1 ;;
@@ -12,7 +11,7 @@
 
   source_dir="${XDG_DATA_HOME:-$HOME/.local/share}/speaker-tuning/source"
   output_dir="${XDG_CONFIG_HOME:-$HOME/.config}/pipewire/pipewire.conf.d"
-  conf="$output_dir/Speaker_${INSTALL_TARGET}_Music_Balanced.conf"
+  conf="$output_dir/Speaker_${HOSTNAME}_Music_Balanced.conf"
   irs="${conf%.conf}.irs"
   packages=(git curl python-numpy python-scipy innoextract lsp-plugins-lv2 calf lilv-tools)
 
@@ -45,7 +44,7 @@
   [[ $(git rev-parse HEAD) == 9bc7eceea6ae6af4c05e4cea1ea8722ad9240e41 ]]
 
   tuning_args=()
-  if [[ $INSTALL_TARGET == lenovo ]]; then
+  if [[ $HOSTNAME == lenovo ]]; then
     python tools/fetch_driver/get_lenovo_dax_xml.py
   else
     # Exact UX5406SA tuning shared in device report #29; music avoids its leveler issue.
@@ -76,5 +75,5 @@ PY
 
   # The smart filter applies only to internal speakers, bypassing other outputs.
   python dolby_to_pipewire.py "${tuning_args[@]}" --profile music --variant balanced \
-    --prefix "Speaker-$INSTALL_TARGET" --output-dir "$output_dir" --force
+    --prefix "Speaker-$HOSTNAME" --output-dir "$output_dir" --force
 )

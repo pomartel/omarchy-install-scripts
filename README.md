@@ -77,12 +77,11 @@ continues to manage shortcuts and file associations;
 the installer does not overwrite the editor configuration.
 
 Internal speaker tuning is installed by `configs/common/speaker-tuning.sh`,
-using `INSTALL_TARGET` to select the Lenovo or Asus tuning. Queue it for
+using `HOSTNAME` to select the Lenovo or Asus tuning. Queue it for
 `./apply-migrations.sh` when needed. To install only the speaker tuning directly, run
 from this repository:
 
 ```bash
-source ./set-target.sh
 source ./configs/common/speaker-tuning.sh
 ```
 

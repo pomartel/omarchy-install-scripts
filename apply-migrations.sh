@@ -19,8 +19,8 @@ install_summary() {
 }
 trap install_summary EXIT
 
-source ./set-target.sh
 source ./scripts/migrations.sh
+install_validate_hostname
 install_validate_queue
 
 source ./packages/add-packages.sh --pending

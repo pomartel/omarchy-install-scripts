@@ -6,6 +6,7 @@ trap 'printf "Configuration failed at %s:%s\n" "${BASH_SOURCE[0]}" "$LINENO" >&2
 
 shopt -s nullglob
 source ./scripts/migrations.sh
+install_validate_hostname
 
 case ${1:---all} in
 --all | --pending) ;;

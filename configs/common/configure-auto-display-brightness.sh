@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ "$INSTALL_TARGET" = "asus" ]; then
+if [ "$HOSTNAME" = "asus" ]; then
   bat_brightness="50%"
   ac_brightness="100%"
 else

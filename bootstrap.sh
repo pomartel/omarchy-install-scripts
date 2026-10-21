@@ -2,6 +2,9 @@
 
 set -euo pipefail
 
+source ./scripts/migrations.sh
+install_validate_hostname
+
 omarchy-pkg-add yadm
 
 yadm clone -f "git@github.com:pomartel/config-files.git"
@@ -15,6 +18,5 @@ yadm alt
 echo "Decrypting secret files"
 yadm decrypt
 
-source ./set-target.sh
 ./packages/add-packages.sh
 ./configs/apply-configs.sh

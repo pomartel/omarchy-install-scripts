@@ -17,8 +17,9 @@ my Asus and Lenovo laptops.
 - `bootstrap.sh`: destructive fresh-machine bootstrap; it is intentionally
   exempt from the normal idempotence requirement
 
-`set-target.sh` maps the `lenovo` and `asus` hostnames to their
-corresponding target directories.
+Use Bash's `HOSTNAME` directly to select laptop-specific scripts and queues.
+The shared helper in `scripts/migrations.sh` validates that it is `lenovo` or
+`asus`; entry points and fragment runners call it before doing setup work.
 
 Queue common fragments for either laptop or both; laptop-specific fragments may
 only target their matching laptop. Queue prerequisites explicitly. Duplicate

@@ -7,10 +7,11 @@ trap 'printf "Package setup failed at %s:%s\n" "${BASH_SOURCE[0]}" "$LINENO" >&2
 
 shopt -s nullglob
 source ./scripts/migrations.sh
+install_validate_hostname
 
 case ${1:---all} in
 --pending)
-  install_pending_packages=(./migrations/"$INSTALL_TARGET"/packages/{common,"$INSTALL_TARGET"}/*.sh)
+  install_pending_packages=(./migrations/"$HOSTNAME"/packages/{common,"$HOSTNAME"}/*.sh)
   if ((${#install_pending_packages[@]} == 0)); then
     unset install_pending_packages
     if [[ ${BASH_SOURCE[0]} == "$0" ]]; then

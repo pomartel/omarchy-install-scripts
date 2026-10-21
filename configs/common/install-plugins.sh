@@ -21,7 +21,7 @@ install_omarchy_plugins() {
   ensure_omarchy_plugin "crmne.hyprmoncfg" "crmne/omarchy-hyprmoncfg"
   ensure_omarchy_plugin "keyboard-backlight" "pomartel/keyboard-backlight"
 
-  if [ "$INSTALL_TARGET" = "lenovo" ]; then
+  if [ "$HOSTNAME" = "lenovo" ]; then
     ensure_omarchy_plugin "jankeesvw.time-machine" "jankeesvw/omarchy-time-machine"
   fi
 
