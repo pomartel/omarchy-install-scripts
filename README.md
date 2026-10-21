@@ -16,13 +16,6 @@ Run from the repository root. Both entry points validate `$HOSTNAME` and use
 Execution order is common packages, laptop packages, common configs, then laptop
 configs, with lexical ordering within each group.
 
-Both entry points share a nonblocking repository lock. A concurrent run fails
-before changing anything, including before bootstrap resets YADM.
-
-Dropbox symlink setup requires each destination folder to exist. It only replaces
-empty local directories and refuses existing files, nonempty directories, or
-symlinks pointing elsewhere. Resolve those conflicts manually and rerun the script.
-
 ## Migrations
 
 Queue an existing script with an explicit target:
@@ -33,17 +26,9 @@ Queue an existing script with an explicit target:
 ./queue-migration.sh configs/lenovo/enable-direct-boot.sh lenovo
 ```
 
-Targets are `lenovo`, `asus`, or `common` (both). You can queue migrations for either
-laptop from either laptop; the computer running this command does not restrict
-the target. For example, from Lenovo, queue an Asus configuration with:
-
-```bash
-./queue-migration.sh configs/asus/set-locale.sh asus
-```
-
-Shared scripts may target either laptop or both. Scripts stored under `asus/`
-must target Asus, and scripts under `lenovo/` must target Lenovo, regardless of
-where you queue them. Paths may be absolute or repository-relative and must name a `.sh` file directly inside
+Targets are `lenovo`, `asus`, or `common` (both). Shared scripts may target either
+laptop or both; laptop-specific scripts may only target their own laptop. Paths
+may be absolute or repository-relative and must name a `.sh` file directly inside
 one of the package/config directories above. Queue prerequisites explicitly.
 
 Each queue entry is a relative symlink mirroring the source path, such as
