@@ -1,0 +1,1 @@
+../../../../packages/lenovo/postgresql.sh

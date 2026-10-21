@@ -72,16 +72,14 @@ Before adding a file or file-writing step, check whether the target file is
 already tracked by YADM. Do not recreate, overwrite, or duplicate files that
 YADM manages; let YADM remain the source of truth for those configurations.
 
-Except for `bootstrap.sh`, scripts must be safe to run repeatedly. Avoid
-printing success messages when an individual operation makes no change.
-Warnings, errors, actions that actually changed state, and the top-level
-completion summary may be printed.
-
-Runs with nothing new to install or configure must be fast as well as quiet.
-Use cheap local checks to skip completed work before invoking slower commands.
-Do not perform routine authentication checks, network requests, or other
-expensive validation for already installed and configured software; reserve
-those checks for initial setup, necessary changes, or explicit troubleshooting.
+Except for `bootstrap.sh`, scripts must be safe to run repeatedly. The migration
+queue decides when they run; do not add guards merely to improve no-op speed or
+suppress normal command output. Prefer directly calling idempotent commands
+such as Omarchy package installers, systemctl enable/start, and settings setters.
+Keep guards needed to preserve user data/settings, prevent duplicate creation,
+avoid repeated authentication or toggles, and handle missing prerequisites.
+Keep errors and useful command output visible. An empty migration queue should
+still do no setup work and only print the completion summary.
 
 Do not add destructive behavior or broaden existing deletion/reset operations
 without explicit instruction.

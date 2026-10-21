@@ -1,9 +1,7 @@
 # keyd keyboard remapper
 omarchy-pkg-add keyd
 
-if ! systemctl is-active --quiet keyd; then
-  sudo systemctl enable --now keyd
-fi
+sudo systemctl enable --now keyd
 
 keyd_config_file="$HOME/.config/keyd/default.conf"
 keyd_config_symlink="/etc/keyd/default.conf"

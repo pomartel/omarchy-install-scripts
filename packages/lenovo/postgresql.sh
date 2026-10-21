@@ -14,9 +14,7 @@ if [[ $postgres_data_state == missing ]]; then
   sudo -iu postgres initdb -D /var/lib/postgres/data
 fi
 
-if ! systemctl is-active --quiet postgresql; then
-  sudo systemctl enable --now postgresql
-fi
+sudo systemctl enable --now postgresql
 
 # A failed query must stop installation, not attempt to create a role.
 postgres_role=$(sudo -iu postgres psql -v ON_ERROR_STOP=1 -tAc "SELECT 1 FROM pg_roles WHERE rolname='po'")

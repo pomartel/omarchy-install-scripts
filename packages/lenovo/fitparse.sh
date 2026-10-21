@@ -5,8 +5,6 @@ if [[ ! -x "$fitparse_venv/bin/python" ]]; then
   python -m venv "$fitparse_venv"
 fi
 
-if ! "$fitparse_venv/bin/python" -c 'import fitparse' >/dev/null 2>&1; then
-  "$fitparse_venv/bin/python" -m pip install fitparse
-fi
+"$fitparse_venv/bin/python" -m pip install fitparse
 
 unset fitparse_venv

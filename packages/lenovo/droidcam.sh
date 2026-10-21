@@ -4,20 +4,12 @@ omarchy-pkg-aur-add droidcam
 
 droidcam_module='v4l2loopback'
 droidcam_options='options v4l2loopback devices=1 video_nr=10 card_label="DroidCam" exclusive_caps=1'
-if ! cmp -s <(printf '%s\n' "$droidcam_module") /etc/modules-load.d/droidcam.conf; then
-  printf '%s\n' "$droidcam_module" | sudo tee /etc/modules-load.d/droidcam.conf >/dev/null
-fi
-if ! cmp -s <(printf '%s\n' "$droidcam_options") /etc/modprobe.d/droidcam.conf; then
-  printf '%s\n' "$droidcam_options" | sudo tee /etc/modprobe.d/droidcam.conf >/dev/null
-fi
+printf '%s\n' "$droidcam_module" | sudo tee /etc/modules-load.d/droidcam.conf >/dev/null
+printf '%s\n' "$droidcam_options" | sudo tee /etc/modprobe.d/droidcam.conf >/dev/null
 
-if [[ ! -d /sys/module/v4l2loopback ]]; then
-  sudo modprobe v4l2loopback
-fi
+sudo modprobe v4l2loopback
 
-if ! systemctl is-active --quiet usbmuxd.service; then
-  sudo systemctl start usbmuxd.service
-fi
+sudo systemctl start usbmuxd.service
 
 if ! modinfo -k "$(uname -r)" v4l2loopback >/dev/null; then
   echo "ERROR: v4l2loopback was not built for kernel $(uname -r)." >&2

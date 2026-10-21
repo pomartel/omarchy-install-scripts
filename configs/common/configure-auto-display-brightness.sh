@@ -15,8 +15,6 @@ ACTION=="change", SUBSYSTEM=="power_supply", ATTR{type}=="Mains", ATTR{online}==
 EOF
 )
 
-if ! cmp -s <(printf '%s\n' "$brightness_rules") /etc/udev/rules.d/99-display-brightness.rules; then
-  printf '%s\n' "$brightness_rules" | sudo tee /etc/udev/rules.d/99-display-brightness.rules >/dev/null
-  sudo udevadm control --reload-rules
-fi
+printf '%s\n' "$brightness_rules" | sudo tee /etc/udev/rules.d/99-display-brightness.rules >/dev/null
+sudo udevadm control --reload-rules
 unset brightness_rules bat_brightness ac_brightness

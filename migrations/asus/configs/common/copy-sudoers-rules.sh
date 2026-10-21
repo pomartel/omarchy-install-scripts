@@ -1,0 +1,1 @@
+../../../../configs/common/copy-sudoers-rules.sh

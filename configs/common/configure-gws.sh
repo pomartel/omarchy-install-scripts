@@ -1,14 +1,5 @@
 (
-  gws_config_dir="${GOOGLE_WORKSPACE_CLI_CONFIG_DIR:-$HOME/.config/gws}"
-
-  # Existing credentials are enough for installation; gws refreshes tokens
-  # when used. Diagnose or reconnect an existing account manually if needed.
-  if [[ -s "$gws_config_dir/credentials.enc" || -s "$gws_config_dir/credentials.json" ]]; then
-    exit
-  fi
-
-  # Keep auth warnings/errors visible, but omit the routine backend announcement.
-  auth_status=$(gws auth status 2> >(sed '/^Using keyring backend: /d' >&2)) || exit
+  auth_status=$(gws auth status) || exit
 
   # An expired access token can be refreshed without another browser login.
   if jq -e '.has_refresh_token == true and .encryption_valid == true

@@ -15,10 +15,6 @@
   irs="${conf%.conf}.irs"
   packages=(git curl python-numpy python-scipy innoextract lsp-plugins-lv2 calf lilv-tools)
 
-  # Completed installations need no network access or audio restart.
-  if [[ -s $conf && -s $irs ]] && pacman -Q "${packages[@]}" >/dev/null 2>&1; then
-    exit 0
-  fi
   for file in "$conf" "$irs"; do
     if yadm -C "$HOME" ls-files --error-unmatch "${file#"$HOME/"}" >/dev/null 2>&1; then
       echo "YADM manages $file; refusing to overwrite it." >&2
@@ -32,9 +28,7 @@
     exit 1
   fi
 
-  if ! pacman -Q "${packages[@]}" >/dev/null 2>&1; then
-    omarchy-pkg-add "${packages[@]}"
-  fi
+  omarchy-pkg-add "${packages[@]}"
   if [[ ! -d $source_dir ]]; then
     mkdir -p "$(dirname "$source_dir")"
     git clone --quiet --depth 1 --branch v2026.10 \

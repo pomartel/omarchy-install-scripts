@@ -1,1 +1,1 @@
-mise install --quiet npm:@marp-team/marp-cli
+mise install npm:@marp-team/marp-cli

@@ -73,10 +73,9 @@ commit on the private GitHub repository’s default branch (currently `master`),
 using the existing SSH access.
 The build checkout lives in `$XDG_CACHE_HOME/omamarp/source` (default
 `~/.cache/omamarp/source`), separate from `~/Projects/OmaMarp`. Application files
-use `$XDG_DATA_HOME` (default `~/.local/share`). Matching installed revisions are
-skipped after fetching the remote default branch. Each execution of this script
-checks GitHub; a failed fetch stops the installation rather than silently using
-an older commit. YADM
+use `$XDG_DATA_HOME` (default `~/.local/share`). Each execution fetches and rebuilds
+the remote default branch, with build output visible. A failed fetch stops the
+installation rather than silently using an older commit. YADM
 continues to manage shortcuts and file associations;
 the installer does not overwrite the editor configuration.
 
@@ -98,8 +97,8 @@ needs listening verification on this laptop.
 
 The Music/Balanced tuning loads with PipeWire and attaches only to the internal
 speakers; USB, HDMI and Bluetooth outputs bypass it. Installation briefly restarts
-audio. Repeat runs skip setup when the configuration, impulse response and packages
-are already present. No EasyEffects application or Omarchy tuning wrapper is
+audio. Each queued run reapplies the tuning, including when the generated files
+already exist. No EasyEffects application or Omarchy tuning wrapper is
 installed. Generated files stay local to each machine and must not be added to
 YADM. The installer refuses to overwrite YADM-managed tuning files or stack with
 an active EasyEffects/Omarchy speaker tuning.

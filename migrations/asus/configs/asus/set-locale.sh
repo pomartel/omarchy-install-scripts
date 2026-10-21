@@ -1,0 +1,1 @@
+../../../../configs/asus/set-locale.sh
