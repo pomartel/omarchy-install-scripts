@@ -2,21 +2,19 @@
 
 source ./scripts/migrations.sh || exit
 
-install_start_time=$(date +%s.%N)
+install_start_time=$EPOCHREALTIME
 install_completed=0
 
 # These variables are assigned inside the trap before they are used.
 # shellcheck disable=SC2154
 trap '
   status=$?
-  trap - EXIT
-  elapsed=$(awk -v start="$install_start_time" -v end="$(date +%s.%N)" "BEGIN { printf \"%.1f\", end - start }")
+  elapsed=$(awk -v start="$install_start_time" -v end="$EPOCHREALTIME" "BEGIN { printf \"%.1f\", end - start }")
   if ((status != 0)); then
-    printf "Installation failed: " >&2
-    printf "%s scripts completed successfully in %ss.\n" "$install_completed" "$elapsed" >&2
-  else
-    printf "%s scripts completed successfully in %ss.\n" "$install_completed" "$elapsed"
+    exec >&2
+    printf "Installation failed: "
   fi
+  printf "%s scripts completed successfully in %ss.\n" "$install_completed" "$elapsed"
   exit "$status"
 ' EXIT
 
