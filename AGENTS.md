@@ -19,7 +19,9 @@ configs, in lexical order within each group. Use a leading `_` for prerequisites
 ## Migrations
 
 When adding or changing a package/config script, queue it unless the user asks
-otherwise. Use `common` for shared scripts and the matching laptop for specific
+otherwise. Do not queue a migration when a modification leaves what is installed
+or configured unchanged, such as refactoring, formatting, or comment changes.
+Use `common` for shared scripts and the matching laptop for specific
 scripts; honor requests to limit a shared script to one laptop. Queue prerequisites
 explicitly and include links in the same commit. An identical pending link suffices.
 
