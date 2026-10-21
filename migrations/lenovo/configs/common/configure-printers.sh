@@ -1,0 +1,1 @@
+../../../../configs/common/configure-printers.sh

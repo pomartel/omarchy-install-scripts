@@ -32,7 +32,7 @@ even on failure or an empty queue. Bootstrap must leave queues unchanged.
 The pending-migration runner must commit and push only links successfully removed
 during that run, including when a later migration fails. Preserve unrelated staged
 changes and report Git failures with a nonzero exit status. Empty queues perform
-no Git operations. Bootstrap and queue commands must not commit or push.
+no Git operations.
 
 ## Bash conventions
 
