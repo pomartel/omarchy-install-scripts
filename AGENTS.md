@@ -23,8 +23,8 @@ The shared helper in `scripts/migrations.sh` validates that it is `lenovo` or
 This helper also owns strict Bash mode, error reporting, script selection, and
 execution. Both entry points call `install_run` with `--pending` or `--all`.
 Keep `packages/add-packages.sh` and `configs/apply-configs.sh` as thin wrappers
-for running one group. Package-cache helpers live in `scripts/packages.sh` and
-are loaded only when the selected package list is nonempty.
+for running one group. Use Omarchy's own package checks and installers directly;
+do not override them with local wrappers or package caches.
 
 Queue common fragments for either laptop or both; laptop-specific fragments may
 only target their matching laptop. Queue prerequisites explicitly. Duplicate
@@ -60,7 +60,8 @@ Keep one concern per script and preserve the existing directory organization
 and simple Bash style.
 
 Use Omarchy commands for package and service installation whenever an
-appropriate command exists.
+appropriate command exists. Call the direct dashed commands (for example,
+`omarchy-pkg-add` and `omarchy-plugin-add`), not the `omarchy` dispatcher.
 
 Before adding a file or file-writing step, check whether the target file is
 already tracked by YADM. Do not recreate, overwrite, or duplicate files that

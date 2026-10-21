@@ -1,1 +1,1 @@
-omarchy pkg aur add chatgpt-desktop
+omarchy-pkg-aur-add chatgpt-desktop

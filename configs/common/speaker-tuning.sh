@@ -33,7 +33,7 @@
   fi
 
   if ! pacman -Q "${packages[@]}" >/dev/null 2>&1; then
-    omarchy pkg add "${packages[@]}"
+    omarchy-pkg-add "${packages[@]}"
   fi
   if [[ ! -d $source_dir ]]; then
     mkdir -p "$(dirname "$source_dir")"

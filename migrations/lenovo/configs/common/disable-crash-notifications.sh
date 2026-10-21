@@ -1,0 +1,1 @@
+../../../../configs/common/disable-crash-notifications.sh

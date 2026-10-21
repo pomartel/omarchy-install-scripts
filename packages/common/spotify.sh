@@ -1,1 +1,1 @@
-omarchy pkg aur add spotifast-bin
+omarchy-pkg-aur-add spotifast-bin

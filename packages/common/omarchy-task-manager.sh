@@ -1,1 +1,1 @@
-omarchy pkg add omarchy-task-manager
+omarchy-pkg-add omarchy-task-manager

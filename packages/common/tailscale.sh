@@ -1,5 +1,5 @@
 if omarchy-cmd-missing tailscale; then
-  omarchy install service tailscale
+  omarchy-install-service-tailscale
 fi
 
 tailscale_prefs=$(tailscale debug prefs)

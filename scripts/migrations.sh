@@ -60,11 +60,6 @@ install_run_fragments() {
   local -a install_scripts=("$root/$kind/common/"*.sh "$root/$kind/$HOSTNAME/"*.sh)
   ((${#install_scripts[@]} > 0)) || return 0
 
-  if [[ $kind == packages ]]; then
-    source ./scripts/packages.sh
-    refresh_install_packages
-  fi
-
   for script in "${install_scripts[@]}"; do
     if [[ $mode == --pending ]]; then
       install_validate_link "$script"
@@ -75,10 +70,6 @@ install_run_fragments() {
       rm -- "$script"
     fi
   done
-
-  if [[ $kind == packages ]]; then
-    unset -f refresh_install_packages omarchy-pkg-missing omarchy-pkg-add omarchy-pkg-aur-add omarchy
-  fi
 }
 
 install_run() {
