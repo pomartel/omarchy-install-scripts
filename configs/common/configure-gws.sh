@@ -19,7 +19,7 @@ configure_gws_calendar() {
   fi
 
   if ! jq -e '.client_config_exists == true' <<<"$auth_status" >/dev/null; then
-    echo "Google Calendar: run yadm decrypt to restore ~/.config/gws/client_secret.json, then rerun INSTALL.sh." >&2
+    echo "Google Calendar: run yadm decrypt to restore ~/.config/gws/client_secret.json, then rerun apply-migrations.sh." >&2
     return
   fi
 

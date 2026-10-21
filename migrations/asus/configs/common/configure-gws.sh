@@ -1,0 +1,1 @@
+../../../../configs/common/configure-gws.sh

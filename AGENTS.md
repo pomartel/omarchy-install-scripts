@@ -9,12 +9,12 @@ my Asus and Lenovo laptops.
 - `packages/asus/` and `packages/lenovo/`: machine-specific packages
 - `configs/common/`: configuration applied to both computers
 - `configs/asus/` and `configs/lenovo/`: machine-specific configuration
-- `INSTALL.sh`: runs only pending migrations for the current laptop
+- `apply-migrations.sh`: runs only pending migrations for the current laptop
 - `queue-migration.sh PATH TARGET`: queues a fragment for the mandatory target
   `lenovo`, `asus`, or `common` (both laptops)
 - `migrations/lenovo/` and `migrations/asus/`: relative symlink queues mirroring
   source paths under packages/configs; successful links are removed individually
-- `NEW-INSTALL.sh`: destructive fresh-machine bootstrap; it is intentionally
+- `bootstrap.sh`: destructive fresh-machine bootstrap; it is intentionally
   exempt from the normal idempotence requirement
 
 `set-target.sh` maps the `lenovo` and `asus` hostnames to their
@@ -23,8 +23,8 @@ corresponding target directories.
 Queue common fragments for either laptop or both; laptop-specific fragments may
 only target their matching laptop. Queue prerequisites explicitly. Duplicate
 links are a no-op; conflicting, invalid, or broken entries must not be overwritten
-or silently removed. INSTALL stops at the first failure and always reports the
-successful-script count and elapsed time. NEW-INSTALL runs all applicable scripts
+or silently removed. `apply-migrations.sh` stops at the first failure and always reports the
+successful-script count and elapsed time. `bootstrap.sh` runs all applicable scripts
 without consuming migrations. The fragment runners default to full execution and
 also support `--pending`.
 
@@ -60,7 +60,7 @@ Before adding a file or file-writing step, check whether the target file is
 already tracked by YADM. Do not recreate, overwrite, or duplicate files that
 YADM manages; let YADM remain the source of truth for those configurations.
 
-Except for `NEW-INSTALL.sh`, scripts must be safe to run repeatedly. Avoid
+Except for `bootstrap.sh`, scripts must be safe to run repeatedly. Avoid
 printing success messages when an individual operation makes no change.
 Warnings, errors, actions that actually changed state, and the top-level
 completion summary may be printed.

@@ -2,9 +2,9 @@
 
 This repository automates my machine setup for Omarchy environments.
 
-Run `./INSTALL.sh` from this directory to apply only the current laptop's
+Run `./apply-migrations.sh` from this directory to apply only the current laptop's
 pending migrations. The queues start empty. An empty queue does no setup work.
-`NEW-INSTALL.sh` is the destructive bootstrap for a fresh machine: it runs all
+`bootstrap.sh` is the destructive bootstrap for a fresh machine: it runs all
 applicable package and configuration scripts and leaves migration queues unchanged.
 
 ## Queueing migrations
@@ -28,7 +28,7 @@ links for Lenovo and Asus. Queueing an identical link again does nothing;
 conflicting entries are rejected. Links execute the current contents of their
 source script, not a historical snapshot.
 
-Commit and push new links to distribute the work. On each laptop, `INSTALL.sh`
+Commit and push new links to distribute the work. On each laptop, `apply-migrations.sh`
 runs common packages, laptop packages, common configs, then laptop configs,
 using lexical filename order within each group. Queue prerequisites explicitly;
 they are not added automatically.
@@ -78,7 +78,7 @@ the installer does not overwrite the editor configuration.
 
 Internal speaker tuning is installed by `configs/common/speaker-tuning.sh`,
 using `INSTALL_TARGET` to select the Lenovo or Asus tuning. Queue it for
-`./INSTALL.sh` when needed. To install only the speaker tuning directly, run
+`./apply-migrations.sh` when needed. To install only the speaker tuning directly, run
 from this repository:
 
 ```bash
@@ -111,4 +111,4 @@ To undo, remove only `Speaker_lenovo_Music_Balanced.conf` and its matching `.irs
 (or `Speaker_asus_Music_Balanced.conf` and `.irs`) from
 `~/.config/pipewire/pipewire.conf.d/`, then run
 `systemctl --user restart pipewire pipewire-pulse`. To reinstall the tuning,
-queue `configs/common/speaker-tuning.sh` for the appropriate laptop and run `INSTALL.sh`.
+queue `configs/common/speaker-tuning.sh` for the appropriate laptop and run `apply-migrations.sh`.
