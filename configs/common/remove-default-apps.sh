@@ -10,7 +10,6 @@ for webapp in \
   "Google Messages" \
   "Google Photos" \
   "HEY" \
-  "Microsoft Teams" \
   "Tailscale" \
   "WhatsApp" \
   "X" \
