@@ -1,18 +1,24 @@
 # Omarchy Install Scripts
 
-This repository automates my machine setup for Omarchy environments.
+Package and configuration scripts for my `lenovo` and `asus` laptops.
+Shared scripts live in `packages/common/` and `configs/common/`; laptop-specific
+scripts use the corresponding `lenovo/` or `asus/` directory.
 
-Run `./apply-migrations.sh` from this directory to apply only the current laptop's
-pending migrations. The queues start empty. An empty queue does no setup work.
-`bootstrap.sh` is the destructive bootstrap for a fresh machine: it runs all
-applicable package and configuration scripts and leaves migration queues unchanged.
+## Running
 
-Both entry points use the shared runner in `scripts/migrations.sh`: `bootstrap.sh`
-uses full execution, while `apply-migrations.sh` uses pending-only execution.
+Run from the repository root. Both entry points validate `$HOSTNAME` and use
+`scripts/migrations.sh`:
 
-## Queueing migrations
+- `./apply-migrations.sh`: run only this laptop's pending migrations.
+- `./bootstrap.sh`: fresh installation, including a destructive YADM reset,
+  followed by all applicable scripts. Migration queues remain unchanged.
 
-Pass a script path and a mandatory target to `queue-migration.sh`:
+Execution order is common packages, laptop packages, common configs, then laptop
+configs, with lexical ordering within each group.
+
+## Migrations
+
+Queue an existing script with an explicit target:
 
 ```bash
 ./queue-migration.sh packages/common/typora.sh common
@@ -20,89 +26,54 @@ Pass a script path and a mandatory target to `queue-migration.sh`:
 ./queue-migration.sh configs/lenovo/enable-direct-boot.sh lenovo
 ```
 
-Targets are `lenovo`, `asus`, or `common` (both laptops). Common scripts can
-target either laptop or both; laptop-specific scripts can only target their own
-laptop. Paths can be absolute or relative to the repository root and must identify
-an existing `.sh` fragment directly inside a supported packages/configs subfolder.
+Targets are `lenovo`, `asus`, or `common` (both). Shared scripts may target either
+laptop or both; laptop-specific scripts may only target their own laptop. Paths
+may be absolute or repository-relative and must name a `.sh` file directly inside
+one of the package/config directories above. Queue prerequisites explicitly.
 
-Migrations are relative symlinks mirroring the source path, for example
-`migrations/asus/packages/common/typora.sh`. Targeting `common` creates separate
-links for Lenovo and Asus. Queueing an identical link again does nothing;
-conflicting entries are rejected. Links execute the current contents of their
-source script, not a historical snapshot.
+Each queue entry is a relative symlink mirroring the source path, such as
+`migrations/asus/packages/common/typora.sh`. `common` creates an independent link
+for each laptop. Identical links are a no-op; conflicting entries are rejected.
+Links run the source script's current contents, not a saved version.
 
-Commit and push new links to distribute the work. On each laptop, `apply-migrations.sh`
-runs common packages, laptop packages, common configs, then laptop configs,
-using lexical filename order within each group. Queue prerequisites explicitly;
-they are not added automatically.
+Commit and push queued links, then pull and run `./apply-migrations.sh` on the
+target laptop. Each successful script is counted and its link removed. The first
+execution or removal failure stops the run with a nonzero exit status; failed and
+unexecuted links remain for retry. Invalid or broken links are rejected and retained.
+Success is determined by exit status, not whether stderr is empty.
 
-Each successful script is counted and its link is removed immediately. The first
-failure stops installation and keeps the failed and unexecuted links for retry.
-Broken or invalid links are rejected and retained. Success means a zero exit status
-under strict Bash error handling; stderr output alone is not a failure. If removing
-a completed link fails, installation stops and reports the error.
-
-Both successful and failed runs report the successful-script count and elapsed
-time, including when zero scripts ran:
-
-```text
-3 scripts completed successfully in 12.4s.
-Installation failed: 2 scripts completed successfully in 8.1s.
-```
-
-Commit and push completed link removals before synchronizing further changes.
-Neither command performs Git operations automatically. To run a script again,
-queue it again after its previous link has been removed.
+Every migration run reports the successful-script count and elapsed time, including
+failures and empty queues. Empty queues perform no setup work. Commit and push
+consumed link removals before synchronizing further changes. Commands never perform
+Git operations automatically. To rerun a completed script, queue it again.
 
 ## Validation
 
-To validate scripts without applying them, run:
+Check scripts without executing installation:
 
 ```bash
-bash -n path/to/changed-script.sh
-shellcheck -s bash path/to/changed-script.sh
-shfmt -d path/to/changed-script.sh
+bash -n path/to/script.sh
+shellcheck -s bash path/to/script.sh
+shfmt -d path/to/script.sh
+git diff --check
 ```
 
 ## Application notes
 
-OmaMarp is installed on both laptops by `packages/common/omamarp.sh`, after the
-common Node.js setup. It installs the Qt/build dependencies and builds the latest
-commit on the private GitHub repository’s default branch (currently `master`),
-using the existing SSH access.
-The build checkout lives in `$XDG_CACHE_HOME/omamarp/source` (default
-`~/.cache/omamarp/source`), separate from `~/Projects/OmaMarp`. Application files
-use `$XDG_DATA_HOME` (default `~/.local/share`). Each execution fetches and rebuilds
-the remote default branch, with build output visible. A failed fetch stops the
-installation rather than silently using an older commit. YADM
-continues to manage shortcuts and file associations;
-the installer does not overwrite the editor configuration.
+**OmaMarp:** `packages/common/omamarp.sh` fetches and builds the latest default-branch
+commit using SSH access. Build dependencies come from Omarchy. Its checkout is
+`$XDG_CACHE_HOME/omamarp/source` (default `~/.cache/omamarp/source`), separate from
+the development project. YADM manages shortcuts and file associations.
 
-Internal speaker tuning is installed by `configs/common/speaker-tuning.sh`,
-using `HOSTNAME` to select the Lenovo or Asus tuning. Queue it for
-`./apply-migrations.sh` when needed. To install only the speaker tuning directly, run
-from this repository:
+**Speaker tuning:** queue `configs/common/speaker-tuning.sh` for the appropriate
+laptop. It applies the Music/Balanced tuning to internal speakers only and briefly
+restarts audio. Generated files stay local, outside YADM; the script rejects
+YADM-owned files and conflicting EasyEffects/Omarchy tuning. The converter is pinned
+to v2026.10, with checksum-verified inputs. Asus uses the UX5406SA tuning from
+[device report #29](https://github.com/antoinecellerier/speaker-tuning-to-easyeffects/issues/29#issuecomment-5439844469)
+with its extra bass enhancer disabled; listening verification remains necessary.
 
-```bash
-source ./configs/common/speaker-tuning.sh
-```
-
-The converter is pinned to v2026.10. Lenovo's checksum-verified driver is fetched
-from its update catalog. Asus uses the exact UX5406SA XML shared in
-[device report #29](https://github.com/antoinecellerier/speaker-tuning-to-easyeffects/issues/29#issuecomment-5439844469),
-with its contents verified by SHA-256. The Asus Music profile disables the extra
-bass enhancer, following that report's bass/resonance concerns. Its sound still
-needs listening verification on this laptop.
-
-The Music/Balanced tuning loads with PipeWire and attaches only to the internal
-speakers; USB, HDMI and Bluetooth outputs bypass it. Installation briefly restarts
-audio. Each queued run reapplies the tuning, including when the generated files
-already exist. No EasyEffects application or Omarchy tuning wrapper is
-installed. Generated files stay local to each machine and must not be added to
-YADM. The installer refuses to overwrite YADM-managed tuning files or stack with
-an active EasyEffects/Omarchy speaker tuning.
-
-To inspect the installed chain:
+Inspect the installed tuning:
 
 ```bash
 python ~/.local/share/speaker-tuning/source/dolby_to_pipewire.py --doctor
@@ -111,5 +82,4 @@ python ~/.local/share/speaker-tuning/source/dolby_to_pipewire.py --doctor
 To undo, remove only `Speaker_lenovo_Music_Balanced.conf` and its matching `.irs`
 (or `Speaker_asus_Music_Balanced.conf` and `.irs`) from
 `~/.config/pipewire/pipewire.conf.d/`, then run
-`systemctl --user restart pipewire pipewire-pulse`. To reinstall the tuning,
-queue `configs/common/speaker-tuning.sh` for the appropriate laptop and run `apply-migrations.sh`.
+`systemctl --user restart pipewire pipewire-pulse`. Queue the script again to reinstall.

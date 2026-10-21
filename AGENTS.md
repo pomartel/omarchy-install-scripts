@@ -1,104 +1,58 @@
 # Repository guidelines
 
-This repository contains the Omarchy installation and configuration scripts for
-my Asus and Lenovo laptops.
+Personal Omarchy setup for `lenovo` and `asus`. Keep code simple and preserve
+the existing layout. See [README.md](README.md) for usage and migration behavior.
 
-## Structure
+## Structure and execution
 
-- `packages/common/`: packages installed on both computers
-- `packages/asus/` and `packages/lenovo/`: machine-specific packages
-- `configs/common/`: configuration applied to both computers
-- `configs/asus/` and `configs/lenovo/`: machine-specific configuration
-- `apply-migrations.sh`: runs only pending migrations for the current laptop
-- `queue-migration.sh PATH TARGET`: queues a fragment for the mandatory target
-  `lenovo`, `asus`, or `common` (both laptops)
-- `migrations/lenovo/` and `migrations/asus/`: relative symlink queues mirroring
-  source paths under packages/configs; successful links are removed individually
-- `bootstrap.sh`: destructive fresh-machine bootstrap; it is intentionally
-  exempt from the normal idempotence requirement
+- `packages/{common,lenovo,asus}/`: package scripts.
+- `configs/{common,lenovo,asus}/`: configuration scripts.
+- `bootstrap.sh`: destructive fresh installation; runs all applicable scripts.
+- `apply-migrations.sh`: runs pending scripts from `migrations/$HOSTNAME/`.
+- `queue-migration.sh PATH TARGET`: schedules scripts using relative symlinks.
 
-Use Bash's `HOSTNAME` directly to select laptop-specific scripts and queues.
-The shared helper in `scripts/migrations.sh` validates that it is `lenovo` or
-`asus`; both entry points call it before doing setup work.
-This helper also owns strict Bash mode, error reporting, script selection, and
-execution. Both entry points call `install_run` with `--pending` or `--all`.
-Use Omarchy's own package checks and installers directly;
-do not override them with local wrappers or package caches.
+Keep the two entry points and shared execution logic in `scripts/migrations.sh`.
+Run from the repository root and validate Bash's `HOSTNAME` as `lenovo` or
+`asus`. Execute common packages, laptop packages, common configs, then laptop
+configs, in lexical order within each group. Use a leading `_` for prerequisites.
 
-Queue common fragments for either laptop or both; laptop-specific fragments may
-only target their matching laptop. Queue prerequisites explicitly. Duplicate
-links are a no-op; conflicting, invalid, or broken entries must not be overwritten
-or silently removed. `apply-migrations.sh` stops at the first failure and always reports the
-successful-script count and elapsed time. `bootstrap.sh` runs all applicable scripts
-without consuming migrations. Keep these as the two installation entry points.
+## Migrations
 
-Commit and push queued links and successful removals through the normal Git
-workflow. Installation and queue commands must not perform Git operations.
+When adding or changing a package/config script, queue it unless the user asks
+otherwise. Use `common` for shared scripts and the matching laptop for specific
+scripts; honor requests to limit a shared script to one laptop. Queue prerequisites
+explicitly and include links in the same commit. An identical pending link suffices.
 
-Whenever adding or modifying a package or configuration fragment, also run
-`./queue-migration.sh PATH TARGET` for that script. Use `common` for scripts in
-`packages/common/` or `configs/common/`, and the matching `lenovo` or `asus`
-target for laptop-specific scripts. If the user explicitly limits a common
-script's rollout to one laptop, use that laptop as the target instead. Include
-the migration links in the same commit as the script change; an identical
-already-pending link satisfies this requirement.
+Reject conflicting, broken, or invalid links without overwriting or deleting them.
+Count successful scripts before removing their links. Stop on execution or removal
+failure, preserve remaining links, and report the successful count and elapsed time
+even on failure or an empty queue. Bootstrap must leave queues unchanged.
+Installation and queue commands must never commit or push automatically.
 
-## Script conventions
+## Bash conventions
 
-Run the entry-point scripts from the repository root.
+Fragments are sourced and inherit strict Bash mode, variables, functions, and traps.
 
-Package and configuration fragments are sourced in lexical filename order,
-with common scripts running before target-specific scripts. They inherit Bash,
-`set -euo pipefail`, variables, functions, and traps from their runner. Keep
-their variables and functions narrowly scoped, and unset helper functions after
-use. A filename beginning with `_` may be used when a prerequisite must run
-first.
+- Keep one concern per script. Use functions only for reused logic.
+- Avoid unnecessary subshells and variable cleanup; unset helper functions after use.
+- Use `return` for early exits, restore the working directory after changing it,
+  and do not replace the runner's traps or disable `errexit` with conditional sourcing.
+- Return nonzero when required work is incomplete, including missing authentication
+  or prerequisites. Zero means complete or already satisfied.
+- Use direct Omarchy commands such as `omarchy-pkg-add` and `omarchy-plugin-add`;
+  do not add package caches, wrappers, or use the `omarchy` dispatcher.
+- Except for bootstrap, keep scripts idempotent. Retain guards for data preservation,
+  duplicate creation, authentication, toggles, and prerequisites—not speed or silence.
+- Keep useful output and errors visible. Empty queues must perform no setup work.
+- Check YADM ownership before writing configuration files. Do not duplicate or
+  overwrite YADM-managed configuration.
+- Do not add or broaden destructive operations without explicit instruction.
 
-Keep one concern per script and preserve the existing directory organization
-and simple Bash style.
-Do not define functions that are called only once. Inline that code without
-variable cleanup or parenthesized subshell wrappers; the collision risk is low.
-Use `return` for early exits from sourced fragments. Restore the working directory
-after changing it, and do not replace the runner's traps.
-Return a nonzero status when required work remains incomplete, including missing
-authentication or unavailable prerequisites. Logging a warning is not enough:
-status zero causes the migration link to be removed. Return zero only when the
-script's work is complete or already satisfied.
-Keep functions for logic reused by multiple callers or repeated operations.
+## Validation and delivery
 
-Use Omarchy commands for package and service installation whenever an
-appropriate command exists. Call the direct dashed commands (for example,
-`omarchy-pkg-add` and `omarchy-plugin-add`), not the `omarchy` dispatcher.
-
-Before adding a file or file-writing step, check whether the target file is
-already tracked by YADM. Do not recreate, overwrite, or duplicate files that
-YADM manages; let YADM remain the source of truth for those configurations.
-
-Except for `bootstrap.sh`, scripts must be safe to run repeatedly. The migration
-queue decides when they run; do not add guards merely to improve no-op speed or
-suppress normal command output. Prefer directly calling idempotent commands
-such as Omarchy package installers, systemctl enable/start, and settings setters.
-Keep guards needed to preserve user data/settings, prevent duplicate creation,
-avoid repeated authentication or toggles, and handle missing prerequisites.
-Keep errors and useful command output visible. An empty migration queue should
-still do no setup work and only print the completion summary.
-
-Do not add destructive behavior or broaden existing deletion/reset operations
-without explicit instruction.
-
-## Validation
-
-Automated tests are not necessary for this personal installation repository.
+For changed shell scripts, run `bash -n`, ShellCheck and shfmt when available,
+then `git diff --check`. Do not execute installation entry points for testing.
 Do not add, maintain, or run a test suite unless explicitly requested.
 
-After changing shell scripts, run `bash -n` on the affected files and use
-`shellcheck` and `shfmt` when practical. Do not run the installation entry
-points solely as a test because they modify the current machine.
-
-Favor simple, readable code. This is a personal project, so do not add
-complexity for unsupported machines or hypothetical edge cases.
-
-## Delivery
-
-Always commit and push completed changes, then provide a link to the GitHub
-commit page.
+Commit and push completed changes, including scheduled or consumed migration links
+when applicable, and provide the GitHub commit link.
