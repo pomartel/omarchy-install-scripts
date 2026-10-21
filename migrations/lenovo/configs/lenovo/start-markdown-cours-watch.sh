@@ -1,1 +1,0 @@
-../../../../configs/lenovo/start-markdown-cours-watch.sh

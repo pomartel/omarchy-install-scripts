@@ -1,1 +1,0 @@
-../../../../packages/lenovo/marp.sh

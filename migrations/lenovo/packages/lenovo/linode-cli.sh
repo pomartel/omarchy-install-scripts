@@ -1,1 +1,0 @@
-../../../../packages/lenovo/linode-cli.sh

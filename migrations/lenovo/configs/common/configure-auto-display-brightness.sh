@@ -1,1 +1,0 @@
-../../../../configs/common/configure-auto-display-brightness.sh

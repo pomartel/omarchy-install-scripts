@@ -1,1 +1,0 @@
-../../../../configs/lenovo/enable-direct-boot.sh

@@ -1,1 +1,0 @@
-../../../../packages/common/intellij-idea.sh

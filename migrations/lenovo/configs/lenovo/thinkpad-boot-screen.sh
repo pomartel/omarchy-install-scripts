@@ -1,1 +1,0 @@
-../../../../configs/lenovo/thinkpad-boot-screen.sh
