@@ -5,13 +5,11 @@
 for webapp in \
   "Basecamp" \
   "Discord" \
-  "Google" \
   "Google Contacts" \
   "Google Maps" \
   "Google Messages" \
   "Google Photos" \
   "HEY" \
-  "Tailscale" \
   "WhatsApp" \
   "X" \
   "YouTube" \
