@@ -37,8 +37,8 @@ install_validate_link() {
   fi
 }
 
-install_run_fragments() {
-  local kind=$1 mode=$2 root=. script
+install_run() {
+  local mode=$1 root=. script
   case $mode in
   --pending) root=./migrations/$HOSTNAME ;;
   --all) ;;
@@ -48,8 +48,12 @@ install_run_fragments() {
     ;;
   esac
 
-  local -a install_scripts=("$root/$kind/common/"*.sh "$root/$kind/$HOSTNAME/"*.sh)
-  ((${#install_scripts[@]} > 0)) || return 0
+  local -a install_scripts=(
+    "$root/packages/common/"*.sh
+    "$root/packages/$HOSTNAME/"*.sh
+    "$root/configs/common/"*.sh
+    "$root/configs/$HOSTNAME/"*.sh
+  )
 
   for script in "${install_scripts[@]}"; do
     if [[ $mode == --pending ]]; then
@@ -61,9 +65,4 @@ install_run_fragments() {
       rm -- "$script"
     fi
   done
-}
-
-install_run() {
-  install_run_fragments packages "$1"
-  install_run_fragments configs "$1"
 }
