@@ -35,6 +35,9 @@ Each queue entry is a relative symlink mirroring the source path, such as
 `migrations/asus/packages/common/typora.sh`. `common` creates an independent link
 for each laptop. Identical links are a no-op; conflicting entries are rejected.
 Links run the source script's current contents, not a saved version.
+The queue command checks arguments, repository containment, and conflicting entries;
+the apply command validates script paths, file types, and laptop scopes before running
+any migrations.
 
 Commit and push queued links, then pull and run `./apply-migrations.sh` on the
 target laptop. Each successful script is counted and its link removed. The first
