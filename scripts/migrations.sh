@@ -53,11 +53,11 @@ install_commit_migrations() {
   git -C "$repo" push || return
 }
 
-install_report_migrations() {
+install_report_scripts() {
   local end=$1 index duration result
   ((${#install_ran[@]} > 0)) || return 0
 
-  printf '\nMigrations run:\n'
+  printf '\nScripts run:\n'
   for index in "${!install_ran[@]}"; do
     duration=$(awk -v start="${install_run_starts[$index]}" \
       -v end="${install_run_ends[$index]:-$end}" 'BEGIN { printf "%.2f", end - start }')
@@ -89,16 +89,47 @@ install_run() {
   for script in "${install_scripts[@]}"; do
     if [[ $mode == --pending ]]; then
       install_validate_link "$script"
-      index=${#install_ran[@]}
-      install_ran+=("${script#"$root/"}")
-      install_run_starts+=("$EPOCHREALTIME")
     fi
+    index=${#install_ran[@]}
+    install_ran+=("${script#"$root/"}")
+    install_run_starts+=("$EPOCHREALTIME")
     source "$script"
+    install_run_ends[index]=$EPOCHREALTIME
+    install_completed=$((install_completed + 1))
     if [[ $mode == --pending ]]; then
-      install_run_ends[index]=$EPOCHREALTIME
-      install_completed=$((${install_completed:-0} + 1))
       rm -- "$script"
       install_removed+=("$script")
     fi
   done
 }
+
+install_start_time=$EPOCHREALTIME
+install_completed=0
+install_repo=$PWD
+install_removed=()
+install_ran=()
+install_run_starts=()
+install_run_ends=()
+
+# These variables are assigned inside the trap before they are used.
+# shellcheck disable=SC2154
+trap '
+  status=$?
+  install_end_time=$EPOCHREALTIME
+  if ! install_commit_migrations "$install_repo"; then
+    printf "Could not commit or push completed migrations; check Git and retry manually.\n" >&2
+    if ((status == 0)); then
+      status=1
+    fi
+  fi
+  elapsed=$(awk -v start="$install_start_time" -v end="$EPOCHREALTIME" "BEGIN { printf \"%.1f\", end - start }")
+  if ((status != 0)); then
+    exec >&2
+  fi
+  install_report_scripts "$install_end_time"
+  if ((status != 0)); then
+    printf "Installation failed: "
+  fi
+  printf "%s scripts completed successfully in %ss.\n" "$install_completed" "$elapsed"
+  exit "$status"
+' EXIT
