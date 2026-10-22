@@ -1,5 +1,19 @@
 [
   {
+    "label": "Queue migration for current file",
+    "command": "target=$(gum choose --header 'Migration target (common = both laptops)' common lenovo asus) && ./queue-migration.sh \"$ZED_FILE\" \"$target\"",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false,
+    "reveal": "always",
+    "reveal_target": "dock",
+    "hide": "never",
+    "shell": "system",
+    "save": "current",
+    "show_summary": true,
+    "show_command": true,
+  },
+  {
     "label": "Apply pending migrations",
     "command": "./apply-migrations.sh",
     "use_new_terminal": false,
