@@ -10,8 +10,10 @@ the existing layout. See [README.md](README.md) for usage and migration behavior
 - `bootstrap.sh`: destructive fresh installation; runs all applicable scripts.
 - `apply-migrations.sh`: runs pending scripts from `migrations/$HOSTNAME/`.
 - `queue-migration.sh PATH TARGET`: schedules scripts using relative symlinks.
+- `update.sh`: pulls with `--ff-only`, then applies pending migrations.
+- `scripts/check.sh`: runs static validation without executing installers.
 
-Keep the two entry points and shared execution logic in `scripts/migrations.sh`.
+Keep user-facing commands at the root and shared execution logic in `scripts/runner.sh`.
 Run from the repository root and validate Bash's `HOSTNAME` as `lenovo` or
 `asus`. Execute common packages, laptop packages, common configs, then laptop
 configs, in lexical order within each group. Use a leading `_` for prerequisites.
@@ -55,8 +57,9 @@ Fragments are sourced and inherit strict Bash mode, variables, functions, and tr
 
 ## Validation and delivery
 
-For changed shell scripts, run `bash -n`, ShellCheck and shfmt when available,
-then `git diff --check`. Do not execute installation entry points for testing.
+Run `./scripts/check.sh` for Bash syntax, ShellCheck, shfmt, and staged/unstaged
+diff checks. It requires ShellCheck and shfmt. Do not execute installation entry
+points or `update.sh` for testing.
 Do not add, maintain, or run a test suite unless explicitly requested.
 
 Commit and push completed changes, including scheduled or consumed migration links

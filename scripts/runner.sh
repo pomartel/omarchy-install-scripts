@@ -1,5 +1,5 @@
 #!/bin/bash
-# Sourced by the fresh-install and pending-migration entry points.
+# Shared execution and reporting for bootstrap and pending migrations.
 # shellcheck disable=SC1090,SC2034,SC2329
 
 set -Eeuo pipefail

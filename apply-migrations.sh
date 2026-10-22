@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ./scripts/migrations.sh || exit
+source ./scripts/runner.sh || exit
 
 install_validate_hostname
 if [[ -d ./migrations/$HOSTNAME ]]; then
