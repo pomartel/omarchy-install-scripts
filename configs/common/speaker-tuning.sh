@@ -1,5 +1,6 @@
 #!/bin/bash
-set -euo pipefail
+# Sourced by the runner, which enables errexit.
+# shellcheck disable=SC2164
 
 case "$HOSTNAME" in
 lenovo) [[ $(</sys/class/dmi/id/product_family) == 'ThinkPad X1 Carbon Gen 13' ]] ;;

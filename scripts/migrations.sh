@@ -26,7 +26,7 @@ install_validate_link() {
     printf 'Invalid migration target: %s\n' "$link" >&2
     return 1
   fi
-  if [[ ! -L $link || ! -f $link || ! -f $source_path ]]; then
+  if [[ ! -L $link || ! -f $link ]]; then
     printf 'Invalid or broken migration link: %s\n' "$link" >&2
     return 1
   fi
@@ -92,7 +92,6 @@ install_run() {
     install_run_starts+=("$EPOCHREALTIME")
     source "$script"
     install_run_ends[index]=$EPOCHREALTIME
-    install_completed=$((install_completed + 1))
     if [[ $mode == --pending ]]; then
       rm -- "$script"
       install_removed+=("$script")
@@ -101,7 +100,6 @@ install_run() {
 }
 
 install_start_time=$EPOCHREALTIME
-install_completed=0
 install_repo=$PWD
 install_removed=()
 install_ran=()
@@ -127,6 +125,6 @@ trap '
   if ((status != 0)); then
     printf "Installation failed: "
   fi
-  printf "%s scripts completed successfully in %ss.\n" "$install_completed" "$elapsed"
+  printf "%s scripts completed successfully in %ss.\n" "${#install_run_ends[@]}" "$elapsed"
   exit "$status"
 ' EXIT

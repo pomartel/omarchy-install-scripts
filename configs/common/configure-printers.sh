@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -euo pipefail
-
 printers=$(LC_ALL=C lpstat -p | awk '/^printer / { print $2 }')
 while IFS= read -r printer; do
   [[ -n $printer ]] || continue

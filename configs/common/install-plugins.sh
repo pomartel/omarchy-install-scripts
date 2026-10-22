@@ -8,7 +8,6 @@ ensure_omarchy_plugin() {
   # YADM manages plugin activation and placement in each host's shell.json.
   if ! jq -e --arg id "$plugin_id" 'any(.[]; .id == $id)' <<<"$plugins" >/dev/null; then
     omarchy-plugin-add "$plugin_url" --yes || return
-    plugins=$(omarchy-plugin-list --json) || return
   fi
 }
 
