@@ -87,9 +87,6 @@ install_run() {
   )
 
   for script in "${install_scripts[@]}"; do
-    if [[ $mode == --pending ]]; then
-      install_validate_link "$script"
-    fi
     index=${#install_ran[@]}
     install_ran+=("${script#"$root/"}")
     install_run_starts+=("$EPOCHREALTIME")
