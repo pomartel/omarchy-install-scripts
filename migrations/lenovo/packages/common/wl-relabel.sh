@@ -1,0 +1,1 @@
+../../../../packages/common/wl-relabel.sh
