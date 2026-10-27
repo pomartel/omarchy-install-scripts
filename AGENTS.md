@@ -53,6 +53,8 @@ Fragments are sourced and inherit strict Bash mode, variables, functions, and tr
 - Keep useful output and errors visible. Empty queues must perform no setup work.
 - Check YADM ownership before writing configuration files. Do not duplicate or
   overwrite YADM-managed configuration.
+- Check existing package defaults before adding scripts, wrappers, or configuration
+  overrides. If they already provide the required behavior, install the package only.
 - Do not add or broaden destructive operations without explicit instruction.
 
 ## Validation and delivery
