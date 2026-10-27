@@ -1,1 +1,0 @@
-../../../../configs/common/configure-brave-popups.sh
