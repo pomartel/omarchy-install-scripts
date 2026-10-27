@@ -1,18 +1,5 @@
 #!/bin/bash
 
-# Rules and the command wrapper belong to YADM, not the installer.
-for path in bin/brave-origin .config/wl-relabel/rules.toml; do
-  if [[ ! -f $HOME/$path ]] || ! yadm -C "$HOME" ls-files --error-unmatch -- "$path" >/dev/null 2>&1; then
-    printf 'Pull YADM before configuring Brave popups: missing %s\n' "$path" >&2
-    return 1
-  fi
-done
-
-if [[ ! -x $HOME/.local/bin/wl-relabel || ! -x $HOME/bin/brave-origin ]]; then
-  printf 'Install wl-relabel and make the YADM Brave wrapper executable first.\n' >&2
-  return 1
-fi
-
 desktop="$HOME/.local/share/applications/brave-origin.desktop"
 if yadm -C "$HOME" ls-files --error-unmatch -- .local/share/applications/brave-origin.desktop >/dev/null 2>&1; then
   printf 'Brave desktop entry is managed by YADM; refusing to overwrite it.\n' >&2
