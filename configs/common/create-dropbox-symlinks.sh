@@ -3,6 +3,10 @@
 for folder in Documents Pictures Videos Cours; do
   target="$HOME/$folder"
   source="$HOME/Dropbox/$folder"
+  # Documents exposes the Dropbox root; the other folders keep their subdirectory.
+  if [[ $folder == Documents ]]; then
+    source="$HOME/Dropbox"
+  fi
 
   if [[ ! -d "$source" ]]; then
     printf 'Dropbox folder is not ready: %s. Wait for synchronization and retry.\n' "$source" >&2
