@@ -1,1 +1,0 @@
-../../../../packages/common/wordcraft.sh
