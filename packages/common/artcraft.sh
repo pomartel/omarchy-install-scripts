@@ -1,2 +1,3 @@
 # WordCraft documents, GridCraft spreadsheets, and DeckCraft presentations
-omarchy-pkg-aur-add wordcraft-bin gridcraft-bin deckcraft-bin
+omarchy-pkg-add wordcraft-bin gridcraft-bin
+omarchy-pkg-aur-add deckcraft-bin
