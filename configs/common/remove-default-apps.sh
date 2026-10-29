@@ -20,4 +20,4 @@ for webapp in \
   fi
 done
 
-omarchy-pkg-drop chromium libreoffice-fresh
+omarchy-pkg-drop chromium libreoffice-fresh onlyoffice-bin
