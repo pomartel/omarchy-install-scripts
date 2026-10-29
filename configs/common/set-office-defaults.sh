@@ -1,3 +1,17 @@
+# Remove obsolete handlers while preserving other applications in each list.
+for mimeapps_file in \
+  "${XDG_CONFIG_HOME:-$HOME/.config}"/*mimeapps.list \
+  "${XDG_DATA_HOME:-$HOME/.local/share}"/applications/*mimeapps.list; do
+  [[ -f $mimeapps_file ]] || continue
+  sed -i -E '
+    :handlers
+    s/(^|[=;])[^=;]*(onlyoffice|libreoffice)[^;]*\.desktop(;|$)/\1/I
+    t handlers
+    /^[^#[]+=[;[:space:]]*$/d
+    /^#[[:space:]]*(OnlyOffice|LibreOffice)[[:space:]]*$/Id
+  ' "$mimeapps_file"
+done
+
 # Use WordCraft for word-processing documents.
 xdg-mime default ai.storyteller.wordcraft.desktop \
   application/msword \
