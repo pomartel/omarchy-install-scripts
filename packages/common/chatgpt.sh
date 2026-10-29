@@ -1,1 +1,2 @@
-omarchy-pkg-aur-add chatgpt-desktop
+omarchy-pkg-drop chatgpt-desktop
+omarchy-pkg-add openai-codex-desktop
