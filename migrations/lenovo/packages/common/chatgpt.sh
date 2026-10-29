@@ -1,1 +1,0 @@
-../../../../packages/common/chatgpt.sh
