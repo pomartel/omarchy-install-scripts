@@ -1,4 +1,7 @@
 # Install the latest OmaMarp default-branch commit on both laptops.
+# Keep this runtime dependency explicit: OmaMarp is installed outside pacman.
+omarchy-pkg-add hunspell
+
 omamarp_source="${XDG_CACHE_HOME:-$HOME/.cache}/omamarp/source"
 
 # Keep the build checkout separate from the development project.
