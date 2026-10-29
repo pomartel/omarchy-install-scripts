@@ -1,0 +1,1 @@
+../../../../configs/common/set-office-defaults.sh
