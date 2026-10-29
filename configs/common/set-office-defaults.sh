@@ -19,3 +19,10 @@ xdg-mime default ai.storyteller.gridcraft.desktop \
   application/vnd.oasis.opendocument.spreadsheet \
   text/csv \
   text/tab-separated-values
+
+# Use DeckCraft for presentations, templates, and slide shows.
+xdg-mime default ai.storyteller.deckcraft.desktop \
+  application/x-deckcraft \
+  application/vnd.openxmlformats-officedocument.presentationml.presentation \
+  application/vnd.openxmlformats-officedocument.presentationml.template \
+  application/vnd.openxmlformats-officedocument.presentationml.slideshow
