@@ -17,11 +17,22 @@ for folder in Documents Pictures Videos Cours; do
     continue
   fi
 
+  if [[ $folder == Documents && -L "$target" ]]; then
+    case $(readlink -- "$target") in
+    "$HOME/Dropbox/Documents" | Dropbox/Documents)
+      # Replace only the known old link, including when its destination is gone.
+      # --no-dereference replaces the link itself without touching Dropbox data.
+      ln -sfnT -- "$source" "$target" || return
+      continue
+      ;;
+    esac
+  fi
+
   if [[ -d "$target" && ! -L "$target" ]]; then
     # rmdir only removes empty directories; existing files must be preserved.
     rmdir -- "$target" || return
   fi
 
-  # Without --force, existing files and conflicting symlinks remain untouched.
+  # All other existing files and conflicting symlinks remain untouched.
   ln -sT -- "$source" "$target" || return
 done
