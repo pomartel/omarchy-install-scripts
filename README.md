@@ -36,7 +36,7 @@ Queue an existing script with an explicit target:
 ```bash
 ./queue-migration.sh packages/common/flea.sh common
 ./queue-migration.sh configs/common/configure-printers.sh asus
-./queue-migration.sh configs/lenovo/enable-direct-boot.sh lenovo
+./queue-migration.sh configs/lenovo/thinkpad-boot-screen.sh lenovo
 ```
 
 Targets are `lenovo`, `asus`, or `common` (both). Shared scripts may target either
