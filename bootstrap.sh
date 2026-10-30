@@ -3,7 +3,8 @@
 source ./scripts/runner.sh || exit
 install_validate_hostname
 
-omarchy-pkg-add yadm
+# post_clone applies shared preferences, including TOML, immediately.
+omarchy-pkg-add yadm python-tomlkit
 
 yadm clone -f "git@github.com:pomartel/config-files.git"
 
