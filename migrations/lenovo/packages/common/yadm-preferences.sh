@@ -1,0 +1,1 @@
+../../../../packages/common/yadm-preferences.sh
