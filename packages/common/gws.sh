@@ -1,2 +1,3 @@
 # Needed for the calendar plugin
-npm install -g @googleworkspace/cli@0.22.5
+# Keep gws available when Omarchy upgrades Node.
+mise use -g npm:@googleworkspace/cli@0.22.5
