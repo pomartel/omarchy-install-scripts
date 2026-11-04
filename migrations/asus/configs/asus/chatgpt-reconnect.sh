@@ -1,1 +1,0 @@
-../../../../configs/asus/chatgpt-reconnect.sh
