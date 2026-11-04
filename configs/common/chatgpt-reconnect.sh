@@ -17,7 +17,7 @@
 # - delete ~/bin/chatgpt-reconnect from YADM;
 # - delete this installation script and any pending migration links to it;
 # - remove /usr/lib/systemd/system-sleep/90-chatgpt-reconnect from each machine
-#   where it was installed (currently Asus). Deleting the source files alone
+#   where it was installed (Asus and Lenovo). Deleting the source files alone
 #   does not remove this installed copy or stop the hook from running.
 chatgpt_reconnect_source="$HOME/bin/chatgpt-reconnect"
 chatgpt_reconnect_hook=/usr/lib/systemd/system-sleep/90-chatgpt-reconnect
