@@ -1,1 +1,0 @@
-../../../../configs/common/install-plugins.sh
