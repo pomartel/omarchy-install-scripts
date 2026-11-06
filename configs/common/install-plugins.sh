@@ -17,6 +17,8 @@ ensure_omarchy_plugin "qs-yadm" "pomartel/qs-yadm"
 ensure_omarchy_plugin "tornikegomareli.spaces" "tornikegomareli/omarchy-spaces"
 ensure_omarchy_plugin "crmne.hyprmoncfg" "crmne/omarchy-hyprmoncfg"
 ensure_omarchy_plugin "keyboard-backlight" "pomartel/keyboard-backlight"
+ensure_omarchy_plugin "io.github.tahadx.reel" "tahadx/reel"
+"$HOME/.config/omarchy/plugins/io.github.tahadx.reel/install.sh" --no-binds
 
 if [ "$HOSTNAME" = "lenovo" ]; then
   ensure_omarchy_plugin "jankeesvw.time-machine" "jankeesvw/omarchy-time-machine"
