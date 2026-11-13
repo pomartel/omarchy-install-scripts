@@ -1,2 +1,2 @@
 # Android Studio : distribution officielle de Google
-yay -S --needed --noconfirm android-studio
+omarchy-pkg-aur-add android-studio
