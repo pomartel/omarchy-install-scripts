@@ -1,1 +1,0 @@
-../../../../packages/common/android-studio.sh
