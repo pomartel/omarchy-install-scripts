@@ -1,1 +1,0 @@
-../../../../configs/lenovo/package-cache.sh
