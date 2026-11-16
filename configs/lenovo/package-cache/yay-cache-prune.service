@@ -1,0 +1,16 @@
+[Unit]
+Description=Prune built package archives in the Lenovo yay cache
+ConditionPathIsDirectory=/home/po/.cache/yay
+ConditionPathExists=!/var/lib/pacman/db.lck
+
+[Service]
+Type=oneshot
+User=po
+WorkingDirectory=/home/po/.cache/yay
+ExecCondition=/usr/bin/sh -c '! /usr/bin/pgrep -x -u po "yay|makepkg|paru" >/dev/null'
+ExecStart=/usr/local/libexec/prune-yay-cache
+NoNewPrivileges=yes
+ProtectSystem=strict
+ReadWritePaths=/home/po/.cache/yay
+PrivateTmp=yes
+Nice=19

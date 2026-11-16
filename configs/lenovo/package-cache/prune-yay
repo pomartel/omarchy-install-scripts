@@ -1,0 +1,22 @@
+#!/bin/bash
+set -euo pipefail
+
+# The service sets the working directory to yay's build cache.
+caches=()
+settled=()
+cutoff=$(date --date='1 day ago' +%s)
+for dir in *; do
+  [[ -d $dir && ! -L $dir && -f $dir/.SRCINFO ]] || continue
+  caches+=(-c "$PWD/$dir")
+  # A new package may already be built but still waiting to be installed.
+  if (($(stat -c %Y -- "$dir") < cutoff)); then
+    settled+=(-c "$PWD/$dir")
+  fi
+done
+
+if ((${#caches[@]})); then
+  paccache -rk2 "${caches[@]}"
+fi
+if ((${#settled[@]})); then
+  paccache -ruk0 "${settled[@]}"
+fi
