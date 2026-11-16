@@ -1,17 +1,18 @@
 #!/bin/bash
 
 if [ "$HOSTNAME" = "asus" ]; then
-  bat_brightness="50%"
-  ac_brightness="100%"
+  bat_brightness=50
+  ac_brightness=100
 else
-  bat_brightness="25%"
-  ac_brightness="70%"
+  bat_brightness=25
+  ac_brightness=70
 fi
 
+# udev expands %% to a literal percent sign in RUN commands.
 brightness_rules=$(
   cat <<EOF
-ACTION=="change", SUBSYSTEM=="power_supply", ATTR{type}=="Mains", ATTR{online}=="0", RUN+="/usr/bin/brightnessctl -c backlight set $bat_brightness"
-ACTION=="change", SUBSYSTEM=="power_supply", ATTR{type}=="Mains", ATTR{online}=="1", RUN+="/usr/bin/brightnessctl -c backlight set $ac_brightness"
+ACTION=="change", SUBSYSTEM=="power_supply", ATTR{type}=="Mains", ATTR{online}=="0", RUN+="/usr/bin/brightnessctl -c backlight set ${bat_brightness}%%"
+ACTION=="change", SUBSYSTEM=="power_supply", ATTR{type}=="Mains", ATTR{online}=="1", RUN+="/usr/bin/brightnessctl -c backlight set ${ac_brightness}%%"
 EOF
 )
 
