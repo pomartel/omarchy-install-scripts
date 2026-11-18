@@ -2,8 +2,7 @@
 
 sudoers_file="/etc/sudoers.d/custom-sudoers-rules"
 
-sudoers_rules='Defaults timestamp_timeout=60
-Defaults !tty_tickets'
+sudoers_rules='Defaults:po timestamp_type=tty'
 
 # A root-owned 0600 temporary file on the same filesystem permits atomic replacement.
 # The dot in its name keeps sudo from loading it before validation.
