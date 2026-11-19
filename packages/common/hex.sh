@@ -2,8 +2,6 @@
 omarchy-pkg-add hex-bin wtype wl-clipboard
 
 # YADM owns the portable settings, vocabulary, keybindings and adapters.
-yadm -C "$HOME" pull --ff-only
-
 if hex status --json >/dev/null 2>&1; then
   hex quit --json
 fi

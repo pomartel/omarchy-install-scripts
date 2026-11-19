@@ -83,8 +83,8 @@ models remain on disk.
 YADM owns the portable Hex preferences and vocabulary through
 `~/.local/share/hex/settings.shared.json`, plus the Omarchy backend adapter
 and the F9/mouse dictation wrapper. F9 and the mouse keep automatic Enter in
-ChatGPT and Brave; F8 is unbound. The migration pulls YADM before applying
-the shared preferences. Microphone selection and machine-specific paths
+ChatGPT and Brave; F8 is unbound. The migration applies the shared preferences
+already present locally. Microphone selection and machine-specific paths
 are not shared.
 
 ## Validation
