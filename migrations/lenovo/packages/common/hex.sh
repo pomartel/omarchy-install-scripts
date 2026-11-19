@@ -1,1 +1,0 @@
-../../../../packages/common/hex.sh
