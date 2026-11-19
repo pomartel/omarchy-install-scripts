@@ -82,8 +82,9 @@ models remain on disk.
 
 YADM tracks the complete Hex configuration in `~/.local/share/hex/settings.json`,
 including vocabulary, microphone selection and paths. It also tracks the Omarchy
-backend adapter and the F9/mouse dictation wrapper. F9 and the mouse keep
-automatic Enter in ChatGPT and Brave. F8 is unbound.
+backend adapter and the F9/mouse dictation wrapper. Releasing F9 or the mouse
+button submits the text in ChatGPT and adds a trailing space in other apps.
+Escape cancels a recording. F8 is unbound.
 
 ## Validation
 
