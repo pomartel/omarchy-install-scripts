@@ -88,6 +88,9 @@ again to finish. Both modes submit the text in ChatGPT and add a trailing space 
 Press either Ctrl key after recording starts to paste into ChatGPT without sending.
 A Ctrl key already held when dictation starts leaves automatic submission enabled.
 Escape cancels a recording. F8 is unbound.
+You can start another recording while Hex transcribes the previous one. The
+wrapper delivers the results in recording order. If focus has moved, it copies
+the text to the clipboard and shows a notification for manual paste.
 
 ## Validation
 
