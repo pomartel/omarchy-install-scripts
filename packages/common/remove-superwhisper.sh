@@ -1,6 +1,6 @@
 # Uninstall the former dictation backend only after its replacement is ready.
 if omarchy-pkg-present superwhisper-bin; then
-  if ! hex status --json | python -c 'import json, sys; s=json.load(sys.stdin); sys.exit(not (s["permissions"]["ready"] and s["listener"]["running"]))'; then
+  if ! hex status --json | python -c 'import json, sys; s=json.load(sys.stdin); sys.exit(not (s.get("permissions", {}).get("ready") and s.get("listener", {}).get("running")))'; then
     printf 'Install and finish configuring Hex before removing Superwhisper.\n' >&2
     return 1
   fi

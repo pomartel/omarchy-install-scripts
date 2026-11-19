@@ -4,6 +4,7 @@ omarchy-pkg-add hex-bin wtype wl-clipboard
 # YADM owns the portable settings, vocabulary, keybindings and adapters.
 if hex status --json >/dev/null 2>&1; then
   hex quit --json
+  systemctl --user stop hex.service
 fi
 "$HOME/bin/yadm/yadm-json-preferences" apply
 
@@ -13,7 +14,7 @@ hex start --json
 hex launch-at-login on --json
 hex_ready=false
 for ((hex_attempt = 0; hex_attempt < 30; hex_attempt++)); do
-  if hex status --json | python -c 'import json, sys; s=json.load(sys.stdin); sys.exit(not (s["permissions"]["ready"] and s["listener"]["running"]))'; then
+  if hex status --json | python -c 'import json, sys; s=json.load(sys.stdin); sys.exit(not (s.get("permissions", {}).get("ready") and s.get("listener", {}).get("running")))'; then
     hex_ready=true
     break
   fi
