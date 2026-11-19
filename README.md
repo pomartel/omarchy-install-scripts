@@ -85,7 +85,8 @@ including vocabulary, microphone selection and paths. It also tracks the Omarchy
 backend adapter and the F9/mouse dictation wrapper. Hold F9 or the mouse
 button to dictate, or double-tap F9 for hands-free dictation and press F9
 again to finish. Both modes submit the text in ChatGPT and add a trailing space elsewhere.
-Tap or hold either Ctrl key during dictation to paste into ChatGPT without sending.
+Press either Ctrl key after recording starts to paste into ChatGPT without sending.
+A Ctrl key already held when dictation starts leaves automatic submission enabled.
 Escape cancels a recording. F8 is unbound.
 
 ## Validation
