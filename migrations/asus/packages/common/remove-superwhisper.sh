@@ -1,0 +1,1 @@
+../../../../packages/common/remove-superwhisper.sh

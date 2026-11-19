@@ -73,6 +73,20 @@ local desktop entry is needed. Pull YADM and apply the package migration, then
 fully quit and reopen Brave. Existing browser processes cannot be moved behind
 the proxy.
 
+## Hex dictation
+
+`packages/common/hex.sh` installs Hex with Orukeet in French (about 739 MB
+for the model). `packages/common/remove-superwhisper.sh` separately disables
+and uninstalls Superwhisper once Hex is ready. Its history, settings, and
+models remain on disk.
+
+YADM owns the portable Hex preferences and vocabulary through
+`~/.local/share/hex/settings.shared.json`, plus the Omarchy backend adapter
+and the F9/mouse dictation wrapper. F9 and the mouse keep automatic Enter in
+ChatGPT and Brave; F8 is unbound. The migration pulls YADM before applying
+the shared preferences. Microphone selection and machine-specific paths
+are not shared.
+
 ## Validation
 
 Run `./scripts/check.sh` to check Bash syntax, ShellCheck, shfmt formatting, and
