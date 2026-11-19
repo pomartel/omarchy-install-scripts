@@ -1,12 +1,10 @@
-# Install Hex with the portable French dictation preferences owned by YADM.
+# Install Hex with the settings.json managed by YADM.
 omarchy-pkg-add hex-bin wtype wl-clipboard
 
-# YADM owns the portable settings, vocabulary, keybindings and adapters.
 if hex status --json >/dev/null 2>&1; then
   hex quit --json
   systemctl --user stop hex.service
 fi
-"$HOME/bin/yadm/yadm-json-preferences" apply
 
 # With Hex stopped, installation waits for the verified download before returning.
 hex model install orukeet --language fr
