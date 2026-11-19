@@ -1,32 +1,18 @@
-# Install Hex with the settings.json managed by YADM.
 omarchy-pkg-add hex-bin wtype wl-clipboard
 
-if hex status --json >/dev/null 2>&1; then
-  hex quit --json
-  systemctl --user stop hex.service
-fi
-
-# With Hex stopped, installation waits for the verified download before returning.
+# Stop Hex so model installation waits for the download. Exit 3 means already stopped.
+hex quit || [[ $? -eq 3 ]]
+systemctl --user stop hex.service
 hex model install orukeet --language fr
-hex start --json
-hex launch-at-login on --json
-hex_ready=false
+hex start
+hex launch-at-login on
+
 for ((hex_attempt = 0; hex_attempt < 30; hex_attempt++)); do
-  if hex status --json | python -c 'import json, sys; s=json.load(sys.stdin); sys.exit(not (s.get("permissions", {}).get("ready") and s.get("listener", {}).get("running")))'; then
-    hex_ready=true
-    break
+  if hex status --json | jq -e '.permissions.ready and .listener.running' >/dev/null; then
+    return 0
   fi
   sleep 1
 done
-if [[ $hex_ready != true ]]; then
-  printf 'Finish Hex setup in its window, then run this migration again.\n' >&2
-  hex window show
-  return 1
-fi
-unset hex_ready hex_attempt
-
-hyprctl reload
-if [[ -n $(hyprctl configerrors) ]]; then
-  hyprctl configerrors >&2
-  return 1
-fi
+printf 'Finish Hex setup in its window, then run this migration again.\n' >&2
+hex window show
+return 1
