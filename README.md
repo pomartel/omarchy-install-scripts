@@ -67,11 +67,10 @@ behavior and may request authentication or sudo access while applying scripts.
 ## Brave popup windows
 
 `packages/common/wl-relabel.sh` installs the tested wl-relabel version with Cargo.
-YADM owns `~/bin/brave-origin`, `~/.config/wl-relabel/rules.toml`, and the Hyprland
-popup rule. The packaged desktop entry finds the wrapper through `PATH`, so no
-local desktop entry is needed. Pull YADM and apply the package migration, then
-fully quit and reopen Brave. Existing browser processes cannot be moved behind
-the proxy.
+YADM owns `~/bin/browser/brave`, the local `brave-browser.desktop` entry,
+`~/.config/wl-relabel/rules.toml`, and the Hyprland popup rule. The desktop
+entry launches Brave through wl-relabel. Pull YADM and apply the package
+migration, then fully quit and reopen Brave to start it through the proxy.
 
 ## Hex dictation
 

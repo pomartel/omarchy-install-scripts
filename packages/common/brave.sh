@@ -1,2 +1,2 @@
 # Brave browser
-omarchy-pkg-add brave-origin-bin
+omarchy-pkg-add brave-bin
