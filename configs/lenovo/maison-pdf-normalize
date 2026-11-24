@@ -1,0 +1,59 @@
+#!/usr/bin/python3
+"""Maison-only PDF normalization before the standard CUPS filters. Version 1."""
+import os, re, shutil, subprocess, sys, tempfile
+from pathlib import Path
+
+def fail(message):
+    print('ERROR: Maison PDF normalization: ' + message, file=sys.stderr)
+    raise SystemExit(1)
+
+def run_filter(program, args, env, output, work):
+    with tempfile.TemporaryFile(dir=work) as log, open(output, 'wb') as dst:
+        result = subprocess.run([program, *args], env=env, stdout=dst, stderr=log)
+        log.seek(0)
+        fatal = False
+        for line in log:
+            sys.stderr.buffer.write(line)
+            if b'Unsupported compound stream filter' in line:
+                fatal = True
+        sys.stderr.flush()
+    if result.returncode or fatal or not Path(output).stat().st_size:
+        fail(Path(program).name + ' failed; nothing has been sent to the printer')
+
+def main():
+    if len(sys.argv) not in (6, 7):
+        fail('invalid CUPS arguments')
+    content = os.environ.get('CONTENT_TYPE', '').split(';', 1)[0]
+    if content not in ('application/pdf', 'application/vnd.cups-pdf'):
+        fail('unexpected input type ' + repr(content))
+    env = os.environ.copy()
+    env['FINAL_CONTENT_TYPE'] = 'image/urf'
+    with tempfile.TemporaryDirectory(prefix='maison-pdf-') as work:
+        original = Path(work) / 'input.pdf'
+        with (open(sys.argv[6], 'rb') if len(sys.argv) == 7 else sys.stdin.buffer) as src, open(original, 'wb') as dst:
+            shutil.copyfileobj(src, dst)
+        normalized = Path(work) / 'normalized.pdf'
+        result = subprocess.run(['/usr/bin/qpdf', '--decode-level=generalized', '--recompress-flate', str(original), str(normalized)], stdout=subprocess.DEVNULL)
+        # Warnings also stop the job rather than silently accepting a damaged PDF.
+        if result.returncode or not normalized.is_file() or not normalized.stat().st_size:
+            fail('qpdf could not normalize the PDF safely')
+        managed = normalized
+        if content == 'application/pdf':
+            managed = Path(work) / 'managed.pdf'
+            env['CONTENT_TYPE'] = 'application/pdf'
+            run_filter('/usr/lib/cups/filter/pdftopdf', [*sys.argv[1:6], str(normalized)], env, managed, work)
+        # vnd.cups-pdf has already had page/copy management; do not apply it twice.
+        env['CONTENT_TYPE'] = 'application/vnd.cups-pdf'
+        raster = Path(work) / 'output.urf'
+        run_filter('/usr/lib/cups/filter/gstoraster', [*sys.argv[1:6], str(managed)], env, raster, work)
+        with open(raster, 'rb') as src:
+            if src.read(8) != b'UNIRAST\x00':
+                fail('unexpected raster format')
+            src.seek(0)
+            shutil.copyfileobj(src, sys.stdout.buffer)
+        sys.stdout.buffer.flush()
+
+try:
+    main()
+except (OSError, subprocess.SubprocessError) as exc:
+    fail(str(exc))
