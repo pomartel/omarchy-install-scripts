@@ -18,8 +18,4 @@ ensure_omarchy_plugin "tornikegomareli.spaces" "tornikegomareli/omarchy-spaces"
 ensure_omarchy_plugin "crmne.hyprmoncfg" "crmne/omarchy-hyprmoncfg"
 ensure_omarchy_plugin "keyboard-backlight" "pomartel/keyboard-backlight"
 
-if [ "$HOSTNAME" = "lenovo" ]; then
-  ensure_omarchy_plugin "jankeesvw.time-machine" "jankeesvw/omarchy-time-machine"
-fi
-
 unset -f ensure_omarchy_plugin
