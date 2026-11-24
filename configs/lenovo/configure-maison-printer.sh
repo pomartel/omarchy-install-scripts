@@ -1,4 +1,5 @@
 #!/bin/bash
+# Temporary libcupsfilters #301 workaround; see maison-pdf-normalize.md.
 
 maison_source="$(dirname -- "$(realpath -- "${BASH_SOURCE[0]}")")/maison-pdf-normalize"
 maison_filter=/usr/lib/cups/filter/maison-pdf-normalize
