@@ -1,1 +1,0 @@
-../../../../packages/lenovo/remove-restic.sh
