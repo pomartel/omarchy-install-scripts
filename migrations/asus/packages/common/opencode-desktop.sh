@@ -1,1 +1,0 @@
-../../../../packages/common/opencode-desktop.sh
