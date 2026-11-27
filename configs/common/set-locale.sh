@@ -2,3 +2,4 @@
 
 sudo localectl set-locale "LANG=en_CA.UTF-8"
 omarchy-language en
+omarchy-region-formats en-CA
