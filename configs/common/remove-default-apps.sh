@@ -20,4 +20,4 @@ for webapp in \
   fi
 done
 
-omarchy-pkg-drop chromium google-chrome libreoffice-fresh onlyoffice-bin spotify
+omarchy-pkg-drop google-chrome libreoffice-fresh spotify
