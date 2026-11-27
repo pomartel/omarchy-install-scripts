@@ -1,1 +1,0 @@
-../../../../configs/common/limit-journal-size.sh

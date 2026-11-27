@@ -1,1 +1,0 @@
-../../../../configs/common/remove-default-apps.sh
