@@ -17,5 +17,6 @@ ensure_omarchy_plugin "qs-yadm" "pomartel/qs-yadm"
 ensure_omarchy_plugin "tornikegomareli.spaces" "tornikegomareli/omarchy-spaces"
 ensure_omarchy_plugin "crmne.hyprmoncfg" "crmne/omarchy-hyprmoncfg"
 ensure_omarchy_plugin "keyboard-backlight" "pomartel/keyboard-backlight"
+ensure_omarchy_plugin "io.github.aryan-techie.battery" "AROICE-HQ/omarchy-battery"
 
 unset -f ensure_omarchy_plugin
