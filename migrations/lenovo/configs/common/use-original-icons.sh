@@ -1,1 +1,0 @@
-../../../../configs/common/use-original-icons.sh
