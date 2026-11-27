@@ -9,21 +9,21 @@
 # app-server while systemd still freezes user.slice. Codex then uses its normal
 # reconnect path. It leaves the application running and excludes standalone
 # CLI processes, remote exec-server processes, and local connections.
-# YADM owns ~/bin/chatgpt-reconnect; systemd executes a root-owned copy so the
+# YADM owns ~/bin/ai/chatgpt-reconnect; systemd executes a root-owned copy so the
 # privileged hook does not run directly from a user-writable file.
 #
 # Once the upstream fix is included in the installed Desktop backend and has
 # been verified across sleep/wake without this hook, remove the workaround:
-# - delete ~/bin/chatgpt-reconnect from YADM;
+# - delete ~/bin/ai/chatgpt-reconnect from YADM;
 # - delete this installation script and any pending migration links to it;
 # - remove /usr/lib/systemd/system-sleep/90-chatgpt-reconnect from each machine
 #   where it was installed (Asus and Lenovo). Deleting the source files alone
 #   does not remove this installed copy or stop the hook from running.
-chatgpt_reconnect_source="$HOME/bin/chatgpt-reconnect"
+chatgpt_reconnect_source="$HOME/bin/ai/chatgpt-reconnect"
 chatgpt_reconnect_hook=/usr/lib/systemd/system-sleep/90-chatgpt-reconnect
 
 if [[ ! -f $chatgpt_reconnect_source ]]; then
-  echo 'Pull YADM to obtain ~/bin/chatgpt-reconnect, then rerun this migration.' >&2
+  echo 'Pull YADM to obtain ~/bin/ai/chatgpt-reconnect, then rerun this migration.' >&2
   return 1
 fi
 
